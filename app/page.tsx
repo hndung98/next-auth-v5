@@ -10,19 +10,19 @@ const font = Poppins({
 
 export default function Home() {
   return (
-    <main className="flex h-full flex-col justify-center items-center">
-      <div className="space-y-6 w-full bg-blue-500 text-center">
+    <main className="flex h-full flex-col justify-center items-center bg-radial-[at_0%_25%] from-sky-300 via-blue-500 to-indigo-900 to-90%">
+      <div className="space-y-6 w-full text-center">
         <h1
           className={cn(
             "text-6xl font-semibold text-white drop-shadow-md",
             font.className
           )}
         >
-          Auth
+          🔐 Auth
         </h1>
-        <p>A simple auth service</p>
+        <p className="text-white">A simple auth service</p>
         <div>
-          <LoginButton mode="modal">
+          <LoginButton>
             <Button size={"lg"} variant={"secondary"}>
               Sign in
             </Button>
