@@ -1,7 +1,7 @@
 import { TiInputChecked } from "react-icons/ti";
 
 type FormSuccessProps = {
-  message: string;
+  message?: string;
 };
 
 export const FormSuccess = ({ message }: FormSuccessProps) => {

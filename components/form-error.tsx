@@ -1,7 +1,7 @@
 import { FaExclamation } from "react-icons/fa";
 
 type FormErrorProps = {
-  message: string;
+  message?: string;
 };
 
 export const FormError = ({ message }: FormErrorProps) => {
