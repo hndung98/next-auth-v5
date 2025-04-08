@@ -19,11 +19,15 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const { email, password } = validatedFields.data;
 
   try {
-    await signIn("credentials", {
+    const res = await signIn("credentials", {
       email,
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
+    if (res)
+      return {
+        success: "Logged in.",
+      };
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
@@ -58,6 +62,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const user = await prisma.user.create({
     data: { email: email, name: name, password: hashedPassword },
   });
+  console.log({ registeruser: user });
 
   return { success: "User created!" };
 };
