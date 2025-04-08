@@ -8,6 +8,18 @@ import { prisma } from "@/lib/db";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   callbacks: {
+    async signIn({ user }) {
+      console.log("signIn: ", user);
+
+      if (!user.id) return false;
+
+      const existingUser = await getUserById(user.id);
+      if (!existingUser?.emailVerified) {
+        return false;
+      }
+
+      return true;
+    },
     async session({ session, token }) {
       if (session.user && token.sub) {
         session.user.id = token.sub;
