@@ -10,6 +10,7 @@ import { prisma } from "@/lib/db";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { LoginSchema, RegisterSchema } from "@/schemas";
 import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
@@ -75,6 +76,10 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   });
 
   const verificationToken = await generateVerificationToken(email);
+  if (!verificationToken?.token) {
+    return { error: "Something went wrong!" };
+  }
+  await sendVerificationEmail(email, verificationToken?.token);
 
   return { success: "Confirmation email sent!" };
 };
