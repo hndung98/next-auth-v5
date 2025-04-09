@@ -18,7 +18,7 @@ export const Social = () => {
     <div className="flex flex-col w-full gap-x-2 items-center">
       <Button
         size="lg"
-        className="w-full"
+        className="w-full cursor-pointer"
         variant="outline"
         onClick={() => {
           onClick("google");
@@ -28,7 +28,7 @@ export const Social = () => {
       </Button>
       <Button
         size="lg"
-        className="w-full"
+        className="w-full cursor-pointer"
         variant="outline"
         onClick={() => {
           onClick("github");

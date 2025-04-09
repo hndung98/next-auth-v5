@@ -24,7 +24,11 @@ export default function Home() {
         <p className="text-white">A simple auth service</p>
         <div>
           <LoginButton>
-            <Button size={"lg"} variant={"secondary"}>
+            <Button
+              size="lg"
+              variant="secondary"
+              className="cursor-pointer"
+            >
               Sign in
             </Button>
           </LoginButton>
