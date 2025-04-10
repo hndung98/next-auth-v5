@@ -8,7 +8,7 @@ import { signIn } from "@/auth";
 import { getUserByEmail } from "@/data/user";
 import { prisma } from "@/lib/db";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { LoginSchema, RegisterSchema } from "@/schemas";
+import { LoginSchema, RegisterSchema, ResetSchema } from "@/schemas";
 import { generateVerificationToken } from "@/lib/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
@@ -81,4 +81,25 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   await sendVerificationEmail(email, verificationToken?.token);
 
   return { success: "Confirmation email sent!" };
+};
+
+export const resetPassword = async (values: z.infer<typeof ResetSchema>) => {
+  const validatedFields = ResetSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return { error: "Invalid email." };
+  }
+
+  const { email } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+  if (!existingUser) {
+    return { error: "Email not found." };
+  }
+
+  if (!existingUser.emailVerified) {
+    return { error: "Email not verified." };
+  }
+  return {
+    success: `Sent request to ${email}`,
+  };
 };
