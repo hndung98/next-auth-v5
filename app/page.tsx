@@ -1,24 +1,10 @@
-"use client";
-
+import { ClientGreeting } from "@/components/common/greeting";
 import { Inter, Lusitana, Poppins } from "next/font/google";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
-import { getGreeting } from "@/lib/utils";
-
-const font = Poppins({
-  subsets: ["latin"],
-  weight: ["600"],
-});
-const inter = Inter({ subsets: ["latin"] });
 const lusitana = Lusitana({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
-  const [clientGreeting, setClientGreeting] = useState("");
-
-  useEffect(() => {
-    setClientGreeting(getGreeting());
-  }, []);
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52"></div>
@@ -28,7 +14,7 @@ export default function Home() {
           <p
             className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
           >
-            <strong>{clientGreeting}</strong>
+            <ClientGreeting />
           </p>
           <Link
             href="/auth/login"
