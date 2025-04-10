@@ -9,16 +9,15 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
 export const Social = () => {
   const onClick = (provider: "google" | "github") => {
-    console.log({ provider });
     signIn(provider, {
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
   };
   return (
-    <div className="flex flex-col w-full gap-x-2 items-center">
+    <div className="flex w-full gap-x-2 items-center justify-center">
       <Button
         size="lg"
-        className="w-full cursor-pointer"
+        className="cursor-pointer w-1/2 hover:bg-amber-300"
         variant="outline"
         onClick={() => {
           onClick("google");
@@ -28,7 +27,7 @@ export const Social = () => {
       </Button>
       <Button
         size="lg"
-        className="w-full cursor-pointer"
+        className="cursor-pointer w-1/2 hover:bg-amber-300"
         variant="outline"
         onClick={() => {
           onClick("github");
