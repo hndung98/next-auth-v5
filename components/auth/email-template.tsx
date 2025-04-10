@@ -9,7 +9,7 @@ export const EmailTemplate = ({ token }: EmailTemplateProps) => {
     <div>
       <p>
         Click this{" "}
-        <a href={`http://localhost:3000/auth/new-verifictation?token=${token}`}>
+        <a href={`http://localhost:3000/auth/new-verification?token=${token}`}>
           link
         </a>{" "}
         to verify your account!

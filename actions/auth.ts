@@ -15,7 +15,7 @@ import { sendVerificationEmail } from "@/lib/mail";
 export const login = async (values: z.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
-    return { error: "Something went wrong!" };
+    return { error: "Inputs are invalid!" };
   }
 
   const { email, password } = validatedFields.data;
@@ -26,8 +26,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(email);
-    return { success: "Confirmation email sent!" };
+    return { error: "Email not verified!" };
   }
 
   try {
