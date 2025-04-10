@@ -40,8 +40,19 @@ export const RegisterForm = () => {
     setSuccess("");
     startTransition(() => {
       register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
+        if (data.error) {
+          setError(data.error);
+          form.reset({
+            password: "",
+          });
+        }
+        if (data.success) {
+          setSuccess(data.success);
+          form.reset({
+            name: "",
+            password: "",
+          });
+        }
       });
     });
   }

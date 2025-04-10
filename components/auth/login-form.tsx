@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -46,7 +47,12 @@ export const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) => {
-        setError(data?.error);
+        if (data?.error) {
+          setError(data.error);
+          form.reset({
+            password: "",
+          });
+        }
         // TODO: Add 2FA
         // setSuccess(data?.success);
       });
@@ -97,6 +103,14 @@ export const LoginForm = () => {
                       />
                     </FormControl>
                     <FormMessage />
+                    <Button
+                      size="sm"
+                      variant="link"
+                      asChild
+                      className="w-fit px-0 font-normal"
+                    >
+                      <Link href="/auth/reset">Forgot password?</Link>
+                    </Button>
                   </FormItem>
                 )}
               />
