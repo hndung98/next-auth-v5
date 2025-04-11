@@ -26,6 +26,43 @@ export const getPasswordResetTokenByToken = async (token: string) => {
   }
 };
 
+export const getTwoFactorTokenByEmail = async (email: string) => {
+  try {
+    const twoFactorToken = await prisma.twoFactorToken.findFirst({
+      where: { email },
+    });
+    return twoFactorToken;
+  } catch (error) {
+    console.log("getTwoFactorTokenByEmail", error);
+    return null;
+  }
+};
+
+export const getTwoFactorTokenByToken = async (token: string) => {
+  try {
+    const twoFactorToken = await prisma.twoFactorToken.findUnique({
+      where: { token },
+    });
+    return twoFactorToken;
+  } catch (error) {
+    console.log("getTwoFactorTokenByToken", error);
+    return null;
+  }
+};
+
+export const getTwoFactorTokenConfirmationByUserId = async (userId: string) => {
+  try {
+    const twoFactorTokenConfirmation =
+      await prisma.twoFactorConfirmation.findUnique({
+        where: { userId },
+      });
+    return twoFactorTokenConfirmation;
+  } catch (error) {
+    console.log("getTwoFactorTokenConfirmationByUserId", error);
+    return null;
+  }
+};
+
 export const getVerificationTokenByEmail = async (email: string) => {
   try {
     const verificationToken = await prisma.verificationToken.findFirst({

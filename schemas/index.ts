@@ -5,6 +5,7 @@ export const LoginSchema = z.object({
   password: z
     .string()
     .min(3, { message: "Password must contain at least 3 characters." }),
+  code: z.optional(z.string()),
 });
 
 export const RegisterSchema = z.object({

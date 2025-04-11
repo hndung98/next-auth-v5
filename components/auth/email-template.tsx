@@ -18,6 +18,14 @@ export const PaswordResetEmailTemplate = ({ token }: EmailTemplateProps) => {
   );
 };
 
+export const TwoFactorTokenEmailTemplate = ({ token }: EmailTemplateProps) => {
+  return (
+    <div>
+      <p>Your two factor token is {`${token}`}.</p>
+    </div>
+  );
+};
+
 export const VerificationEmailTemplate = ({ token }: EmailTemplateProps) => {
   return (
     <div>
