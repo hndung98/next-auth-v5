@@ -2,8 +2,10 @@ import "server-only";
 
 import { v4 as uuidv4 } from "uuid";
 
-import { getPasswordResetTokenByEmail } from "@/data/password-reset-token";
-import { getVerificationTokenByEmail } from "@/data/verification-token";
+import {
+  getPasswordResetTokenByEmail,
+  getVerificationTokenByEmail,
+} from "@/data/token";
 import { prisma } from "@/lib/db";
 
 export const generatePasswordResetToken = async (email: string) => {

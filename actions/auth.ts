@@ -5,7 +5,7 @@ import { AuthError } from "next-auth";
 import { z } from "zod";
 
 import { signIn } from "@/auth";
-import { getPasswordResetTokenByToken } from "@/data/password-reset-token";
+import { getPasswordResetTokenByToken } from "@/data/token";
 import { getUserByEmail } from "@/data/user";
 import { prisma } from "@/lib/db";
 import { sendPasswordResetEmail, sendVerificationEmail } from "@/lib/mail";
