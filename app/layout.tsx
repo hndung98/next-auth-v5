@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+
+import { auth } from "@/auth";
 
 import "./globals.css";
 
@@ -23,18 +26,21 @@ export const metadata: Metadata = {
   description: "The Nextjs project using Authjs",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
+        >
+          {children}
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

@@ -52,9 +52,6 @@ export const LoginForm = () => {
         .then((data) => {
           if (data?.error) {
             setError(data.error);
-            form.reset({
-              password: "",
-            });
           }
           if (data?.success) {
             setSuccess(data?.success);
@@ -64,6 +61,7 @@ export const LoginForm = () => {
           }
         })
         .catch((error) => {
+          console.log(error);
           setError("Something went wrong!");
         });
     });

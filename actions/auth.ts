@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { z } from "zod";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import {
   getPasswordResetTokenByToken,
   getTwoFactorTokenByEmail,
@@ -41,6 +41,10 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   const existingUser = await getUserByEmail(email);
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Email does not exist!" };
+  }
+  const passwordsMatch = await bcrypt.compare(password, existingUser.password);
+  if (!passwordsMatch) {
+    return { error: "Invalid password!" };
   }
 
   if (!existingUser.emailVerified) {
@@ -123,6 +127,10 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 };
 
+export const logout = async () => {
+  await signOut();
+};
+
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
 
@@ -139,7 +147,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = await prisma.user.create({
+  await prisma.user.create({
     data: { email: email, name: name, password: hashedPassword },
   });
 
