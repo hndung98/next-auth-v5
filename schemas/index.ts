@@ -21,3 +21,7 @@ export const NewPasswordSchema = z.object({
 export const ResetSchema = z.object({
   email: z.string().email({ message: "Email is required." }),
 });
+
+export const SettingsSchema = z.object({
+  name: z.optional(z.string()),
+});

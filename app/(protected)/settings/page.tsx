@@ -1,7 +1,11 @@
-export default function Page() {
-  return (
-    <div>
-      <h1>Settings Page</h1>
-    </div>
-  );
+import { Metadata } from "next";
+
+import { SettingsForm } from "@/components/settings/settings-form";
+
+export const metadata: Metadata = {
+  title: "Settings",
+};
+
+export default async function Page() {
+  return <SettingsForm />;
 }

@@ -6,6 +6,7 @@ import authConfig from "@/auth.config";
 import { getTwoFactorTokenConfirmationByUserId } from "@/data/token";
 import { getUserById } from "@/data/user";
 import { prisma } from "@/lib/db";
+import { getAccountByUserId } from "./data/account";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {
@@ -53,11 +54,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (session.user && token.sub) {
         session.user.id = token.sub;
       }
-      if (session.user && token.role) {
-        session.user.role = token.role as UserRole;
-      }
-      if (session.user && token.isTwoFactorEnable) {
-        session.user.isTwoFactorEnable = token.isTwoFactorEnable as boolean;
+      if (session.user) {
+        if (token.name) session.user.name = token.name;
+        if (token.email) session.user.email = token.email;
+        if (token.role) session.user.role = token.role as UserRole;
+        if (token.isOAuth) session.user.isOAuth = token.isOAuth as boolean;
+        if (token.isTwoFactorEnable)
+          session.user.isTwoFactorEnable = token.isTwoFactorEnable as boolean;
       }
 
       return session;
@@ -69,6 +72,11 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 
       if (!existingUser) return token;
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+      token.isOAuth = !!existingAccount;
+
+      token.name = existingUser.name;
+      token.email = existingUser.email;
       token.role = existingUser.role;
       token.isTwoFactorEnable = existingUser.isTwoFactorEnable;
       return token;
