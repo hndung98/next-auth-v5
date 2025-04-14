@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 
 import { auth } from "@/auth";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -39,6 +40,7 @@ export default async function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} ${inter.className} antialiased`}
         >
           {children}
+          <Toaster />
         </body>
       </html>
     </SessionProvider>
