@@ -1,5 +1,7 @@
 import * as React from "react";
 
+const domain = process.env.NEXT_PUBLIC_APP_URL || "http://127.0.0.1:3000";
+
 interface EmailTemplateProps {
   token: string;
 }
@@ -9,10 +11,8 @@ export const PaswordResetEmailTemplate = ({ token }: EmailTemplateProps) => {
     <div>
       <p>
         Click{" "}
-        <a href={`http://localhost:3000/auth/new-password?token=${token}`}>
-          this link
-        </a>{" "}
-        to reset your password!
+        <a href={`${domain}/auth/new-password?token=${token}`}>this link</a> to
+        reset your password!
       </p>
     </div>
   );
@@ -31,9 +31,7 @@ export const VerificationEmailTemplate = ({ token }: EmailTemplateProps) => {
     <div>
       <p>
         Click{" "}
-        <a href={`http://localhost:3000/auth/new-verification?token=${token}`}>
-          this link
-        </a>{" "}
+        <a href={`${domain}/auth/new-verification?token=${token}`}>this link</a>{" "}
         to verify your account!
       </p>
     </div>
