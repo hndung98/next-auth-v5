@@ -16,7 +16,7 @@ import {
   sendPasswordResetEmail,
   sendTwoFactorTokenEmail,
   sendVerificationEmail,
-} from "@/lib/mail";
+} from "@/lib/sendgrid";
 import {
   generatePasswordResetToken,
   generateTwoFactorToken,
