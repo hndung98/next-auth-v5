@@ -13,11 +13,7 @@ function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-type NewVerificationFormProps = {
-  children?: React.ReactNode;
-};
-
-export const NewVerificationForm = ({ children }: NewVerificationFormProps) => {
+export const NewVerificationForm = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
@@ -36,7 +32,7 @@ export const NewVerificationForm = ({ children }: NewVerificationFormProps) => {
         setSuccess(data.success);
         setError(data.error);
       })
-      .catch((err) => {
+      .catch(() => {
         setError("Something went wrong!");
       });
   }, [token, error, success]);

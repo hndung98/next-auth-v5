@@ -1,5 +1,5 @@
 import { ClientGreeting } from "@/components/common/greeting";
-import { Inter, Lusitana, Poppins } from "next/font/google";
+import { Lusitana } from "next/font/google";
 import Link from "next/link";
 
 const lusitana = Lusitana({ weight: "400", subsets: ["latin"] });

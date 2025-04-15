@@ -52,7 +52,7 @@ export const NewPasswordForm = () => {
           setError(data.error);
           form.reset();
         })
-        .catch((err) => {
+        .catch(() => {
           setError("Something went wrong!");
         });
     });

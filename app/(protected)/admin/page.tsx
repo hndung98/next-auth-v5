@@ -5,12 +5,10 @@ import { RoleGateInfo } from "@/components/auth/role-gate";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { useCurrentRole } from "@/hooks/use-current-role";
 import { UserRole } from "@prisma/client";
 import { toast } from "sonner";
 
 export default function Page() {
-  const role = useCurrentRole();
   const onApiRouteClick = () => {
     fetch("/api/admin").then((res) => {
       if (res.ok) {
