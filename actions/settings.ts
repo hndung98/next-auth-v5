@@ -1,13 +1,13 @@
 "use server";
 
+import bcrypt from "bcryptjs";
 import { z } from "zod";
 
+import { unstable_update } from "@/auth";
 import { getUserById } from "@/data/user";
-import { SettingsSchema } from "@/schemas";
 import { currentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import bcrypt from "bcryptjs";
-import { unstable_update } from "@/auth";
+import { SettingsSchema } from "@/schemas";
 
 export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   const validatedFields = SettingsSchema.safeParse(values);

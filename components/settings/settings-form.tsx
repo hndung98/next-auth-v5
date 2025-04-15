@@ -27,10 +27,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/schemas";
 import { UserRole } from "@prisma/client";
-import { Switch } from "@/components/ui/switch";
 
 export const SettingsForm = () => {
   const { update } = useSession();

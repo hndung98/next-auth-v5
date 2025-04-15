@@ -1,6 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ExtendedUser } from "@/types/next-auth";
-import { Badge } from "@/components/ui/badge";
 
 type UserInfoProps = {
   user?: ExtendedUser;

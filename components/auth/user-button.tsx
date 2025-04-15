@@ -3,6 +3,7 @@
 import { FaUser } from "react-icons/fa";
 import { IoMdExit } from "react-icons/io";
 
+import { LogoutButton } from "@/components/auth/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,7 +12,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { LogoutButton } from "./logout-button";
 
 export const UserButton = () => {
   const user = useCurrentUser();
