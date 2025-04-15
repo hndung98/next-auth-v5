@@ -14,7 +14,6 @@ export default function Page() {
   const onApiRouteClick = () => {
     fetch("/api/admin").then((res) => {
       if (res.ok) {
-        console.log("OK");
         toast.success("Allowed API Route!");
       } else {
         toast.error("Forbidden API Route!");
