@@ -8,7 +8,7 @@ import { getUserById } from "@/data/user";
 import { prisma } from "@/lib/db";
 import { getAccountByUserId } from "./data/account";
 
-export const { auth, handlers, signIn, signOut } = NextAuth({
+export const { auth, handlers, signIn, signOut, unstable_update } = NextAuth({
   pages: {
     signIn: "/auth/login",
     error: "/auth/error",
@@ -36,7 +36,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (!existingUser?.emailVerified) return false;
 
       // two factor auth
-      if (existingUser?.isTwoFactorEnable) {
+      if (existingUser?.isTwoFactorEnabled) {
         const twoFactorConfirmation =
           await getTwoFactorTokenConfirmationByUserId(existingUser.id);
         if (!twoFactorConfirmation) return false;
@@ -59,8 +59,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         if (token.email) session.user.email = token.email;
         if (token.role) session.user.role = token.role as UserRole;
         if (token.isOAuth) session.user.isOAuth = token.isOAuth as boolean;
-        if (token.isTwoFactorEnable)
-          session.user.isTwoFactorEnable = token.isTwoFactorEnable as boolean;
+        if (token.isTwoFactorEnabled)
+          session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
       }
 
       return session;
@@ -78,7 +78,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.role = existingUser.role;
-      token.isTwoFactorEnable = existingUser.isTwoFactorEnable;
+      token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled;
       return token;
     },
   },
