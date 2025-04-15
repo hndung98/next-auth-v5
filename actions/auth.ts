@@ -30,7 +30,10 @@ import {
   ResetSchema,
 } from "@/schemas";
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (
+  values: z.infer<typeof LoginSchema>,
+  callbackUrl: string | null
+) => {
   const validatedFields = LoginSchema.safeParse(values);
   if (!validatedFields.success) {
     return { error: "Inputs are invalid!" };
@@ -103,10 +106,11 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
   }
 
   try {
+    console.log({ callbackUrl });
     const res = await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
     if (res)
       return {
