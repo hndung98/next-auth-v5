@@ -5,15 +5,6 @@ import Image from "next/image";
 
 export default async function LatestInvoices() {
   try {
-    var latestInvoices = [
-      {
-        id: "",
-        email: "",
-        amount: 0,
-        image_url: "/favicon.ico",
-        name: "",
-      },
-    ];
   } catch (error) {
     throw error;
   }
@@ -25,7 +16,15 @@ export default async function LatestInvoices() {
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
         {/* NOTE: Uncomment this code in Chapter 7 */}
         <div className="bg-white px-6">
-          {latestInvoices.map((invoice, i) => {
+          {[
+            {
+              id: "",
+              email: "",
+              amount: 0,
+              image_url: "/favicon.ico",
+              name: "",
+            },
+          ].map((invoice, i) => {
             return (
               <div
                 key={invoice.id}

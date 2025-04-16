@@ -45,6 +45,7 @@ export const formatDateToLocal = (
     const formatter = new Intl.DateTimeFormat(locale, options);
     return formatter.format(date);
   } catch (error) {
+    console.log(formatDateToLocal, error);
     return "yyyy-MM-dd";
   }
 };
