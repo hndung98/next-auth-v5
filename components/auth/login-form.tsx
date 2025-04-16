@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
@@ -24,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { LoginSchema } from "@/schemas";
 
 export const LoginForm = () => {
+  const { update } = useSession();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   const urlError =
@@ -69,6 +71,7 @@ export const LoginForm = () => {
         .catch((error) => {
           if (isRedirectError(error)) {
             console.log("isRedirectError");
+            update();
           }
           console.log(error);
         });
