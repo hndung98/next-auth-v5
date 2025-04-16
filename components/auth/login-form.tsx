@@ -45,10 +45,13 @@ export const LoginForm = () => {
     },
   });
 
+  function isRedirectError(error: Error & { digest?: string }) {
+    return !!error.digest?.startsWith("NEXT_REDIRECT");
+  }
+
   function onSubmit(values: z.infer<typeof LoginSchema>) {
     setError("");
     setSuccess("");
-    console.log({ callbackUrl });
 
     startTransition(() => {
       login(values, callbackUrl)
@@ -64,8 +67,10 @@ export const LoginForm = () => {
           }
         })
         .catch((error) => {
+          if (isRedirectError(error)) {
+            console.log("isRedirectError");
+          }
           console.log(error);
-          setError("Something went wrong!");
         });
     });
   }

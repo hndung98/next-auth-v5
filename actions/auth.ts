@@ -106,7 +106,6 @@ export const login = async (
   }
 
   try {
-    console.log({ callbackUrl });
     const res = await signIn("credentials", {
       email,
       password,
