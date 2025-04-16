@@ -10,3 +10,7 @@ export const admin = async () => {
   }
   return { success: "Allowed Admin Action!" };
 };
+
+export const getExampleData = async (ms = 2000) => {
+  return new Promise((resolver) => setTimeout(resolver, ms));
+};

@@ -2,9 +2,11 @@ import { lusitana } from "@/lib/fonts";
 import { HiArrowPath } from "react-icons/hi2";
 import clsx from "clsx";
 import Image from "next/image";
+import { getExampleData } from "@/actions/admin";
 
 export default async function LatestInvoices() {
   try {
+    await getExampleData(3000);
   } catch (error) {
     throw error;
   }

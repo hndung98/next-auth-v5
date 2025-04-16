@@ -1,3 +1,4 @@
+import { getExampleData } from "@/actions/admin";
 import { lusitana } from "@/lib/fonts";
 import {
   HiOutlineBanknotes,
@@ -18,6 +19,7 @@ export default async function CardWrapper() {
   const numberOfCustomers = 0;
   const totalPaidInvoices = 0;
   const totalPendingInvoices = 0;
+  await getExampleData();
 
   return (
     <>

@@ -29,6 +29,7 @@ export default function Page() {
           <LatestInvoices />
         </Suspense>
       </div>
+      <div className="mb-6"></div>
       <AdminComponentExample />
     </main>
   );

@@ -2,6 +2,7 @@ import { HiCalendar } from "react-icons/hi2";
 
 import { generateYAxis } from "@/lib/utils";
 import { lusitana } from "@/lib/fonts";
+import { getExampleData } from "@/actions/admin";
 
 // This component is representational only.
 // For data visualization UI, check out:
@@ -14,6 +15,7 @@ type Revenue = {
   revenue: number;
 };
 export default async function RevenueChart() {
+  await getExampleData(3000);
   const revenue = [] as Revenue[];
 
   const chartHeight = 350;
@@ -25,7 +27,7 @@ export default async function RevenueChart() {
         <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
           Recent Revenue
         </h2>
-        <div className="rounded-xl bg-gray-50 p-4">
+        <div className="rounded-xl bg-gray-50 p-4 min-h-[300px]">
           <p className="mt-4 text-gray-400">No data available.</p>
         </div>
       </div>
