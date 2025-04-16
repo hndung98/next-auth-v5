@@ -1,51 +1,35 @@
-"use client";
-
-import { admin } from "@/actions/admin";
-import { RoleGateInfo } from "@/components/auth/role-gate";
-import { FormSuccess } from "@/components/form-success";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { UserRole } from "@prisma/client";
-import { toast } from "sonner";
+import { Suspense } from "react";
+import {
+  CardsSkeleton,
+  LatestInvoicesSkeleton,
+  RevenueChartSkeleton,
+} from "../_components/skeletons";
+import CardWrapper from "../_components/cards";
+import RevenueChart from "../_components/revenue-chart";
+import LatestInvoices from "../_components/latest-invoices";
+import { lusitana } from "@/lib/fonts";
+import { AdminComponentExample } from "../_components/test";
 
 export default function Page() {
-  const onApiRouteClick = () => {
-    fetch("/api/admin").then((res) => {
-      if (res.ok) {
-        toast.success("Allowed API Route!");
-      } else {
-        toast.error("Forbidden API Route!");
-      }
-    });
-  };
-  const onApiActionClick = () => {
-    admin().then((data) => {
-      if (data.error) {
-        toast.error(data.error);
-      }
-      if (data.success) {
-        toast.success(data.success);
-      }
-    });
-  };
   return (
-    <Card>
-      <CardHeader>
-        <p className="text-2xl font-semibold text-center">Admin Page</p>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <RoleGateInfo allowedRole={UserRole.ADMIN}>
-          <FormSuccess message="You are admin." />
-        </RoleGateInfo>
-        <div className="flex flex-row items-center justify-between rounded-lg border p-3 font-medium">
-          <p className="text-sm font-medium">Admin-only Route</p>
-          <Button onClick={onApiRouteClick}>Test</Button>
-        </div>
-        <div className="flex flex-row items-center justify-between rounded-lg border p-3 font-medium">
-          <p className="text-sm font-medium">Admin-only Action</p>
-          <Button onClick={onApiActionClick}>Test</Button>
-        </div>
-      </CardContent>
-    </Card>
+    <main>
+      <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
+        Admin dashboard
+      </h1>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <Suspense fallback={<CardsSkeleton />}>
+          <CardWrapper />
+        </Suspense>
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-4 lg:grid-cols-8">
+        <Suspense fallback={<RevenueChartSkeleton />}>
+          <RevenueChart />
+        </Suspense>
+        <Suspense fallback={<LatestInvoicesSkeleton />}>
+          <LatestInvoices />
+        </Suspense>
+      </div>
+      <AdminComponentExample />
+    </main>
   );
 }

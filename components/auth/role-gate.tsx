@@ -11,6 +11,9 @@ type RoleGateProps = {
 
 export const RoleGateInfo = ({ children, allowedRole }: RoleGateProps) => {
   const role = useCurrentRole();
-  if (allowedRole && role !== allowedRole) return <FormError message="err" />;
+  if (allowedRole && role !== allowedRole)
+    return (
+      <FormError message="This action is only available to admin users." />
+    );
   return <>{children}</>;
 };
