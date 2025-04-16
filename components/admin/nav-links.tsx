@@ -11,6 +11,7 @@ import {
   HiOutlineDocumentDuplicate,
   HiOutlineLink,
 } from "react-icons/hi";
+import { IoSettingsOutline } from "react-icons/io5";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -25,6 +26,7 @@ const links = [
     icon: HiOutlineDocumentDuplicate,
   },
   { name: "Widgets", href: "/admin/widgets", icon: HiOutlineLink },
+  { name: "Settings", href: "/admin/settings", icon: IoSettingsOutline },
 ];
 
 export default function NavLinks() {

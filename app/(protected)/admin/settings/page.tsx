@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { SettingsForm } from "@/components/settings/settings-form";
 
 export const metadata: Metadata = {
-  title: "Settings",
+  title: "Admin - Settings",
 };
 
 export default async function Page() {

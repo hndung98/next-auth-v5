@@ -74,7 +74,7 @@ export const SettingsForm = () => {
   }
 
   return (
-    <Card className="w-full">
+    <Card className="w-full flex flex-col justify-start items-center">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">Settings</p>
       </CardHeader>

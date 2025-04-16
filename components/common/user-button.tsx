@@ -1,9 +1,11 @@
 "use client";
 
 import { FaUser } from "react-icons/fa";
+import { GrServer, GrUserAdmin } from "react-icons/gr";
 import { IoMdExit } from "react-icons/io";
+import { PiDevices } from "react-icons/pi";
 
-import { LogoutButton } from "@/components/auth/logout-button";
+import { LogoutButton, MenuItemButton } from "@/components/common/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -26,6 +28,24 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="[&_*]:cursor-pointer w-40" align="end">
+        <MenuItemButton href="/admin">
+          <DropdownMenuItem>
+            <GrUserAdmin className="h-4 w-4 mr-2" />
+            Go to admin
+          </DropdownMenuItem>
+        </MenuItemButton>
+        <MenuItemButton href="/client">
+          <DropdownMenuItem>
+            <PiDevices className="h-4 w-4 mr-2" />
+            Go to client
+          </DropdownMenuItem>
+        </MenuItemButton>
+        <MenuItemButton href="/server">
+          <DropdownMenuItem>
+            <GrServer className="h-4 w-4 mr-2" />
+            Go to server
+          </DropdownMenuItem>
+        </MenuItemButton>
         <LogoutButton>
           <DropdownMenuItem>
             <IoMdExit className="h-4 w-4 mr-2" />
