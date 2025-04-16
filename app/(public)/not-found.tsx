@@ -1,12 +1,11 @@
-// import { headers } from "next/headers";
+import { headers } from "next/headers";
 import Link from "next/link";
 
 import { lusitana } from "@/lib/fonts";
 
 export default async function NotFound() {
-  // const headersList = await headers();
-  // const domain = headersList.get("host");
-  // console.log({domain});
+  const headersList = await headers();
+  const domain = headersList.get("host");
 
   return (
     <div>
@@ -17,14 +16,14 @@ export default async function NotFound() {
             <p
               className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
             >
-              <strong>Not Found</strong>
+              <strong>Not Found: {domain}</strong>
             </p>
             <p>Could not find requested resource</p>
             <Link
-              href="/server"
+              href="/blogs"
               className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
             >
-              <span>Go to server page</span>
+              <span>View blogs page</span>
             </Link>
           </div>
           <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12"></div>

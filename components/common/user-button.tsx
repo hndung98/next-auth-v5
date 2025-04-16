@@ -15,7 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
-export const UserButton = () => {
+type UserButtonProps = {
+  isPublic?: boolean;
+};
+
+export const UserButton = ({ isPublic }: UserButtonProps) => {
   const user = useCurrentUser();
   return (
     <DropdownMenu>
@@ -46,7 +50,7 @@ export const UserButton = () => {
             Go to server
           </DropdownMenuItem>
         </MenuItemButton>
-        <LogoutButton>
+        <LogoutButton reload={isPublic}>
           <DropdownMenuItem>
             <IoMdExit className="h-4 w-4 mr-2" />
             Logout

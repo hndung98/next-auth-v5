@@ -3,13 +3,26 @@
 import { logout } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 
-type ButtonProps = {
+type LogoutButtonProps = {
   children: React.ReactNode;
+  reload?: boolean;
 };
 
-export const LogoutButton = ({ children }: ButtonProps) => {
+export const LogoutButton = ({ children, reload }: LogoutButtonProps) => {
   const onClick = () => {
-    logout();
+    logout()
+      .then((data) => {
+        console.log({ data });
+      })
+      .catch((err) => {
+        console.log({ err });
+      })
+      .finally(() => {
+        console.log({ reload });
+        if (reload) {
+          window.location.reload();
+        }
+      });
   };
   return (
     <span className="cursor-pointer" onClick={onClick}>
