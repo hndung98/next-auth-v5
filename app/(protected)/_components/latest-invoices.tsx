@@ -1,5 +1,4 @@
 import { lusitana } from "@/lib/fonts";
-import { auth } from "@/auth";
 import { HiArrowPath } from "react-icons/hi2";
 import clsx from "clsx";
 import Image from "next/image";

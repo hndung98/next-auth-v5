@@ -35,7 +35,7 @@ export const formatDateToLocal = (
   locale: string = "en-US"
 ) => {
   try {
-    let ymd = dateStr.substring(0, 10);
+    const ymd = dateStr.substring(0, 10);
     const date = new Date(ymd);
     const options: Intl.DateTimeFormatOptions = {
       day: "numeric",
