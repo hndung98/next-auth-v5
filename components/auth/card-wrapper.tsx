@@ -16,6 +16,7 @@ type CardWrapperProps = {
   backButtonLabel: string;
   backButtonHref: string;
   showSocial?: boolean;
+  isPending?: boolean;
 };
 
 export const CardWrapper = ({
@@ -24,6 +25,7 @@ export const CardWrapper = ({
   backButtonLabel,
   backButtonHref,
   showSocial,
+  isPending,
 }: CardWrapperProps) => {
   return (
     <Card className="w-[400px] shadow-md">
@@ -33,11 +35,11 @@ export const CardWrapper = ({
       <CardContent>{children}</CardContent>
       {showSocial && (
         <CardFooter>
-          <Social />
+          <Social isPending={isPending} />
         </CardFooter>
       )}
       <CardFooter>
-        <BackButton href={backButtonHref} label={backButtonLabel} />
+        <BackButton isPending={isPending} href={backButtonHref} label={backButtonLabel} />
       </CardFooter>
     </Card>
   );

@@ -8,7 +8,11 @@ import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 
-export const Social = () => {
+type SocialProps = {
+  isPending?: boolean;
+};
+
+export const Social = ({ isPending }: SocialProps) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
 
@@ -23,6 +27,7 @@ export const Social = () => {
         size="lg"
         className="cursor-pointer w-1/2 hover:bg-amber-300"
         variant="outline"
+        disabled={isPending}
         onClick={() => {
           onClick("google");
         }}
@@ -33,6 +38,7 @@ export const Social = () => {
         size="lg"
         className="cursor-pointer w-1/2 hover:bg-amber-300"
         variant="outline"
+        disabled={isPending}
         onClick={() => {
           onClick("github");
         }}

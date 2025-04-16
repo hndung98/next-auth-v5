@@ -53,7 +53,7 @@ export const LoginForm = () => {
     setError("");
     setSuccess("");
 
-    startTransition(() => {
+    startTransition(async () => {
       login(values, callbackUrl)
         .then((data) => {
           if (data?.error) {
@@ -82,6 +82,7 @@ export const LoginForm = () => {
         backButtonLabel="Don't have an account ?"
         backButtonHref="/auth/register"
         showSocial
+        isPending={isPending}
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -146,7 +147,12 @@ export const LoginForm = () => {
                           asChild
                           className="w-fit px-0 font-normal"
                         >
-                          <Link href="/auth/reset">Forgot password?</Link>
+                          <Link
+                            className={`${isPending ? "opacity-75 pointer-events-none" : ""}`}
+                            href="/auth/reset"
+                          >
+                            Forgot password?
+                          </Link>
                         </Button>
                       </FormItem>
                     )}

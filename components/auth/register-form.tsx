@@ -38,7 +38,7 @@ export const RegisterForm = () => {
   function onSubmit(values: z.infer<typeof RegisterSchema>) {
     setError("");
     setSuccess("");
-    startTransition(() => {
+    startTransition(async () => {
       register(values).then((data) => {
         if (data.error) {
           setError(data.error);
@@ -63,7 +63,7 @@ export const RegisterForm = () => {
         headerLabel="Create an account"
         backButtonLabel="Already have an account?"
         backButtonHref="/auth/login"
-        showSocial
+        isPending={isPending}
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
