@@ -20,12 +20,15 @@ model User {
   password              String?
   image                 String?
   role                  UserRole               @default(USER)
-  accounts              Account[]
-  isTwoFactorEnabled     Boolean                @default(false)
+  isTwoFactorEnabled    Boolean                @default(false)
   twoFactorConfirmation TwoFactorConfirmation?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  invoices Invoice[]
+  accounts Account[]
+  widgets  Widget[]
 }
 
 model Account {
@@ -83,4 +86,77 @@ model TwoFactorConfirmation {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId])
+}
+
+model Author {
+  id          Int    @id @default(autoincrement())
+  name        String
+  nationality String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  books Book[]
+}
+
+model Book {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String?
+  publishDate    DateTime?
+  pageCount      Int?
+  coverImagePath String?
+  authorId       Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+}
+
+enum InvoiceStatus {
+  PENDING
+  PAID
+  CANCELED
+}
+
+enum PaymentMethod {
+  CASH
+  CREDIT
+  OTHER
+}
+
+model Invoice {
+  id               String        @id @default(cuid())
+  amount           Int
+  status           InvoiceStatus @default(PENDING)
+  paymentMethod    PaymentMethod @default(CASH)
+  otherDescription String? // when the payment method is OTHER
+  userId           String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Revenue {
+  id      String @id @default(cuid())
+  revenue Int
+  period  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Widget {
+  id     String @id @default(cuid())
+  name   String
+  Url    String
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
