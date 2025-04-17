@@ -1,11 +1,12 @@
-import { getExampleData } from "@/actions/admin";
-import { lusitana } from "@/lib/fonts";
 import {
   HiOutlineBanknotes,
   HiOutlineClock,
   HiOutlineInbox,
   HiOutlineUserGroup,
 } from "react-icons/hi2";
+
+import { getExampleData } from "@/actions/admin";
+import { lusitana } from "@/lib/fonts";
 
 const iconMap = {
   collected: HiOutlineBanknotes,

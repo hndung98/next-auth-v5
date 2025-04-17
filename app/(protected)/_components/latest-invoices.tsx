@@ -1,8 +1,9 @@
-import { lusitana } from "@/lib/fonts";
-import { HiArrowPath } from "react-icons/hi2";
 import clsx from "clsx";
 import Image from "next/image";
+import { HiArrowPath } from "react-icons/hi2";
+
 import { getExampleData } from "@/actions/admin";
+import { lusitana } from "@/lib/fonts";
 
 export default async function LatestInvoices() {
   try {

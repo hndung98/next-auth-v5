@@ -1,8 +1,8 @@
 import { HiCalendar } from "react-icons/hi2";
 
-import { generateYAxis } from "@/lib/utils";
-import { lusitana } from "@/lib/fonts";
 import { getExampleData } from "@/actions/admin";
+import { lusitana } from "@/lib/fonts";
+import { generateYAxis } from "@/lib/utils";
 
 // This component is representational only.
 // For data visualization UI, check out:

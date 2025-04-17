@@ -1,14 +1,15 @@
 import { Suspense } from "react";
+
+import CardWrapper from "@/app/(protected)/_components/cards";
+import LatestInvoices from "@/app/(protected)/_components/latest-invoices";
+import RevenueChart from "@/app/(protected)/_components/revenue-chart";
 import {
   CardsSkeleton,
   LatestInvoicesSkeleton,
   RevenueChartSkeleton,
-} from "../_components/skeletons";
-import CardWrapper from "../_components/cards";
-import RevenueChart from "../_components/revenue-chart";
-import LatestInvoices from "../_components/latest-invoices";
+} from "@/app/(protected)/_components/skeletons";
+import { AdminComponentExample } from "@/app/(protected)/_components/test";
 import { lusitana } from "@/lib/fonts";
-import { AdminComponentExample } from "../_components/test";
 
 export default function Page() {
   return (
