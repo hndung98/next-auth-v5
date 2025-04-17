@@ -10,7 +10,7 @@ export default async function Layout({
       <NavBar />
       <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
         <div className="w-full flex-none md:w-64 bg-gray-200 justify-center items-center space-y-2 pt-4">
-          Left Bar
+          <p className="font-semibold text-center">Left Bar</p>
         </div>
         <div className="flex-grow p-4 md:overflow-y-auto md:p-6 bg-green-100">
           {children}
