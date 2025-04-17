@@ -56,3 +56,12 @@ export const SettingsSchema = z
       path: ["password"],
     }
   );
+
+export const AuthorSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "Name must contain at least 3 characters." }),
+  nationality: z
+    .string()
+    .min(3, { message: "Nationality must contain at least 3 characters." }),
+});
