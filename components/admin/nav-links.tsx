@@ -6,18 +6,18 @@ import { usePathname } from "next/navigation";
 import {
   HiOutlineBookOpen,
   HiOutlineHome,
-  HiOutlinePencil,
   HiOutlineUserGroup,
   HiOutlineDocumentDuplicate,
   HiOutlineLink,
 } from "react-icons/hi";
+import { LuUserRoundPen } from "react-icons/lu";
 import { IoSettingsOutline } from "react-icons/io5";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: "Home", href: "/admin", icon: HiOutlineHome },
-  { name: "Authors", href: "/admin/authors", icon: HiOutlinePencil },
+  { name: "Authors", href: "/admin/authors", icon: LuUserRoundPen },
   { name: "Books", href: "/admin/books", icon: HiOutlineBookOpen },
   { name: "Customers", href: "/admin/customers", icon: HiOutlineUserGroup },
   {
