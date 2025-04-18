@@ -1,13 +1,18 @@
+import { MdOutlineElderlyWoman } from "react-icons/md";
+import { GiKatana, GiWhirlwind } from "react-icons/gi";
+
 import { lusitana } from "@/lib/fonts";
-import { GiKatana } from "react-icons/gi";
 
 export default function Logo() {
   return (
     <div
-      className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
+      className={`${lusitana.className} flex flex-row items-end leading-none text-white`}
     >
-      <GiKatana className="h-12 w-12" />
-      <p className="text-[44px]">{"Hasagi"}</p>
+      <MdOutlineElderlyWoman className="h-2/12 w-2/12" />
+      <GiKatana className="h-2/12 w-2/12" />
+      <GiWhirlwind className="h-2/12 w-2/12" />
+      <GiWhirlwind className="h-3/12 w-3/12" />
+      <GiWhirlwind className="h-5/12 w-5/12" />
     </div>
   );
 }
