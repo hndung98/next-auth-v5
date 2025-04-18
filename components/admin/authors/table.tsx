@@ -1,43 +1,17 @@
-"use client";
+import { FaUserPen } from "react-icons/fa6";
 
-import Image from "next/image";
+import { EditButton } from "@/components/common/button";
+import { getAuthors } from "@/data/author";
+import { DeleteAuthorButton } from "@/components/admin/authors/delete-button";
 
-import { DeleteButton, EditButton } from "@/components/common/button";
-
-export default function AuthorsTable({
+export default async function AuthorsTable({
   query,
   currentPage,
 }: {
   query: string;
   currentPage: number;
 }) {
-  const authors = [
-    {
-      id: "author-01",
-      name: "Alan Turing",
-      nationality: "England",
-    },
-    {
-      id: "author-02",
-      name: "Alexander Isak",
-      nationality: "England",
-    },
-    {
-      id: "author-03",
-      name: "Bobby Chalton",
-      nationality: "England",
-    },
-    {
-      id: "author-04",
-      name: "Chris Smalling",
-      nationality: "England",
-    },
-    {
-      id: "author-05",
-      name: "Didier Drogba",
-      nationality: "Ivory Coast",
-    },
-  ];
+  const authors = await getAuthors(query, currentPage, 5);
 
   return (
     <div className="mt-6 flow-root">
@@ -61,8 +35,8 @@ export default function AuthorsTable({
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end gap-2">
-                    <div>Upd</div>
-                    <div>Del</div>
+                    <EditButton href={`/admin/authors/${author.id}/edit`} />
+                    <DeleteAuthorButton id={author.id} />
                   </div>
                 </div>
               </div>
@@ -90,13 +64,7 @@ export default function AuthorsTable({
                 >
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex items-center gap-3">
-                      <Image
-                        src={"/image/users/tiger-01.png"}
-                        className="rounded-full"
-                        width={28}
-                        height={28}
-                        alt={`${author.name}'s profile picture`}
-                      />
+                      <FaUserPen className="w-6 h-6" />
                       <p>{author.name}</p>
                     </div>
                   </td>
@@ -106,16 +74,7 @@ export default function AuthorsTable({
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
                       <EditButton href={`/admin/authors/${author.id}/edit`} />
-                      <DeleteButton
-                        onAction={async (id: string) => {
-                          console.log({ currentPage, query });
-                          if (id) {
-                            return { message: "ok" };
-                          }
-                          return { hasError: true, message: "error" };
-                        }}
-                        id={author.id ?? "delete-id"}
-                      />
+                      <DeleteAuthorButton id={author.id} />
                     </div>
                   </td>
                 </tr>

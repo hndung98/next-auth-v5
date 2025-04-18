@@ -1,9 +1,11 @@
 "use client";
 
-import { logout } from "@/actions/auth";
 import { useRouter } from "next/navigation";
 import { HiOutlinePencil, HiOutlinePlus, HiOutlineTrash } from "react-icons/hi";
 import Link from "next/link";
+import { toast } from "sonner";
+
+import { logout } from "@/actions/auth";
 
 type LogoutButtonProps = {
   children: React.ReactNode;
@@ -93,7 +95,9 @@ export function DeleteButton({
         if (confirmed) {
           const res = await onAction(id);
           if (res.hasError) {
-            alert(res.message);
+            toast.error(res.message);
+          } else {
+            toast.success(res.message);
           }
         }
       }}

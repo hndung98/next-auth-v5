@@ -5,6 +5,7 @@ import { z } from "zod";
 import { withAdminOnly } from "@/actions/with-auth";
 import { prisma } from "@/lib/db";
 import { AuthorSchema } from "@/schemas";
+import { revalidatePath } from "next/cache";
 
 const _createAuthor = async (values: z.infer<typeof AuthorSchema>) => {
   const validatedFields = AuthorSchema.safeParse(values);
@@ -63,6 +64,7 @@ const _deleteAuthor = async (id: string) => {
     await prisma.author.delete({
       where: { id: id },
     });
+    revalidatePath("/admin/authors");
     return { success: "Author deleted!" };
   } catch (error) {
     console.log(error);
