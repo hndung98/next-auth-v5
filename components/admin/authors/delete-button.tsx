@@ -12,7 +12,8 @@ export const DeleteAuthorButton = ({ id }: DeleteAuthorButtonProps) => {
       <DeleteButton
         onAction={async (id: string) => {
           const action = await deleteAuthor(id);
-          if (action.error) return { hasError: true, message: action.error };
+          if (action.message)
+            return { hasError: true, message: action.message };
           return { message: "Deleted!" };
         }}
         id={id}

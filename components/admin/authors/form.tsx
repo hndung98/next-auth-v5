@@ -5,19 +5,19 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { HiOutlineFlag } from "react-icons/hi2";
 
 import { Button } from "@/components/ui/button";
+import { AuthorState, createAuthor } from "@/actions/author";
+import { useActionState } from "react";
 
-const createAuthor = () => {
-  return;
-};
 const updateAuthor = () => {
   return;
 };
 
 export function CreateForm() {
-  const state = { message: null, errors: { name: [""], nationality: [""] } };
+  const initialState: AuthorState = { message: null, errors: {} };
+  const [state, formAction] = useActionState(createAuthor, initialState);
 
   return (
-    <form action={createAuthor}>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Author Name */}
         <div className="mb-4">
@@ -76,6 +76,15 @@ export function CreateForm() {
                 </p>
               ))}
           </div>
+        </div>
+      </div>
+      <div className="mt-6 flex gap-4">
+        <div id="system-error" aria-live="polite" aria-atomic="true">
+          {state.message && (
+            <p className="mt-2 text-sm text-red-500" key={state.message}>
+              {state.message}
+            </p>
+          )}
         </div>
       </div>
 

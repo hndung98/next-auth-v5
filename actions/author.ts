@@ -6,13 +6,30 @@ import { withAdminOnly } from "@/actions/with-auth";
 import { prisma } from "@/lib/db";
 import { AuthorSchema } from "@/schemas";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-const _createAuthor = async (values: z.infer<typeof AuthorSchema>) => {
-  const validatedFields = AuthorSchema.safeParse(values);
+export type AuthorState = {
+  errors?: {
+    name?: string[];
+    nationality?: string[];
+  };
+  message?: string | null;
+};
 
+const _createAuthor = async (prevState: AuthorState, formData: FormData) => {
+  const validatedFields = AuthorSchema.safeParse({
+    name: formData.get("name"),
+    nationality: formData.get("nationality"),
+  });
+
+  // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
-    return { error: "Validation failed." };
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create.",
+    };
   }
+  console.log(validatedFields.data);
 
   const { name, nationality } = validatedFields.data;
 
@@ -23,18 +40,23 @@ const _createAuthor = async (values: z.infer<typeof AuthorSchema>) => {
     },
   });
   if (existingAuthor) {
-    return { error: "Both name and nationality existed." };
+    return { message: "Both name and nationality existed." };
   }
 
   try {
     await prisma.author.create({
       data: validatedFields.data,
     });
-    return { success: "Author created!" };
   } catch (error) {
     console.log(error);
-    return { error: "Something went wrong." };
+    return {
+      message: "Database Error: Failed to Create Author.",
+    };
   }
+
+  // Revalidate the cache for the authors page and redirect the user.
+  revalidatePath("/admin/authors");
+  redirect("/admin/authors");
 };
 
 const _updateAuthor = async (
@@ -65,10 +87,10 @@ const _deleteAuthor = async (id: string) => {
       where: { id: id },
     });
     revalidatePath("/admin/authors");
-    return { success: "Author deleted!" };
+    return {};
   } catch (error) {
     console.log(error);
-    return { error: "Something went wrong." };
+    return { message: "Something went wrong." };
   }
 };
 
