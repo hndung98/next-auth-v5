@@ -1,11 +1,13 @@
-import * as bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
-import { v4 as uuidv4 } from "uuid";
 
-import { invoices, revenue, users } from "@/app/api/seed/placeholder-data";
+import {
+  authors,
+  invoices,
+  revenue,
+  users,
+} from "@/app/api/seed/placeholder-data";
 import { currentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { Invoice, Revenue, User } from "@prisma/client";
 
 const SUPER_EMAILS = [
   "hoangdung.200298@gmail.com",
@@ -14,32 +16,12 @@ const SUPER_EMAILS = [
 
 async function seedUsers() {
   try {
-    const userList = [] as User[];
-    const hashedPassword = await bcrypt.hash("1998", 10);
-    users.forEach((user) => {
-      userList.push({
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        image: user.image_url,
-        password: hashedPassword,
-        isTwoFactorEnabled: false,
-        role: "USER",
-        emailVerified: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-    });
     const existingUser = await prisma.user.findUnique({
       where: {
-        id: userList[0].id,
+        email: users[0].email,
       },
     });
-    if (!existingUser) {
-      await prisma.user.createMany({
-        data: userList,
-      });
-    }
+    if (!existingUser) await prisma.user.createMany({ data: users });
 
     return true;
   } catch (error) {
@@ -50,11 +32,11 @@ async function seedUsers() {
 
 async function deleteSeededUsers() {
   try {
-    const ids = users.map((user) => user.id);
+    const emails = users.map((user) => user.email);
     await prisma.user.deleteMany({
       where: {
-        id: {
-          in: ids,
+        email: {
+          in: emails,
         },
       },
     });
@@ -67,30 +49,12 @@ async function deleteSeededUsers() {
 
 async function seedInvoices() {
   try {
-    const invoicesList = [] as Invoice[];
-    invoices.forEach((invoice) => {
-      invoicesList.push({
-        id: uuidv4(),
-        amount: invoice.amount,
-        status: invoice.status === "PENDING" ? "PENDING" : "PAID",
-        paymentMethod: "CASH",
-        date: invoice.date,
-        userId: invoice.user_id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        otherDescription: null,
-      });
-    });
     const existingInvoice = await prisma.invoice.findFirst({
       where: {
-        userId: users[0].id,
+        id: invoices[0].id,
       },
     });
-    if (!existingInvoice) {
-      await prisma.invoice.createMany({
-        data: invoicesList,
-      });
-    }
+    if (!existingInvoice) await prisma.invoice.createMany({ data: invoices });
 
     return true;
   } catch (error) {
@@ -101,27 +65,37 @@ async function seedInvoices() {
 
 async function seedRevenue() {
   try {
-    const revenueList = [] as Revenue[];
-    revenue.forEach((r) => {
-      revenueList.push({
-        id: uuidv4(),
-        period: r.month,
-        revenue: r.revenue,
-        userId: users[0].id,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      });
-    });
     const existingRevenue = await prisma.revenue.findFirst({
       where: {
-        userId: users[0].id,
+        id: revenue[0].id,
       },
     });
-    if (!existingRevenue) {
-      await prisma.revenue.createMany({
-        data: revenueList,
-      });
-    }
+    if (!existingRevenue) await prisma.revenue.createMany({ data: revenue });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function seedAuthors() {
+  try {
+    const existingAuthor = await prisma.author.findFirst({
+      where: {
+        id: authors[0].id,
+      },
+    });
+    if (!existingAuthor) await prisma.author.createMany({ data: authors });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function deleteAllAuthors() {
+  try {
+    await prisma.author.deleteMany({});
     return true;
   } catch (error) {
     console.log(error);
@@ -137,16 +111,31 @@ export async function POST(request: NextRequest) {
       return new NextResponse(null, { status: 405 });
 
     const formData = await request.formData();
-    const type = formData.get("type");
+    const type = formData.get("type") as string;
+    const tables = formData.get("tables") as string;
     switch (type) {
       case "create":
-        await seedUsers();
-        await seedInvoices();
-        await seedRevenue();
+        if (tables.includes("author")) {
+          await seedAuthors();
+        }
+        if (tables.includes("user")) {
+          await seedUsers();
+          if (tables.includes("invoice")) {
+            await seedInvoices();
+          }
+          if (tables.includes("revenue")) {
+            await seedRevenue();
+          }
+        }
         return new NextResponse(null, { status: 200 });
 
       case "delete":
-        await deleteSeededUsers();
+        if (tables.includes("user")) {
+          await deleteSeededUsers();
+        }
+        if (tables.includes("author")) {
+          await deleteAllAuthors();
+        }
         return new NextResponse(null, { status: 200 });
 
       default:

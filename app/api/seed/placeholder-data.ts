@@ -1,139 +1,112 @@
-// This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
-// https://nextjs.org/learn/dashboard-app/fetching-data
+import { Author, Invoice, Revenue, User } from "@prisma/client";
+import bcrypt from "bcryptjs";
+import cuid from "cuid";
 
+const hashedPassword = await bcrypt.hash("siu", 10);
+const createUser = (name: string) => {
+  return {
+    id: cuid(),
+    name: name,
+    email: `${name.toLowerCase().replaceAll(" ", "-")}@email.com`,
+    image: `/image/users/${name.toLowerCase().replaceAll(" ", "-")}.png`,
+    password: hashedPassword,
+    isTwoFactorEnabled: false,
+    role: "USER",
+    emailVerified: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  } as User;
+};
 const users = [
-  {
-    id: "d6e15727-9fe1-4961-8c5b-ea44a9bd81aa",
-    name: "Evil Rabbit",
-    email: "evil@rabbit.com",
-    image_url: "/image/users/evil-rabbit.png",
-  },
-  {
-    id: "3958dc9e-712f-4377-85e9-fec4b6a6442a",
-    name: "Delba de Oliveira",
-    email: "delba@oliveira.com",
-    image_url: "/image/users/delba-de-oliveira.png",
-  },
-  {
-    id: "3958dc9e-742f-4377-85e9-fec4b6a6442a",
-    name: "Lee Robinson",
-    email: "lee@robinson.com",
-    image_url: "/image/users/lee-robinson.png",
-  },
-  {
-    id: "76d65c26-f784-44a2-ac19-586678f7c2f2",
-    name: "Michael Novotny",
-    email: "michael@novotny.com",
-    image_url: "/image/users/michael-novotny.png",
-  },
-  {
-    id: "CC27C14A-0ACF-4F4A-A6C9-D45682C144B9",
-    name: "Amy Burns",
-    email: "amy@burns.com",
-    image_url: "/image/users/amy-burns.png",
-  },
-  {
-    id: "13D07535-C59E-4157-A011-F8D2EF4E0CBB",
-    name: "Balazs Orban",
-    email: "balazs@orban.com",
-    image_url: "/image/users/balazs-orban.png",
-  },
+  createUser("Evil Rabbit"),
+  createUser("Delba de Oliveira"),
+  createUser("Lee Robinson"),
+  createUser("Michael Novotny"),
+  createUser("Amy Burns"),
+  createUser("Balazs Orban"),
 ];
 
+const createInvoice = (
+  amount: number,
+  status: string,
+  date: string,
+  userId: string
+) => {
+  return {
+    id: cuid(),
+    amount: amount,
+    status: status === "PENDING" ? "PENDING" : "PAID",
+    paymentMethod: "CASH",
+    date: date,
+    userId: userId,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    otherDescription: null,
+  } as Invoice;
+};
 const invoices = [
-  {
-    user_id: users[0].id,
-    amount: 15795,
-    status: "PENDING",
-    date: "2024-12-06",
-  },
-  {
-    user_id: users[1].id,
-    amount: 20348,
-    status: "PENDING",
-    date: "2024-11-14",
-  },
-  {
-    user_id: users[4].id,
-    amount: 3040,
-    status: "PAID",
-    date: "2024-10-29",
-  },
-  {
-    user_id: users[3].id,
-    amount: 44800,
-    status: "PAID",
-    date: "2024-09-10",
-  },
-  {
-    user_id: users[5].id,
-    amount: 34577,
-    status: "PENDING",
-    date: "2024-08-05",
-  },
-  {
-    user_id: users[2].id,
-    amount: 54246,
-    status: "PENDING",
-    date: "2024-07-16",
-  },
-  {
-    user_id: users[0].id,
-    amount: 666,
-    status: "PENDING",
-    date: "2024-06-27",
-  },
-  {
-    user_id: users[3].id,
-    amount: 32545,
-    status: "PAID",
-    date: "2024-06-09",
-  },
-  {
-    user_id: users[4].id,
-    amount: 1250,
-    status: "PAID",
-    date: "2024-06-17",
-  },
-  {
-    user_id: users[5].id,
-    amount: 8546,
-    status: "PAID",
-    date: "2024-06-07",
-  },
-  {
-    user_id: users[1].id,
-    amount: 500,
-    status: "PAID",
-    date: "2024-08-19",
-  },
-  {
-    user_id: users[5].id,
-    amount: 8945,
-    status: "PAID",
-    date: "2024-06-03",
-  },
-  {
-    user_id: users[2].id,
-    amount: 1000,
-    status: "PAID",
-    date: "2024-06-05",
-  },
+  createInvoice(15795, "PENDING", "2024-12-06", users[0].id),
+  createInvoice(20348, "PENDING", "2024-11-14", users[1].id),
+  createInvoice(3040, "PAID", "2024-10-29", users[4].id),
+  createInvoice(44800, "PAID", "2024-09-10", users[3].id),
+  createInvoice(34577, "PENDING", "2024-08-05", users[5].id),
+  createInvoice(54246, "PENDING", "2024-07-16", users[2].id),
+  createInvoice(666, "PENDING", "2024-06-27", users[0].id),
+  createInvoice(32545, "PAID", "2024-06-09", users[3].id),
+  createInvoice(1250, "PAID", "2024-06-17", users[4].id),
+  createInvoice(8546, "PAID", "2024-06-07", users[5].id),
+  createInvoice(500, "PAID", "2024-08-19", users[1].id),
+  createInvoice(8945, "PAID", "2024-06-03", users[5].id),
+  createInvoice(1000, "PAID", "2024-06-05", users[2].id),
 ];
 
+const createRevenue = (period: string, revenue: number) => {
+  return {
+    id: cuid(),
+    period: period,
+    revenue: revenue,
+    userId: users[0].id,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  } as Revenue;
+};
 const revenue = [
-  { month: "Jan", revenue: 2000 },
-  { month: "Feb", revenue: 1800 },
-  { month: "Mar", revenue: 2200 },
-  { month: "Apr", revenue: 2500 },
-  { month: "May", revenue: 2300 },
-  { month: "Jun", revenue: 3200 },
-  { month: "Jul", revenue: 3500 },
-  { month: "Aug", revenue: 3700 },
-  { month: "Sep", revenue: 2500 },
-  { month: "Oct", revenue: 2800 },
-  { month: "Nov", revenue: 3000 },
-  { month: "Dec", revenue: 4800 },
+  createRevenue("Jan", 3200),
+  createRevenue("Feb", 2800),
+  createRevenue("Mar", 2200),
+  createRevenue("Apr", 1500),
+  createRevenue("May", 1200),
+  createRevenue("Jun", 3500),
+  createRevenue("Jul", 3700),
+  createRevenue("Aug", 2500),
+  createRevenue("Sep", 2800),
+  createRevenue("Oct", 3000),
+  createRevenue("Nov", 3800),
+  createRevenue("Dec", 4900),
 ];
 
-export { users, invoices, revenue };
+const createAuthor = (name: string, nationality: string) => {
+  return {
+    id: cuid(),
+    name: name,
+    nationality: nationality,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  } as Author;
+};
+const authors = [
+  createAuthor("Victor Hugo", "France"),
+  createAuthor("Hector Malot", "France"),
+  createAuthor("Andrea Hirata", "Indo"),
+  createAuthor("Nguyen Nhat Anh", "Vietnam"),
+  createAuthor("Conan Doyle", "Scotland"),
+  createAuthor("Yuval Noah Harari", "Israel"),
+  createAuthor("Napoleon Hill", "USA"),
+  createAuthor("J.K. Rowling", "England"),
+  createAuthor("Virginia Woolf", "England"),
+  createAuthor("Leo Tolstoy", "Russia"),
+  createAuthor("George Orwell", "England"),
+  createAuthor("William Shakespeare", "England"),
+] as Author[];
+
+export { users, invoices, revenue, authors };

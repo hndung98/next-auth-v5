@@ -90,7 +90,7 @@ model TwoFactorConfirmation {
 }
 
 model Author {
-  id          Int    @id @default(autoincrement())
+  id          String @id @default(cuid())
   name        String
   nationality String
 
@@ -101,13 +101,13 @@ model Author {
 }
 
 model Book {
-  id             Int       @id @default(autoincrement())
+  id             String    @id @default(cuid())
   title          String
   description    String?
   publishDate    DateTime?
   pageCount      Int?
   coverImagePath String?
-  authorId       Int
+  authorId       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

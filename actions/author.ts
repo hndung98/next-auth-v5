@@ -22,7 +22,7 @@ const _createAuthor = async (values: z.infer<typeof AuthorSchema>) => {
     },
   });
   if (existingAuthor) {
-    return { error: "Bold name and nationality existed." };
+    return { error: "Both name and nationality existed." };
   }
 
   try {
@@ -37,7 +37,7 @@ const _createAuthor = async (values: z.infer<typeof AuthorSchema>) => {
 };
 
 const _updateAuthor = async (
-  id: number,
+  id: string,
   values: z.infer<typeof AuthorSchema>
 ) => {
   const validatedFields = AuthorSchema.safeParse(values);
@@ -58,7 +58,7 @@ const _updateAuthor = async (
   }
 };
 
-const _deleteAuthor = async (id: number) => {
+const _deleteAuthor = async (id: string) => {
   try {
     await prisma.author.delete({
       where: { id: id },
