@@ -1,4 +1,4 @@
-import { Author, Invoice, Revenue, User } from "@prisma/client";
+import { Author, Book, Invoice, Revenue, User } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import cuid from "cuid";
 
@@ -98,7 +98,7 @@ const authors = [
   createAuthor("Victor Hugo", "France"),
   createAuthor("Hector Malot", "France"),
   createAuthor("Andrea Hirata", "Indo"),
-  createAuthor("Nguyen Nhat Anh", "Vietnam"),
+  createAuthor("Nguyễn Nhật Ánh", "Vietnam"),
   createAuthor("Conan Doyle", "Scotland"),
   createAuthor("Yuval Noah Harari", "Israel"),
   createAuthor("Napoleon Hill", "USA"),
@@ -109,4 +109,55 @@ const authors = [
   createAuthor("William Shakespeare", "England"),
 ] as Author[];
 
-export { users, invoices, revenue, authors };
+const createBook = (
+  title: string,
+  authorId: string,
+  coverImagePath: string,
+  pageCount: number,
+  publishDate: string
+) => {
+  return {
+    id: cuid(),
+    title: title,
+    authorId: authorId,
+    description: "",
+    coverImagePath: coverImagePath,
+    pageCount: pageCount,
+    publishDate: new Date(publishDate),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  } as Book;
+};
+
+const books = [
+  createBook(
+    "Les Miserables",
+    authors[0].id,
+    "/image/books/les-miserables.jpg",
+    1462,
+    "1862-03-31"
+  ),
+  createBook(
+    "Sapiens - A brief history of humankind",
+    authors[5].id,
+    "/image/books/sapiens.jpg",
+    464,
+    "2011-01-01"
+  ),
+  createBook(
+    "Sherlock Holmes 1",
+    authors[4].id,
+    "/image/books/sherlock-holmes-1.jpg",
+    517,
+    "1890-01-01"
+  ),
+  createBook(
+    "Mắt biếc",
+    authors[3].id,
+    "/image/books/mat-biec.jpg",
+    235,
+    "1990-01-01"
+  ),
+];
+
+export { users, invoices, revenue, authors, books };

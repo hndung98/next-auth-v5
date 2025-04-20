@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import {
   authors,
+  books,
   invoices,
   revenue,
   users,
@@ -93,6 +94,21 @@ async function seedAuthors() {
   }
 }
 
+async function seedBooks() {
+  try {
+    const existingBook = await prisma.author.findFirst({
+      where: {
+        id: books[0].id,
+      },
+    });
+    if (!existingBook) await prisma.book.createMany({ data: books });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 async function deleteAllAuthors() {
   try {
     await prisma.author.deleteMany({});
@@ -117,6 +133,9 @@ export async function POST(request: NextRequest) {
       case "create":
         if (tables.includes("author")) {
           await seedAuthors();
+        }
+        if (tables.includes("book")) {
+          await seedBooks();
         }
         if (tables.includes("user")) {
           await seedUsers();

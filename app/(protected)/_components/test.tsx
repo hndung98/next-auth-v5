@@ -52,7 +52,7 @@ export function AdminComponentExample() {
       try {
         const formData = new FormData();
         formData.append("type", "create");
-        formData.append("tables", "user,invoice,revenue,author");
+        formData.append("tables", "user,invoice,revenue,author,book");
         const res = await fetch("/api/seed", {
           method: "POST",
           body: formData,
