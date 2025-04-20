@@ -5,15 +5,16 @@ import { HiOutlineUserCircle } from "react-icons/hi";
 import { HiOutlineFlag } from "react-icons/hi2";
 
 import { Button } from "@/components/ui/button";
-import { AuthorState, createAuthor } from "@/actions/author";
+import { AuthorState, createAuthor, updateAuthor } from "@/actions/author";
 import { useActionState } from "react";
-
-const updateAuthor = () => {
-  return;
-};
+import { Author } from "@prisma/client";
 
 export function CreateForm() {
-  const initialState: AuthorState = { message: null, errors: {} };
+  const initialState: AuthorState = {
+    message: null,
+    errors: {},
+    data: { name: "", nationality: "" },
+  };
   const [state, formAction] = useActionState(createAuthor, initialState);
 
   return (
@@ -32,6 +33,7 @@ export function CreateForm() {
                 placeholder="Enter Author Name"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="name-error"
+                defaultValue={state.data?.name}
                 // required
               />
               <HiOutlineUserCircle className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
@@ -63,6 +65,7 @@ export function CreateForm() {
                 placeholder="Enter Author's Nationality"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="nationality-error"
+                defaultValue={state.data?.nationality}
                 // required
               />
               <HiOutlineFlag className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
@@ -103,14 +106,17 @@ export function CreateForm() {
   );
 }
 
-export function EditForm() {
-  const state = { message: null, errors: { name: [""], nationality: [""] } };
-  const author = {
-    name: "",
-    nationality: "",
+export function EditForm({ author }: { author: Author }) {
+  const initialState: AuthorState = {
+    message: null,
+    errors: {},
+    data: { name: author.name, nationality: author.nationality },
   };
+  const updateAuthorWithId = updateAuthor.bind(null, author.id);
+  const [state, formAction] = useActionState(updateAuthorWithId, initialState);
+
   return (
-    <form action={updateAuthor}>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Author Name */}
         <div className="mb-4">
@@ -125,7 +131,7 @@ export function EditForm() {
                 placeholder="Enter Author Name"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="name-error"
-                defaultValue={author.name}
+                defaultValue={state.data?.name ?? ""}
                 // required
               />
               <HiOutlineUserCircle className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
@@ -157,7 +163,7 @@ export function EditForm() {
                 placeholder="Enter Author's Nationality"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="nationality-error"
-                defaultValue={author.nationality}
+                defaultValue={state.data?.nationality ?? ""}
                 // required
               />
               <HiOutlineFlag className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
@@ -171,6 +177,15 @@ export function EditForm() {
                 </p>
               ))}
           </div>
+        </div>
+      </div>
+      <div className="mt-6 flex gap-4">
+        <div id="system-error" aria-live="polite" aria-atomic="true">
+          {state.message && (
+            <p className="mt-2 text-sm text-red-500" key={state.message}>
+              {state.message}
+            </p>
+          )}
         </div>
       </div>
 

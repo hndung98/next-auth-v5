@@ -1,7 +1,5 @@
 "use server";
 
-import { z } from "zod";
-
 import { withAdminOnly } from "@/actions/with-auth";
 import { prisma } from "@/lib/db";
 import { AuthorSchema } from "@/schemas";
@@ -14,22 +12,27 @@ export type AuthorState = {
     nationality?: string[];
   };
   message?: string | null;
+  data?: {
+    name: string;
+    nationality: string;
+  };
 };
 
 const _createAuthor = async (prevState: AuthorState, formData: FormData) => {
-  const validatedFields = AuthorSchema.safeParse({
-    name: formData.get("name"),
-    nationality: formData.get("nationality"),
-  });
+  const data = {
+    name: formData.get("name") as string,
+    nationality: formData.get("nationality") as string,
+  };
+  const validatedFields = AuthorSchema.safeParse(data);
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Missing Fields. Failed to Create.",
+      data: data,
     };
   }
-  console.log(validatedFields.data);
 
   const { name, nationality } = validatedFields.data;
 
@@ -40,7 +43,7 @@ const _createAuthor = async (prevState: AuthorState, formData: FormData) => {
     },
   });
   if (existingAuthor) {
-    return { message: "Both name and nationality existed." };
+    return { message: "Both name and nationality existed.", data: data };
   }
 
   try {
@@ -51,6 +54,7 @@ const _createAuthor = async (prevState: AuthorState, formData: FormData) => {
     console.log(error);
     return {
       message: "Database Error: Failed to Create Author.",
+      data: data,
     };
   }
 
@@ -61,12 +65,36 @@ const _createAuthor = async (prevState: AuthorState, formData: FormData) => {
 
 const _updateAuthor = async (
   id: string,
-  values: z.infer<typeof AuthorSchema>
+  prevState: AuthorState,
+  formData: FormData
 ) => {
-  const validatedFields = AuthorSchema.safeParse(values);
+  const data = {
+    name: formData.get("name") as string,
+    nationality: formData.get("nationality") as string,
+  };
+  const validatedFields = AuthorSchema.safeParse(data);
 
+  // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
-    return { error: "Validation failed." };
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields. Failed to Create.",
+      data: data,
+    };
+  }
+
+  const { name, nationality } = validatedFields.data;
+  const existingAuthor = await prisma.author.findFirst({
+    where: {
+      name: name,
+      nationality: nationality,
+    },
+  });
+  if (existingAuthor && id !== existingAuthor.id) {
+    return {
+      message: "Both name and nationality existed.",
+      data: data,
+    };
   }
 
   try {
@@ -74,11 +102,17 @@ const _updateAuthor = async (
       where: { id: id },
       data: validatedFields.data,
     });
-    return { success: "Author updated!" };
   } catch (error) {
     console.log(error);
-    return { error: "Something went wrong." };
+    return {
+      message: "Database Error: Failed to Update Author.",
+      data: data,
+    };
   }
+
+  // Revalidate the cache for the authors page and redirect the user.
+  revalidatePath("/admin/authors");
+  redirect("/admin/authors");
 };
 
 const _deleteAuthor = async (id: string) => {
@@ -90,7 +124,9 @@ const _deleteAuthor = async (id: string) => {
     return {};
   } catch (error) {
     console.log(error);
-    return { message: "Something went wrong." };
+    return {
+      message: "Database Error: Failed to Delete Author.",
+    };
   }
 };
 

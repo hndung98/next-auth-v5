@@ -67,3 +67,15 @@ export const getAuthors = async (
     return [];
   }
 };
+
+export const getAuthorById = async (id: string): Promise<Author | null> => {
+  try {
+    const author = await prisma.author.findUnique({
+      where: { id },
+    });
+    return author;
+  } catch (error) {
+    console.log("getAuthorById", error);
+    return null;
+  }
+};

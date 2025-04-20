@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import Breadcrumbs from "@/components/common/breadcrumbs";
 import { EditForm } from "@/components/admin/authors/form";
+import { getAuthorById } from "@/data/author";
 
 export const metadata: Metadata = {
   title: "Edit Author",
@@ -11,9 +12,9 @@ export const metadata: Metadata = {
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
-  const author = {};
+  const author = await getAuthorById(id);
 
-  if (!author && !id) {
+  if (!author) {
     notFound();
   }
 
@@ -29,7 +30,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <EditForm />
+      <EditForm author={author} />
     </main>
   );
 }
