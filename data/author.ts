@@ -1,37 +1,6 @@
 import { prisma } from "@/lib/db";
 import { Author } from "@prisma/client";
 
-export const getTotalPages = async (query: string, perPage = 10) => {
-  try {
-    const search = query?.trim();
-    const count = await prisma.author.count({
-      where: search
-        ? {
-            OR: [
-              {
-                name: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-              {
-                nationality: {
-                  contains: query,
-                  mode: "insensitive",
-                },
-              },
-            ],
-          }
-        : undefined,
-    });
-    const totalPages = Math.ceil(count / perPage);
-    return totalPages;
-  } catch (error) {
-    console.log("getAuthorPages", error);
-    return 0;
-  }
-};
-
 export const getAuthors = async (
   query: string,
   page: number,
@@ -77,5 +46,36 @@ export const getAuthorById = async (id: string): Promise<Author | null> => {
   } catch (error) {
     console.log("getAuthorById", error);
     return null;
+  }
+};
+
+export const getTotalPages = async (query: string, perPage = 10) => {
+  try {
+    const search = query?.trim();
+    const count = await prisma.author.count({
+      where: search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+              {
+                nationality: {
+                  contains: query,
+                  mode: "insensitive",
+                },
+              },
+            ],
+          }
+        : undefined,
+    });
+    const totalPages = Math.ceil(count / perPage);
+    return totalPages;
+  } catch (error) {
+    console.log("getTotalPages", error);
+    return 0;
   }
 };
