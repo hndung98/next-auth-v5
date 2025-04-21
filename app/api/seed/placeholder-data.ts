@@ -95,18 +95,18 @@ const createAuthor = (name: string, nationality: string) => {
   } as Author;
 };
 const authors = [
-  createAuthor("Victor Hugo", "France"),
-  createAuthor("Hector Malot", "France"),
-  createAuthor("Andrea Hirata", "Indo"),
-  createAuthor("Nguyễn Nhật Ánh", "Vietnam"),
-  createAuthor("Conan Doyle", "Scotland"),
-  createAuthor("Yuval Noah Harari", "Israel"),
-  createAuthor("Napoleon Hill", "USA"),
-  createAuthor("J.K. Rowling", "England"),
-  createAuthor("Virginia Woolf", "England"),
-  createAuthor("Leo Tolstoy", "Russia"),
-  createAuthor("George Orwell", "England"),
-  createAuthor("William Shakespeare", "England"),
+  createAuthor("Victor Hugo", "France"), // 0
+  createAuthor("Hector Malot", "France"), // 1
+  createAuthor("Andrea Hirata", "Indo"), // 2
+  createAuthor("Nguyễn Nhật Ánh", "Vietnam"), // 3
+  createAuthor("Conan Doyle", "Scotland"), // 4
+  createAuthor("Yuval Noah Harari", "Israel"), // 5
+  createAuthor("Napoleon Hill", "USA"), // 6
+  createAuthor("J.K. Rowling", "England"), // 7
+  createAuthor("Virginia Woolf", "England"), // 8
+  createAuthor("Leo Tolstoy", "Russia"), // 9
+  createAuthor("George Orwell", "England"), // 10
+  createAuthor("William Shakespeare", "England"), // 11
 ] as Author[];
 
 const createBook = (
@@ -157,6 +157,27 @@ const books = [
     "/image/books/mat-biec.jpg",
     235,
     "1990-01-01"
+  ),
+  createBook(
+    "The rainbow troops",
+    authors[2].id,
+    "/image/books/the-rainbow-troops.jpg",
+    571,
+    "2005-01-01"
+  ),
+  createBook(
+    "Think and grow rich",
+    authors[6].id,
+    "/image/books/think-and-grow-rich.jpg",
+    601,
+    "1937-01-01"
+  ),
+  createBook(
+    "War and peace",
+    authors[9].id,
+    "/image/books/war-and-peace.jpg",
+    1400,
+    "1867-01-01"
   ),
 ];
 
