@@ -2,7 +2,7 @@ import { FaUserPen } from "react-icons/fa6";
 
 import { EditButton } from "@/components/common/button";
 import { getAuthors } from "@/data/author";
-import { DeleteAuthorButton } from "@/components/admin/authors/delete-button";
+import { DeleteAuthorButton } from "@/components/admin/authors/button";
 
 export default async function AuthorsTable({
   query,
