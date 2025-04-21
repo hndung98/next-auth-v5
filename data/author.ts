@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/db";
 import { Author } from "@prisma/client";
 
-export const getAuthorPages = async (query: string, perPage = 10) => {
+export const getTotalPages = async (query: string, perPage = 10) => {
   try {
     const search = query?.trim();
     const count = await prisma.author.count({

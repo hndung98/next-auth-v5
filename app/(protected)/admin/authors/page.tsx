@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import Pagination from "@/components/common/pagination";
 import { CreateButton } from "@/components/common/button";
 import AuthorsTable from "@/components/admin/authors/table";
-import { getAuthorPages } from "@/data/author";
+import { getTotalPages } from "@/data/author";
 
 export const metadata: Metadata = {
   title: "Admin - Authors",
@@ -21,7 +21,7 @@ export default async function Page(props: {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const totalPages = await getAuthorPages(query, 5);
+  const totalPages = await getTotalPages(query, 5);
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
