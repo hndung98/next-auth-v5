@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -211,14 +212,20 @@ export function CreateForm() {
 
         <FormSuccess message={success} />
         <FormError message={error} />
-        <div className="w-full flex justify-end">
+        <div className="w-full flex gap-4 justify-end">
           <Button
             type="submit"
             disabled={isPending}
-            className="w-[200px] cursor-pointer"
+            className="w-[120px] cursor-pointer"
           >
             Create
           </Button>
+          <Link
+            href="/admin/books"
+            className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          >
+            Cancel
+          </Link>
         </div>
       </form>
     </Form>
@@ -415,14 +422,20 @@ export function EditForm({ book }: { book: Book }) {
 
         <FormSuccess message={success} />
         <FormError message={error} />
-        <div className="w-full flex justify-end">
+        <div className="w-full flex gap-4 justify-end">
           <Button
             type="submit"
             disabled={isPending}
-            className="w-[200px] cursor-pointer"
+            className="w-[120px] cursor-pointer"
           >
             Update
           </Button>
+          <Link
+            href="/admin/books"
+            className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          >
+            Cancel
+          </Link>
         </div>
       </form>
     </Form>
