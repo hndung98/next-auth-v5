@@ -1,11 +1,12 @@
+import { Metadata } from "next";
+import { Suspense } from "react";
+
 import BooksTable from "@/components/admin/books/table";
 import { CreateButton } from "@/components/common/button";
 import Pagination from "@/components/common/pagination";
 import Search from "@/components/common/search";
 import { getTotalPages } from "@/data/book";
 import { lusitana } from "@/lib/fonts";
-import { Metadata } from "next";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Admin - Books",

@@ -1,6 +1,6 @@
+import { DeleteBookButton } from "@/components/admin/books/button";
 import { EditButton } from "@/components/common/button";
 import { getBooks } from "@/data/book";
-import { DeleteBookButton } from "./button";
 
 export default async function BooksTable({
   query,

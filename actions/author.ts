@@ -1,10 +1,11 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+
 import { withAdminOnly } from "@/actions/with-auth";
 import { prisma } from "@/lib/db";
 import { AuthorSchema } from "@/schemas";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 export type AuthorState = {
   errors?: {
