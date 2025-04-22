@@ -1,11 +1,15 @@
 "use server";
 
-import { prisma } from "@/lib/db";
-import { withAdminOnly } from "./with-auth";
 import { revalidatePath } from "next/cache";
-import { BookSchema } from "@/schemas";
 import { redirect } from "next/navigation";
-import { uploadImageToCloudinary } from "@/lib/cloudinary";
+
+import { withAdminOnly } from "@/actions/with-auth";
+import {
+  deleteBookImageFromCloudinary,
+  uploadImageToCloudinary,
+} from "@/lib/cloudinary";
+import { prisma } from "@/lib/db";
+import { BookSchema } from "@/schemas";
 
 export type BookState = {
   errors?: {
@@ -85,8 +89,19 @@ const _createBook = async (formData: FormData) => {
 const _updateBook = async (prevState: BookState, formData: FormData) => {};
 
 const _deleteBook = async (id: string) => {
+  const existingBook = await prisma.book.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  if (!existingBook) {
+    return {
+      message: "This book was not found.",
+    };
+  }
   try {
     await prisma.book.delete({ where: { id: id } });
+    await deleteBookImageFromCloudinary(existingBook.coverImagePath ?? "");
     revalidatePath("/admin/books");
     return {};
   } catch (error) {
