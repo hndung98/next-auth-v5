@@ -5,13 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   HiOutlineBookOpen,
-  HiOutlineHome,
-  HiOutlineUserGroup,
   HiOutlineDocumentDuplicate,
+  HiOutlineHome,
   HiOutlineLink,
+  HiOutlineUserGroup,
 } from "react-icons/hi";
 import { LuUserRoundPen } from "react-icons/lu";
-import { IoSettingsOutline } from "react-icons/io5";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -26,7 +25,6 @@ const links = [
     icon: HiOutlineDocumentDuplicate,
   },
   { name: "Widgets", href: "/admin/widgets", icon: HiOutlineLink },
-  { name: "Settings", href: "/admin/settings", icon: IoSettingsOutline },
 ];
 
 export default function NavLinks() {

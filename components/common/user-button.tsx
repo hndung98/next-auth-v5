@@ -3,6 +3,7 @@
 import { FaUser } from "react-icons/fa";
 import { GrServer, GrUserAdmin } from "react-icons/gr";
 import { IoMdExit } from "react-icons/io";
+import { IoSettingsOutline } from "react-icons/io5";
 import { PiDevices } from "react-icons/pi";
 
 import { LogoutButton, MenuItemButton } from "@/components/common/button";
@@ -48,6 +49,12 @@ export const UserButton = ({ isPublic }: UserButtonProps) => {
           <DropdownMenuItem>
             <GrServer className="h-4 w-4 mr-2" />
             Go to server
+          </DropdownMenuItem>
+        </MenuItemButton>
+        <MenuItemButton href="/admin/settings">
+          <DropdownMenuItem>
+            <IoSettingsOutline className="h-4 w-4 mr-2" />
+            Settings
           </DropdownMenuItem>
         </MenuItemButton>
         <LogoutButton reload={isPublic}>
