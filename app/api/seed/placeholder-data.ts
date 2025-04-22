@@ -114,7 +114,7 @@ const createBook = (
   authorId: string,
   coverImagePath: string,
   pageCount: number,
-  publishDate: string
+  publishedYear: number
 ) => {
   return {
     id: cuid(),
@@ -123,7 +123,7 @@ const createBook = (
     description: "",
     coverImagePath: coverImagePath,
     pageCount: pageCount,
-    publishDate: new Date(publishDate),
+    publishedYear: publishedYear,
     createdAt: new Date(),
     updatedAt: new Date(),
   } as Book;
@@ -135,49 +135,43 @@ const books = [
     authors[0].id,
     "/image/books/les-miserables.jpg",
     1462,
-    "1862-03-31"
+    1862
   ),
   createBook(
     "Sapiens - A brief history of humankind",
     authors[5].id,
     "/image/books/sapiens.jpg",
     464,
-    "2011-01-01"
+    2011
   ),
   createBook(
     "Sherlock Holmes 1",
     authors[4].id,
     "/image/books/sherlock-holmes-1.jpg",
     517,
-    "1890-01-01"
+    1890
   ),
-  createBook(
-    "Mắt biếc",
-    authors[3].id,
-    "/image/books/mat-biec.jpg",
-    235,
-    "1990-01-01"
-  ),
+  createBook("Mắt biếc", authors[3].id, "/image/books/mat-biec.jpg", 235, 1990),
   createBook(
     "The rainbow troops",
     authors[2].id,
     "/image/books/the-rainbow-troops.jpg",
     571,
-    "2005-01-01"
+    2005
   ),
   createBook(
     "Think and grow rich",
     authors[6].id,
     "/image/books/think-and-grow-rich.jpg",
     601,
-    "1937-01-01"
+    1937
   ),
   createBook(
     "War and peace",
     authors[9].id,
     "/image/books/war-and-peace.jpg",
     1400,
-    "1867-01-01"
+    1867
   ),
 ];
 

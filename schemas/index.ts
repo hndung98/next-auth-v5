@@ -65,3 +65,27 @@ export const AuthorSchema = z.object({
     .string()
     .min(3, { message: "Nationality must contain at least 3 characters." }),
 });
+
+const MAX_FILE_SIZE = 5_000_000;
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+export const BookSchema = z.object({
+  title: z
+    .string()
+    .min(3, { message: "Title must contain at least 3 characters." }),
+  authorId: z.string().nonempty("Author id cannot be empty"),
+  pageCount: z.coerce
+    .number()
+    .gt(0, "Please enter a number greater than 0.")
+    .lt(10_000, "Please enter a number less than 10 000."),
+  publishedYear: z.coerce
+    .number()
+    .gt(0, "Please enter a number greater than 0.")
+    .lt(new Date().getFullYear(), "Invalid year."),
+  coverImage: z
+    .any()
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
+      "Only .jpg, .jpeg, .png formats are supported."
+    ),
+});
