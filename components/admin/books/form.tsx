@@ -5,7 +5,7 @@ import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { createBook } from "@/actions/book";
+import { createBook, updateBook } from "@/actions/book";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
@@ -262,8 +262,11 @@ export function EditForm({ book }: { book: Book }) {
       formData.append("pageCount", values.pageCount.toString());
       formData.append("publishedYear", values.publishedYear.toString());
       if (values.coverImage) formData.append("coverImage", values.coverImage);
-      setError("");
-      setSuccess("");
+      updateBook(book.id, formData).then((res) => {
+        console.log("onSubmit-res", res);
+        setError("");
+        setSuccess("");
+      });
     });
   }
 
