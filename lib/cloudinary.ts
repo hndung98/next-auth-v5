@@ -32,6 +32,7 @@ function getPublicIdFromUrl(url: string): string | null {
 }
 
 export async function deleteBookImageFromCloudinary(url: string) {
+  if (!url) return;
   const publicId = getPublicIdFromUrl(url) || "";
   return await cloudinary.uploader.destroy(publicId);
 }

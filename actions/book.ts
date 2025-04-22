@@ -34,7 +34,8 @@ const _createBook = async (formData: FormData) => {
     pageCount: Number(formData.get("pageCount") || ""),
     publishedYear: Number(formData.get("publishedYear") || ""),
     authorId: formData.get("authorId") as string,
-    coverImage: formData.get("coverImage") as File,
+    coverImage: formData.get("coverImage"),
+    coverImageFile: formData.get("coverImage") as File,
   };
   const validatedFields = BookSchema.safeParse(data);
 
@@ -61,8 +62,11 @@ const _createBook = async (formData: FormData) => {
   }
 
   try {
-    const uploaded = await uploadImageToCloudinary(data.coverImage);
-    const imagePath = uploaded.secure_url;
+    let imagePath = "";
+    if (data.coverImage) {
+      const uploaded = await uploadImageToCloudinary(data.coverImageFile);
+      imagePath = uploaded.secure_url;
+    }
     console.log({ imagePath });
     await prisma.book.create({
       data: {

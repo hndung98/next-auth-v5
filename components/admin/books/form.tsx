@@ -70,7 +70,7 @@ export function CreateForm() {
       formData.append("authorId", values.authorId);
       formData.append("pageCount", values.pageCount.toString());
       formData.append("publishedYear", values.publishedYear.toString());
-      formData.append("coverImage", values.coverImage);
+      if (values.coverImage) formData.append("coverImage", values.coverImage);
       createBook(formData).then((res) => {
         console.log("onSubmit-res", res);
         setError("");

@@ -66,7 +66,7 @@ export const AuthorSchema = z.object({
     .min(3, { message: "Nationality must contain at least 3 characters." }),
 });
 
-const MAX_FILE_SIZE = 5_000_000;
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 export const BookSchema = z.object({
   title: z
@@ -83,9 +83,16 @@ export const BookSchema = z.object({
     .lt(new Date().getFullYear(), "Invalid year."),
   coverImage: z
     .any()
-    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
-    .refine(
-      (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
-      "Only .jpg, .jpeg, .png formats are supported."
-    ),
+    .refine((file) => {
+      return !file || file instanceof File;
+    }, "Invalid file")
+    .refine((file) => {
+      if (!file) return true;
+      return file?.size <= MAX_FILE_SIZE;
+    }, `Max image size is 5MB.`)
+    .refine((file) => {
+      if (!file) return true;
+      return ACCEPTED_IMAGE_TYPES.includes(file?.type);
+    }, "Only .jpg, .jpeg, .png formats are supported.")
+    .optional(),
 });
