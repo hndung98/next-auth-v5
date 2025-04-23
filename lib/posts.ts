@@ -81,8 +81,9 @@ function getMDXData(dir: string) {
 }
 
 export async function getPosts(customPath = ["", "", "", ""]) {
-  // const postsDir = path.join(process.cwd(), ...customPath);
-  console.log(customPath);
-  const postsDir = path.resolve("content/posts/");
+  if (customPath.length < 1 || customPath[0] === "") {
+    return [];
+  }
+  const postsDir = path.resolve(customPath.join("/") + "/");
   return getMDXData(postsDir);
 }
