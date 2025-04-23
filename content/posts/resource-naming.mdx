@@ -1,0 +1,42 @@
+---
+title: "Resource naming in API"
+publishedAt: "2025-03-05"
+summary: "When resources are named well, an API is intuitive and easy to use."
+tag: "Technology"
+---
+
+In addition to utilizing the HTTP verbs appropriately, resource naming is arguably the most debated and most important concept to grasp when creating an understandable, easily leveraged Web service API. When resources are named well, an API is intuitive and easy to use. Done poorly, that same API can feel klutzy and be difficult to use and understand. Below are a few tips to get you going when creating the resource URIs for your new API.
+
+<br/>
+# The Collection Metaphor
+
+<br/>
+There should be only 2 base URLs per resource:
+- The first URL is for a collection (example: /users)
+- The second is for a specific element in the collection (example: /users/1234).
+
+<br/>
+Essentially, a RESTful API ends up being simply a collection of URIs, HTTP calls to those URIs and some JSON and/or XML representations of resources, many of which will contain relational links. The RESTful principal of addressability is covered by the URIs. Each resource has its own address or URI—every interesting piece of information the server can provide is exposed as a resource. The constraint of uniform interface is partially addressed by the combination of URIs and HTTP verbs, and using them in line with the standards and conventions.
+
+<br/>
+In deciding what resources are within your system, name them as nouns as opposed to verbs or actions. In other words, a RESTful URI should refer to a resource that is a thing instead of referring to an action. Nouns have properties as verbs do not, just another distinguishing factor.
+
+<br/>
+Some example resources are:
+- Users of the system.
+- Courses in which a student is enrolled.
+- A user’s timeline of posts.
+- The users that follow another user.
+- An article about horseback riding.
+
+<br/>
+Each resource in a service suite will have at least one URI identifying it. And it’s best when that URI makes sense and adequately describes the resource. URIs should follow a predictable, hierarchical structure to enhance understandability and, therefore, usability: predictable in the sense that they’re consistent, hierarchical in the sense that data has structure—relationships. This is not a REST rule or constraint, but it enhances the API.
+
+<br/>
+RESTful APIs are written for consumers. The name and structure of URIs should convey meaning to those consumers. It’s often difficult to know what the data boundaries should be, but with understanding of your data, you most-likely are equipped to take a stab and what makes sense to return as a representation to your clients. <mark>Design for your clients, not for your data.</mark>
+
+<br/>
+Updating...
+
+<br/>
+<br/>

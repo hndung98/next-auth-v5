@@ -7,7 +7,7 @@ export default async function Layout({
 }) {
   return (
     <>
-      <div className="sticky top-0 z-50 bg-emerald-100">
+      <div className="sticky top-0 z-50">
         <NavBar />
       </div>
       <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
