@@ -84,6 +84,6 @@ export async function getPosts(customPath = ["", "", "", ""]) {
   if (customPath.length < 1 || customPath[0] === "") {
     return [];
   }
-  const postsDir = path.resolve(customPath.join("/") + "/");
+  const postsDir = path.resolve("content/posts/");
   return getMDXData(postsDir);
 }
