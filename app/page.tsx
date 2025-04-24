@@ -1,11 +1,13 @@
 import { ClientGreeting } from "@/components/common/greeting";
 import { NavBar } from "@/components/common/navbar";
+import { currentUser } from "@/lib/auth";
 import { Lusitana } from "next/font/google";
 import Link from "next/link";
 
 const lusitana = Lusitana({ weight: "400", subsets: ["latin"] });
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="sticky top-0 z-50">
@@ -20,12 +22,14 @@ export default function Home() {
             >
               <ClientGreeting />
             </p>
-            <Link
-              href="/auth/login"
-              className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-            >
-              <span>Login now</span> {"-->"}
-            </Link>
+            {!user?.id && (
+              <Link
+                href="/auth/login"
+                className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
+              >
+                <span>Login now</span> {"-->"}
+              </Link>
+            )}
           </div>
           <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12"></div>
         </div>
