@@ -96,3 +96,24 @@ export const BookSchema = z.object({
     }, "Only .jpg, .jpeg, .png formats are supported.")
     .optional(),
 });
+
+export const CustomerSchema = z.object({
+  email: z.string().email({ message: "Email is required." }),
+  password: z.string().min(3, { message: "Minimum 3 characters." }),
+  name: z.string().min(1, { message: "Name is required." }),
+  role: z.enum([UserRole.ADMIN, UserRole.USER]),
+  image: z
+    .any()
+    .refine((file) => {
+      return !file || file instanceof File;
+    }, "Invalid file")
+    .refine((file) => {
+      if (!file) return true;
+      return file?.size <= MAX_FILE_SIZE;
+    }, `Max image size is 5MB.`)
+    .refine((file) => {
+      if (!file) return true;
+      return ACCEPTED_IMAGE_TYPES.includes(file?.type);
+    }, "Only .jpg, .jpeg, .png formats are supported.")
+    .optional(),
+});

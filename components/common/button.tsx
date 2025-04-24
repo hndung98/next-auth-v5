@@ -107,3 +107,22 @@ export function DeleteButton({
     </button>
   );
 }
+
+// export function PrintLogButton({
+//   buttonText,
+//   data,
+// }: {
+//   buttonText: string;
+//   data?: any | null;
+// }) {
+//   return (
+//     <button
+//       className="cursor-pointer bg-blue-500 text-white rounded-2xl p-2 m-2"
+//       onClick={() => {
+//         console.log({ data: data });
+//       }}
+//     >
+//       {buttonText}
+//     </button>
+//   );
+// }
