@@ -18,7 +18,7 @@ const navItems = [
   },
 ];
 
-export const NavBar = () => {
+export const NavBar = ({ showLogin }: { showLogin: boolean }) => {
   const user = useCurrentUser();
   const pathname = usePathname();
   const encodedCallbackUrl = encodeURIComponent(pathname);
@@ -38,11 +38,13 @@ export const NavBar = () => {
       {user?.id ? (
         <UserButton isPublic={true} />
       ) : (
-        <Button asChild variant="link">
-          <Link href={`/auth/login?callbackUrl=${encodedCallbackUrl}`}>
-            Login
-          </Link>
-        </Button>
+        showLogin && (
+          <Button asChild variant="link">
+            <Link href={`/auth/login?callbackUrl=${encodedCallbackUrl}`}>
+              Login
+            </Link>
+          </Button>
+        )
       )}
     </nav>
   );
