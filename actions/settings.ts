@@ -18,10 +18,12 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
   if (!user?.id) {
     return { error: "Unauthorized!" };
   }
-
   const dbUser = await getUserById(user.id);
   if (!dbUser?.id) {
     return { error: "Unauthorized!" };
+  }
+  if (user.role === "USER" && values.role === "ADMIN") {
+    return { error: "Forbidden!" };
   }
 
   if (user.isOAuth) {
