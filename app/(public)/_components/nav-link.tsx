@@ -9,7 +9,7 @@ const bloglinks = [
   { name: "Book", href: "/blogs?category=book", shortName: "Book" },
   { name: "Game", href: "/blogs?category=game", shortName: "Game" },
   { name: "Music", href: "/blogs?category=music", shortName: "Music" },
-  { name: "Technology", href: "/blogs?category=tech", shortName: "Tech" },
+  { name: "Technology", href: "/blogs?category=technology", shortName: "Tech" },
 ];
 
 export function BlogNavLinks() {

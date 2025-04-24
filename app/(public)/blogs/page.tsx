@@ -8,8 +8,14 @@ export const metadata: Metadata = {
   title: "Blogs",
 };
 
-export default async function Page() {
-  const posts = await getPosts(["content", "posts"]);
+export default async function Page(props: {
+  searchParams?: Promise<{
+    category?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const category = searchParams?.category || "";
+  const posts = await getPosts(["content", "posts"], category);
 
   return (
     <>

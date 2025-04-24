@@ -80,10 +80,16 @@ function getMDXData(dir: string) {
   return sortedBlogs;
 }
 
-export async function getPosts(customPath = ["", "", "", ""]) {
+export async function getPosts(customPath = ["", "", "", ""], category = "") {
   if (customPath.length < 1 || customPath[0] === "") {
     return [];
   }
   const postsDir = path.resolve("content/posts/");
-  return getMDXData(postsDir);
+  const posts = getMDXData(postsDir);
+  if (category && category !== "all") {
+    return posts.filter(
+      (post) => post.metadata.tag?.toLowerCase() === category
+    );
+  }
+  return posts;
 }
