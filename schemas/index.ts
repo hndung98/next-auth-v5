@@ -100,6 +100,7 @@ export const BookSchema = z.object({
 export const CustomerSchema = z.object({
   email: z.string().email({ message: "Email is required." }),
   password: z.string().min(3, { message: "Minimum 3 characters." }),
+  newPassword: z.string().optional(),
   name: z.string().min(1, { message: "Name is required." }),
   role: z.enum([UserRole.ADMIN, UserRole.USER]),
   image: z
@@ -116,4 +117,12 @@ export const CustomerSchema = z.object({
       return ACCEPTED_IMAGE_TYPES.includes(file?.type);
     }, "Only .jpg, .jpeg, .png formats are supported.")
     .optional(),
+});
+
+export const EditCustomerSchema = CustomerSchema.pick({
+  email: true,
+  name: true,
+  role: true,
+  newPassword: true,
+  image: true,
 });

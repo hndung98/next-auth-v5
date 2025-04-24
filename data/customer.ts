@@ -76,7 +76,7 @@ export const getCustomers = async (
 export const getCustomerById = async (id: string) => {
   try {
     const customer = await prisma.user.findUnique({
-      where: { id },
+      where: { id: id },
     });
     return customer;
   } catch (error) {

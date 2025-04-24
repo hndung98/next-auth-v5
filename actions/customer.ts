@@ -7,13 +7,14 @@ import { redirect } from "next/navigation";
 import { withAdminOnly } from "@/actions/with-auth";
 import { getUserByEmail } from "@/data/user";
 import { prisma } from "@/lib/db";
-import { CustomerSchema } from "@/schemas";
+import { CustomerSchema, EditCustomerSchema } from "@/schemas";
 
 const _createCustomer = async (formData: FormData) => {
   const data = {
     name: formData.get("name") as string,
     email: formData.get("email") as string,
     password: formData.get("password") as string,
+    role: formData.get("role") as string,
   };
   const validatedFields = CustomerSchema.safeParse(data);
   if (!validatedFields.success) {
@@ -53,13 +54,65 @@ const _createCustomer = async (formData: FormData) => {
   redirect("/admin/customers");
 };
 
-const _updateCustomer = async (formData: FormData) => {
-  const data = {
+type EditData = {
+  name: string;
+  email: string;
+  role: string;
+  newPassword?: string;
+};
+const _updateCustomer = async (id: string, formData: FormData) => {
+  let data = {
     name: formData.get("name") as string,
-  };
+    email: formData.get("email") as string,
+    role: formData.get("role") as string,
+  } as EditData;
+  const password = formData.get("newPassword");
+  if (password) {
+    data.newPassword = password as string;
+  }
+
+  const validatedFields = EditCustomerSchema.safeParse(data);
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: "Missing Fields.",
+      data: data,
+    };
+  }
+
+  const { email, name, newPassword } = validatedFields.data;
+
+  const existingUser = await getUserByEmail(email);
+  if (existingUser && existingUser.id !== id) {
+    return { message: "Email already in use.", data: data };
+  }
+
   try {
+    let hashedPassword = "";
+    if (newPassword) {
+      hashedPassword = await bcrypt.hash(newPassword, 10);
+    }
+    await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: hashedPassword
+        ? {
+            name: name,
+            email: email,
+            password: hashedPassword,
+          }
+        : {
+            name: name,
+            email: email,
+          },
+    });
   } catch (error) {
     console.log("_updateCustomer", error);
+    return {
+      message: "Database Error: Failed to Edit Customer.",
+      data: data,
+    };
   }
   // Revalidate the cache for the customers page and redirect the user.
   revalidatePath("/admin/customers");
@@ -68,7 +121,7 @@ const _updateCustomer = async (formData: FormData) => {
 
 const _deleteCustomer = async (id: string) => {
   try {
-    await prisma.author.delete({
+    await prisma.user.delete({
       where: { id: id },
     });
     revalidatePath("/admin/customers");

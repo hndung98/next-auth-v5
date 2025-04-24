@@ -28,7 +28,7 @@ export const CustomersTable = async ({
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end  gap-2">
-                    <EditButton href={`/admin/books/${customer.id}/edit`} />
+                    <EditButton href={`/admin/customers/${customer.id}/edit`} />
                     <DeleteCustomerButton id={customer.id} />
                   </div>
                 </div>
