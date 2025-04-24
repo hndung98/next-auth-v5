@@ -1,5 +1,7 @@
-import { UserRole } from "@prisma/client";
+import { InvoiceStatus, PaymentMethod, UserRole } from "@prisma/client";
 import * as z from "zod";
+
+import { isValidDateString } from "@/lib/utils";
 
 export const LoginSchema = z.object({
   email: z.string().email({ message: "Email is required." }),
@@ -125,4 +127,22 @@ export const EditCustomerSchema = CustomerSchema.pick({
   role: true,
   newPassword: true,
   image: true,
+});
+
+export const InvoiceSchema = z.object({
+  amount: z.coerce.number().gt(0, "Please enter a number greater than 0."),
+  status: z.enum([
+    InvoiceStatus.PENDING,
+    InvoiceStatus.PAID,
+    InvoiceStatus.CANCELED,
+  ]),
+  paymentMethod: z.enum([
+    PaymentMethod.CASH,
+    PaymentMethod.CREDIT,
+    PaymentMethod.OTHER,
+  ]),
+  date: z.string().refine((value) => {
+    return isValidDateString(value);
+  }),
+  userId: z.string().nonempty("User id cannot be empty"),
 });

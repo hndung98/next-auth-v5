@@ -101,3 +101,17 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+export const isValidDateString = (dateStr: string) => {
+  const regex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+  if (!regex.test(dateStr)) return false;
+
+  // Tiếp tục kiểm tra ngày thực tế (ví dụ: không có 2025-02-30)
+  const [year, month, day] = dateStr.split("-").map((num) => parseInt(num, 10));
+  const date = new Date(year, month - 1, day);
+  return (
+    date.getFullYear() === year &&
+    date.getMonth() === month - 1 &&
+    date.getDate() === day
+  );
+};
