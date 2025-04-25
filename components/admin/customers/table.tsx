@@ -35,7 +35,53 @@ export const CustomersTable = async ({
               </div>
             ))}
           </div>
-          <div className="hidden md:table">table</div>
+          <table className="hidden min-w-full text-gray-900 md:table">
+            <thead className="rounded-lg text-left text-sm font-normal">
+              <tr>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Name
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Email
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Role
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Is Verified
+                </th>
+                <th scope="col" className="relative py-3 pl-6 pr-3">
+                  <span className="sr-only">Action</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((customer) => (
+                <tr key={customer.id}>
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    {customer.name}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pr-3">
+                    {customer.email}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pr-3">
+                    {customer.role}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pr-3">
+                    {customer.emailVerified ? "Yes" : "No"}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <div className="flex justify-end gap-3">
+                      <EditButton
+                        href={`/admin/customers/${customer.id}/edit`}
+                      />
+                      <DeleteCustomerButton id={customer.id} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
