@@ -56,7 +56,51 @@ export const InvoicesTable = async ({
               </div>
             ))}
           </div>
-          <div className="hidden md:table">table</div>
+          <table className="hidden min-w-full text-gray-900 md:table">
+            <thead className="rounded-lg text-left text-sm font-normal">
+              <tr>
+                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
+                  Date
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Customer
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Amount
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  Status
+                </th>
+                <th scope="col" className="relative py-3 pl-6 pr-3">
+                  <span className="sr-only">Action</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {invoices.map((invoice) => (
+                <tr key={invoice.id}>
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    {invoice.date}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pr-3">
+                    {invoice.user.name}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pr-3">
+                    {formatCurrency(invoice.amount)}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pr-3">
+                    {invoice.status}
+                  </td>
+                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
+                    <div className="flex justify-end gap-3">
+                      <EditButton href={`/admin/invoices/${invoice.id}/edit`} />
+                      <DeleteInvoiceButton id={invoice.id} />
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
