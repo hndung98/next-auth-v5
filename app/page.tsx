@@ -1,8 +1,9 @@
+import { Lusitana } from "next/font/google";
+import Link from "next/link";
+
 import { ClientGreeting } from "@/components/common/greeting";
 import { NavBar } from "@/components/common/navbar";
 import { currentUser } from "@/lib/auth";
-import { Lusitana } from "next/font/google";
-import Link from "next/link";
 
 const lusitana = Lusitana({ weight: "400", subsets: ["latin"] });
 

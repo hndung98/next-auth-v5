@@ -3,6 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
+import { DayPicker } from "react-day-picker";
+import "react-day-picker/style.css";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -29,6 +31,7 @@ import {
 import { getCurrentDateFormatted } from "@/lib/utils";
 import { InvoiceSchema } from "@/schemas";
 import { InvoiceStatus, PaymentMethod } from "@prisma/client";
+import { addMonths } from "date-fns";
 
 type CustomerInfo = {
   id: string;
@@ -37,14 +40,17 @@ type CustomerInfo = {
 };
 
 export const CreateForm = () => {
+  const today = new Date();
+  const nextMonth = addMonths(today, 1);
+
   const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [customers, setCustomers] = useState<CustomerInfo[]>([]);
-  //   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-  //     new Date()
-  //   );
+
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(today);
+  const [month, setMonth] = useState(nextMonth);
 
   const form = useForm<z.infer<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
@@ -196,7 +202,35 @@ export const CreateForm = () => {
             </FormItem>
           )}
         />
-        <div className="w-[300px]">
+        <div className="flex flex-col">
+          <DayPicker
+            mode="single"
+            selected={selectedDate}
+            onSelect={(date) => {
+              if (date) {
+                setSelectedDate(date);
+                const offset = date?.getTimezoneOffset();
+                const localDate = new Date(
+                  date?.getTime() - offset * 60 * 1000
+                );
+                const ymd = localDate.toISOString().split("T")[0];
+                form.setValue("date", ymd);
+                console.log({ ymd });
+              }
+            }}
+            month={month}
+            onMonthChange={setMonth}
+            startMonth={new Date(2025, today.getMonth() - 2)}
+            endMonth={today}
+          />
+          <Button
+            variant="secondary"
+            className="cursor-pointer w-[100px]"
+            type="button"
+            onClick={() => setMonth(today)}
+          >
+            Go to Today
+          </Button>
           {/* <Calendar
             mode="single"
             fromMonth={new Date(2025, 1)}
