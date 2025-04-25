@@ -21,6 +21,7 @@ export const getTotalPages = async (query: string, perPage = 10) => {
     return 0;
   }
 };
+
 export const getInvoices = async (
   query: string,
   page: number,
@@ -48,6 +49,7 @@ export const getInvoices = async (
     return [];
   }
 };
+
 export const getInvoiceById = async (id: string) => {
   try {
     const invoice = await prisma.invoice.findUnique({ where: { id } });

@@ -1,0 +1,249 @@
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+import { createInvoice } from "@/actions/invoice";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { getCurrentDateFormatted } from "@/lib/utils";
+import { InvoiceSchema } from "@/schemas";
+import { InvoiceStatus, PaymentMethod } from "@prisma/client";
+
+type CustomerInfo = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+export const CreateForm = () => {
+  const [isPending, startTransition] = useTransition();
+
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [customers, setCustomers] = useState<CustomerInfo[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    new Date()
+  );
+
+  const form = useForm<z.infer<typeof InvoiceSchema>>({
+    resolver: zodResolver(InvoiceSchema),
+    defaultValues: {
+      amount: 0,
+      status: "PENDING",
+      date: getCurrentDateFormatted(),
+      paymentMethod: "CASH",
+      userId: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof InvoiceSchema>) {
+    startTransition(() => {
+      console.log(values);
+      const formData = new FormData();
+      formData.append("userId", values.userId);
+      formData.append("amount", values.amount.toString());
+      formData.append("date", values.date);
+      formData.append("status", values.status);
+      formData.append("paymentMethod", values.paymentMethod);
+
+      createInvoice(formData).then((res) => {
+        if (res.message) setError(res.message);
+        console.log(res);
+
+        setSuccess("");
+      });
+    });
+  }
+
+  useEffect(() => {
+    fetch("/api/customers")
+      .then((res) => res.json())
+      .then(setCustomers);
+  }, []);
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
+          name="userId"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Customer</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Choose a Customer" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {customers.map((customer) => (
+                    <SelectItem key={customer.id} value={customer.id}>
+                      {customer.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="amount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Amount</FormLabel>
+              <FormControl>
+                <Input {...field} disabled={isPending} type="number" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="status"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Choose a status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={InvoiceStatus.PENDING}>
+                    {InvoiceStatus.PENDING}
+                  </SelectItem>
+                  <SelectItem value={InvoiceStatus.PAID}>
+                    {InvoiceStatus.PAID}
+                  </SelectItem>
+                  <SelectItem value={InvoiceStatus.CANCELED}>
+                    {InvoiceStatus.CANCELED}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="paymentMethod"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Payment method</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Choose a status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value={PaymentMethod.CASH}>
+                    {PaymentMethod.CASH}
+                  </SelectItem>
+                  <SelectItem value={PaymentMethod.CREDIT}>
+                    {PaymentMethod.CREDIT}
+                  </SelectItem>
+                  <SelectItem value={PaymentMethod.OTHER}>
+                    {PaymentMethod.OTHER}
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  disabled
+                  placeholder={getCurrentDateFormatted()}
+                  type="text"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="w-[300px]">
+          <Calendar
+            mode="single"
+            fromMonth={new Date(2025, 1)}
+            toMonth={new Date()}
+            selected={selectedDate}
+            onSelect={(date) => {
+              setSelectedDate(date);
+              if (date) {
+                const offset = date?.getTimezoneOffset();
+                const localDate = new Date(
+                  date?.getTime() - offset * 60 * 1000
+                );
+                const ymd = localDate.toISOString().split("T")[0];
+                form.setValue("date", ymd);
+              }
+            }}
+            className="rounded-md border"
+          />
+        </div>
+
+        <FormSuccess message={success} />
+        <FormError message={error} />
+        <div className="w-full flex gap-4 justify-end">
+          <Button
+            type="submit"
+            disabled={isPending}
+            className="w-[120px] cursor-pointer"
+          >
+            Create
+          </Button>
+          <Link
+            href="/admin/customers"
+            className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          >
+            Cancel
+          </Link>
+        </div>
+      </form>
+    </Form>
+  );
+};
+
+export const EditForm = () => {
+  return (
+    <form>
+      <h2>Create Form</h2>
+    </form>
+  );
+};

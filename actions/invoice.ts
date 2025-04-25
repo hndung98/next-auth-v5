@@ -1,8 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 import { withAdminOnly } from "@/actions/with-auth";
+import { getUserById } from "@/data/user";
 import { prisma } from "@/lib/db";
 import { InvoiceSchema } from "@/schemas";
 
@@ -24,7 +26,26 @@ const _createInvoice = async (formData: FormData) => {
     };
   }
 
+  const { amount, status, paymentMethod, date, userId } = validatedFields.data;
+
+  const existingUser = await getUserById(userId);
+  if (!existingUser) {
+    return {
+      message: "Customer not found.",
+      data: data,
+    };
+  }
+
   try {
+    await prisma.invoice.create({
+      data: {
+        amount,
+        status,
+        paymentMethod,
+        date,
+        userId,
+      },
+    });
   } catch (error) {
     console.log("_createInvoice", error);
     return {
@@ -32,6 +53,9 @@ const _createInvoice = async (formData: FormData) => {
       data: data,
     };
   }
+  // Revalidate the cache for the customers page and redirect the user.
+  revalidatePath("/admin/invoices");
+  redirect("/admin/invoices");
 };
 
 const _updateInvoice = async (id: string, formData: FormData) => {
@@ -60,6 +84,9 @@ const _updateInvoice = async (id: string, formData: FormData) => {
       data: data,
     };
   }
+  // Revalidate the cache for the customers page and redirect the user.
+  revalidatePath("/admin/invoices");
+  redirect("/admin/invoices");
 };
 
 const _deleteInvoice = async (id: string) => {

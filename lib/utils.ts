@@ -102,6 +102,15 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
+export const getCurrentDateFormatted = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 export const isValidDateString = (dateStr: string) => {
   const regex = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
   if (!regex.test(dateStr)) return false;
