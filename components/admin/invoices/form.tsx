@@ -10,7 +10,6 @@ import { createInvoice } from "@/actions/invoice";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -43,9 +42,9 @@ export const CreateForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [customers, setCustomers] = useState<CustomerInfo[]>([]);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date()
-  );
+  //   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+  //     new Date()
+  //   );
 
   const form = useForm<z.infer<typeof InvoiceSchema>>({
     resolver: zodResolver(InvoiceSchema),
@@ -188,7 +187,7 @@ export const CreateForm = () => {
               <FormControl>
                 <Input
                   {...field}
-                  disabled
+                  disabled={isPending}
                   placeholder={getCurrentDateFormatted()}
                   type="text"
                 />
@@ -198,7 +197,7 @@ export const CreateForm = () => {
           )}
         />
         <div className="w-[300px]">
-          <Calendar
+          {/* <Calendar
             mode="single"
             fromMonth={new Date(2025, 1)}
             toMonth={new Date()}
@@ -215,7 +214,7 @@ export const CreateForm = () => {
               }
             }}
             className="rounded-md border"
-          />
+          /> */}
         </div>
 
         <FormSuccess message={success} />
