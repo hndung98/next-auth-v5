@@ -13,8 +13,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
 
-  const customer = await getInvoiceById(id);
-  if (!customer) notFound();
+  const invoice = await getInvoiceById(id);
+  if (!invoice) notFound();
   return (
     <>
       <Breadcrumbs
@@ -30,7 +30,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           },
         ]}
       />
-      <EditForm />
+      <EditForm invoice={invoice} />
     </>
   );
 }

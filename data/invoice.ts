@@ -42,6 +42,14 @@ export const getInvoices = async (
         : undefined,
       take: perPage,
       skip: (page - 1) * perPage,
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+      },
     });
     return invoices;
   } catch (error) {

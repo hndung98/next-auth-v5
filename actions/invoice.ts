@@ -76,7 +76,27 @@ const _updateInvoice = async (id: string, formData: FormData) => {
     };
   }
 
+  const { amount, status, paymentMethod, date, userId } = validatedFields.data;
+
+  const existingUser = await getUserById(userId);
+  if (!existingUser) {
+    return {
+      message: "Customer not found.",
+      data: data,
+    };
+  }
+
   try {
+    await prisma.invoice.update({
+      where: { id },
+      data: {
+        amount,
+        status,
+        paymentMethod,
+        date,
+        userId,
+      },
+    });
   } catch (error) {
     console.log("_updateInvoice", error);
     return {
