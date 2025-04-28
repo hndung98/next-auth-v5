@@ -157,7 +157,7 @@ model Revenue {
 model Widget {
   id     String @id @default(cuid())
   name   String
-  Url    String
+  url    String
   userId String
 
   createdAt DateTime @default(now())
