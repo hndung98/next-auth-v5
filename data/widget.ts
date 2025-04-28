@@ -52,6 +52,15 @@ export const getWidgets = async (query: string, page: number, perPage = 10) => {
             ],
           }
         : undefined,
+      take: perPage,
+      skip: (page - 1) * perPage,
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
     return widgets;
   } catch (error) {
@@ -64,6 +73,14 @@ export const getWidgetById = async (id: string) => {
   try {
     const widget = await prisma.widget.findUnique({
       where: { id: id },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
     });
     return widget;
   } catch (error) {

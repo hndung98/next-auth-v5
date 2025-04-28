@@ -146,3 +146,9 @@ export const InvoiceSchema = z.object({
   }),
   userId: z.string().nonempty("User id cannot be empty"),
 });
+
+export const WidgetSchema = z.object({
+  name: z.string().nonempty("Name id cannot be empty"),
+  url: z.string().url({ message: "Invalid url" }),
+  userId: z.string().nonempty("User id cannot be empty"),
+});

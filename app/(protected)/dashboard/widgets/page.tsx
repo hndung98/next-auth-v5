@@ -1,13 +1,15 @@
-import { CreateButton } from "@/components/common/button";
-import Pagination from "@/components/common/pagination";
-import Search from "@/components/common/search";
-import { getTotalPages } from "@/data/widget";
-import { lusitana } from "@/lib/fonts";
 import { Metadata } from "next";
 import { Suspense } from "react";
 
+import { CreateButton } from "@/components/common/button";
+import Pagination from "@/components/common/pagination";
+import Search from "@/components/common/search";
+import { WidgetsTable } from "@/components/dashboard/widgets/table";
+import { getTotalPages } from "@/data/widget";
+import { lusitana } from "@/lib/fonts";
+
 export const metadata: Metadata = {
-  title: "Admin - Widgets",
+  title: "Widgets",
 };
 
 export default async function Page(props: {
@@ -23,12 +25,11 @@ export default async function Page(props: {
         <h1 className={`${lusitana.className} text-2xl`}>Widgets</h1>
       </div>
       <div className="flex mt-4 gap-2 items-center justify-center md:mt-8">
-        <Search placeholder="Search invoices..." />
-        <CreateButton buttonText="Create" href="/dashboard/invoices/create" />
+        <Search placeholder="Search widgets..." />
+        <CreateButton buttonText="Create" href="/dashboard/widgets/create" />
       </div>
-      <Suspense key={"invoices-table"}>
-        <div>currentPage: {currentPage}</div>
-        {/* <InvoicesTable query={query} currentPage={currentPage} /> */}
+      <Suspense key={"widgets-table"}>
+        <WidgetsTable query={query} currentPage={currentPage} />
       </Suspense>
       <div className="flex mt-6 w-full justify-center">
         <Pagination totalPages={totalPages} />

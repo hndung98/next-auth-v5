@@ -8,6 +8,17 @@ export async function GET(request: NextRequest) {
     const user = await currentUser();
     if (!user?.role) return new NextResponse(null, { status: 403 });
 
+    if (user.role === "USER") {
+      const res = [
+        {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+        },
+      ];
+      return NextResponse.json(res);
+    }
+
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("query") || "";
 
