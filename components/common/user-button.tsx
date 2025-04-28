@@ -33,25 +33,25 @@ export const UserButton = ({ isPublic }: UserButtonProps) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="[&_*]:cursor-pointer w-40" align="end">
-        <MenuItemButton href="/admin">
+        <MenuItemButton href="/dashboard">
           <DropdownMenuItem>
             <GrUserAdmin className="h-4 w-4 mr-2" />
-            Go to admin
+            Dashboard
           </DropdownMenuItem>
         </MenuItemButton>
         <MenuItemButton href="/client">
           <DropdownMenuItem>
             <PiDevices className="h-4 w-4 mr-2" />
-            Go to client
+            Client Side
           </DropdownMenuItem>
         </MenuItemButton>
         <MenuItemButton href="/server">
           <DropdownMenuItem>
             <GrServer className="h-4 w-4 mr-2" />
-            Go to server
+            Server Side
           </DropdownMenuItem>
         </MenuItemButton>
-        <MenuItemButton href="/admin/settings">
+        <MenuItemButton href="/dashboard/settings">
           <DropdownMenuItem>
             <IoSettingsOutline className="h-4 w-4 mr-2" />
             Settings

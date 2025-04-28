@@ -87,8 +87,8 @@ const _createBook = async (formData: FormData) => {
   }
 
   // Revalidate the cache for the authors page and redirect the user.
-  revalidatePath("/admin/books");
-  redirect("/admin/books");
+  revalidatePath("/dashboard/books");
+  redirect("/dashboard/books");
 };
 
 const _updateBook = async (id: string, formData: FormData) => {
@@ -178,8 +178,8 @@ const _updateBook = async (id: string, formData: FormData) => {
   }
 
   // Revalidate the cache for the authors page and redirect the user.
-  revalidatePath("/admin/books");
-  redirect("/admin/books");
+  revalidatePath("/dashboard/books");
+  redirect("/dashboard/books");
 };
 
 const _deleteBook = async (id: string) => {
@@ -196,7 +196,7 @@ const _deleteBook = async (id: string) => {
   try {
     await prisma.book.delete({ where: { id: id } });
     await deleteBookImageFromCloudinary(existingBook.coverImagePath ?? "");
-    revalidatePath("/admin/books");
+    revalidatePath("/dashboard/books");
     return {};
   } catch (error) {
     return {

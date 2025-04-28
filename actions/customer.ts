@@ -50,8 +50,8 @@ const _createCustomer = async (formData: FormData) => {
     };
   }
   // Revalidate the cache for the customers page and redirect the user.
-  revalidatePath("/admin/customers");
-  redirect("/admin/customers");
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
 };
 
 type EditData = {
@@ -115,8 +115,8 @@ const _updateCustomer = async (id: string, formData: FormData) => {
     };
   }
   // Revalidate the cache for the customers page and redirect the user.
-  revalidatePath("/admin/customers");
-  redirect("/admin/customers");
+  revalidatePath("/dashboard/customers");
+  redirect("/dashboard/customers");
 };
 
 const _deleteCustomer = async (id: string) => {
@@ -124,7 +124,7 @@ const _deleteCustomer = async (id: string) => {
     await prisma.user.delete({
       where: { id: id },
     });
-    revalidatePath("/admin/customers");
+    revalidatePath("/dashboard/customers");
     return {};
   } catch (error) {
     console.log(error);

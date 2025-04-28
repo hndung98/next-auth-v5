@@ -60,8 +60,8 @@ const _createAuthor = async (prevState: AuthorState, formData: FormData) => {
   }
 
   // Revalidate the cache for the authors page and redirect the user.
-  revalidatePath("/admin/authors");
-  redirect("/admin/authors");
+  revalidatePath("/dashboard/authors");
+  redirect("/dashboard/authors");
 };
 
 const _updateAuthor = async (
@@ -112,8 +112,8 @@ const _updateAuthor = async (
   }
 
   // Revalidate the cache for the authors page and redirect the user.
-  revalidatePath("/admin/authors");
-  redirect("/admin/authors");
+  revalidatePath("/dashboard/authors");
+  redirect("/dashboard/authors");
 };
 
 const _deleteAuthor = async (id: string) => {
@@ -121,7 +121,7 @@ const _deleteAuthor = async (id: string) => {
     await prisma.author.delete({
       where: { id: id },
     });
-    revalidatePath("/admin/authors");
+    revalidatePath("/dashboard/authors");
     return {};
   } catch (error) {
     console.log(error);

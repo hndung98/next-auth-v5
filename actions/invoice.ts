@@ -54,8 +54,8 @@ const _createInvoice = async (formData: FormData) => {
     };
   }
   // Revalidate the cache for the customers page and redirect the user.
-  revalidatePath("/admin/invoices");
-  redirect("/admin/invoices");
+  revalidatePath("/dashboard/invoices");
+  redirect("/dashboard/invoices");
 };
 
 const _updateInvoice = async (id: string, formData: FormData) => {
@@ -105,8 +105,8 @@ const _updateInvoice = async (id: string, formData: FormData) => {
     };
   }
   // Revalidate the cache for the customers page and redirect the user.
-  revalidatePath("/admin/invoices");
-  redirect("/admin/invoices");
+  revalidatePath("/dashboard/invoices");
+  redirect("/dashboard/invoices");
 };
 
 const _deleteInvoice = async (id: string) => {
@@ -114,7 +114,7 @@ const _deleteInvoice = async (id: string) => {
     await prisma.invoice.delete({
       where: { id: id },
     });
-    revalidatePath("/admin/invoices");
+    revalidatePath("/dashboard/invoices");
     return {};
   } catch (error) {
     return {
