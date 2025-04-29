@@ -1,6 +1,7 @@
 import { HiCalendar } from "react-icons/hi2";
 
 import { getExampleData } from "@/actions/admin";
+import { getRevenueOfYear } from "@/data/revenue";
 import { lusitana } from "@/lib/fonts";
 import { generateYAxis } from "@/lib/utils";
 
@@ -10,16 +11,15 @@ import { generateYAxis } from "@/lib/utils";
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-type Revenue = {
-  month: string;
-  revenue: number;
-};
 export default async function RevenueChart() {
-  await getExampleData(3000);
-  const revenue = [] as Revenue[];
+  await getExampleData(1000);
+  const revenue = await getRevenueOfYear();
+  const revenueData = revenue.map((item) => {
+    return { month: item.period, revenue: item.revenue };
+  });
 
   const chartHeight = 350;
-  const { yAxisLabels, topLabel } = generateYAxis(revenue);
+  const { yAxisLabels, topLabel } = generateYAxis(revenueData);
 
   if (!revenue || revenue.length === 0) {
     return (
@@ -50,7 +50,7 @@ export default async function RevenueChart() {
             ))}
           </div>
 
-          {revenue.map((month) => (
+          {revenueData.map((month) => (
             <div key={month.month} className="flex flex-col items-center gap-2">
               <div
                 className="w-full rounded-md bg-blue-300"

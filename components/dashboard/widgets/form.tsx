@@ -142,15 +142,6 @@ export const CreateForm = () => {
         <FormError message={error} />
         <div className="w-full flex gap-4 justify-end">
           <Button
-            type="button"
-            className="w-[120px] cursor-pointer"
-            onClick={() => {
-              console.log(customers);
-            }}
-          >
-            Show customers
-          </Button>
-          <Button
             type="submit"
             disabled={isPending}
             className="w-[120px] cursor-pointer"

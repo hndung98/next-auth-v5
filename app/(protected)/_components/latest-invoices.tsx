@@ -3,31 +3,29 @@ import Image from "next/image";
 import { HiArrowPath } from "react-icons/hi2";
 
 import { getExampleData } from "@/actions/admin";
+import { getLatestInvoices } from "@/data/invoice";
 import { lusitana } from "@/lib/fonts";
 
 export default async function LatestInvoices() {
-  try {
-    await getExampleData(3000);
-  } catch (error) {
-    throw error;
-  }
+  const invoices = await getLatestInvoices();
+  const latestInvoices = invoices.map((invoice) => {
+    return {
+      id: invoice.id,
+      email: invoice.user.email,
+      amount: invoice.amount,
+      image_url: invoice.user.image,
+      name: invoice.user.name,
+    };
+  });
+  await getExampleData(1000);
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Latest Invoices
       </h2>
       <div className="flex grow flex-col justify-between rounded-xl bg-gray-50 p-4">
-        {/* NOTE: Uncomment this code in Chapter 7 */}
         <div className="bg-white px-6">
-          {[
-            {
-              id: "",
-              email: "",
-              amount: 0,
-              image_url: "/favicon.ico",
-              name: "",
-            },
-          ].map((invoice, i) => {
+          {latestInvoices.map((invoice, i) => {
             return (
               <div
                 key={invoice.id}
@@ -40,7 +38,7 @@ export default async function LatestInvoices() {
               >
                 <div className="flex items-center">
                   <Image
-                    src={invoice.image_url}
+                    src={invoice.image_url ?? "/image/users/tiger-01.png"}
                     alt={`${invoice.name}'s profile picture`}
                     className="mr-4 rounded-full"
                     width={32}

@@ -84,3 +84,20 @@ export const getCustomerById = async (id: string) => {
     return null;
   }
 };
+
+export const getNumberOfCustomers = async () => {
+  try {
+    const count = await prisma.user.count({
+      where: {
+        role: "USER",
+        emailVerified: {
+          not: null,
+        },
+      },
+    });
+    return count;
+  } catch (error) {
+    console.log("getNumberOfCustomers", error);
+    return 0;
+  }
+};

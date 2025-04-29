@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { InvoiceStatus } from "@prisma/client";
 
 export const getTotalPages = async (query: string, perPage = 10) => {
   try {
@@ -58,6 +59,30 @@ export const getInvoices = async (
   }
 };
 
+export const getLatestInvoices = async (take = 5) => {
+  try {
+    const invoices = await prisma.invoice.findMany({
+      take: take,
+      orderBy: {
+        date: "desc",
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+            image: true,
+            email: true,
+          },
+        },
+      },
+    });
+    return invoices;
+  } catch (error) {
+    console.log("getInvgetLatestInvoicesoices", error);
+    return [];
+  }
+};
+
 export const getInvoiceById = async (id: string) => {
   try {
     const invoice = await prisma.invoice.findUnique({ where: { id } });
@@ -65,5 +90,43 @@ export const getInvoiceById = async (id: string) => {
   } catch (error) {
     console.log("getInvoiceById", error);
     return null;
+  }
+};
+
+export const getNumberOfInvoices = async (status?: InvoiceStatus) => {
+  try {
+    const count = await prisma.invoice.count({
+      where: status
+        ? {
+            status: status,
+          }
+        : undefined,
+    });
+    return count;
+  } catch (error) {
+    console.log("getNumberOfInvoices", error);
+    return 0;
+  }
+};
+
+export const getAmountOfInvoices = async (status: InvoiceStatus) => {
+  try {
+    const data = await prisma.invoice.groupBy({
+      by: ["status"],
+      _sum: {
+        amount: true,
+      },
+    });
+    let amount = 0;
+    data.forEach((item) => {
+      if (status && item.status === status && item._sum.amount) {
+        amount += item._sum.amount;
+      }
+    });
+
+    return amount;
+  } catch (error) {
+    console.log("getAmountOfInvoices", error);
+    return 0;
   }
 };

@@ -6,6 +6,8 @@ import {
 } from "react-icons/hi2";
 
 import { getExampleData } from "@/actions/admin";
+import { getNumberOfCustomers } from "@/data/customer";
+import { getAmountOfInvoices, getNumberOfInvoices } from "@/data/invoice";
 import { lusitana } from "@/lib/fonts";
 
 const iconMap = {
@@ -16,11 +18,17 @@ const iconMap = {
 };
 
 export default async function CardWrapper() {
-  const numberOfInvoices = 0;
-  const numberOfCustomers = 0;
-  const totalPaidInvoices = 0;
-  const totalPendingInvoices = 0;
-  await getExampleData();
+  const data = await Promise.all([
+    getNumberOfCustomers(),
+    getNumberOfInvoices(),
+    getAmountOfInvoices("PAID"),
+    getAmountOfInvoices("PENDING"),
+  ]);
+  const numberOfCustomers = data[0];
+  const numberOfInvoices = data[1];
+  const totalPaidInvoices = data[2];
+  const totalPendingInvoices = data[3];
+  await getExampleData(1200);
 
   return (
     <>
