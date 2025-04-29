@@ -9,6 +9,7 @@ export const publicRoutes = [
   "/gallery",
   "/image",
   "/blogs",
+  "/quiz",
 ];
 
 /**

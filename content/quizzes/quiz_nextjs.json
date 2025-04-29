@@ -1,0 +1,52 @@
+[
+    {
+        "question": "React component có thể được định nghĩa bằng cách nào?",
+        "options": [
+            "Class hoặc Function",
+            "Chỉ có Function",
+            "Chỉ có Class",
+            "Object"
+        ],
+        "answer": "Class hoặc Function"
+    },
+    {
+        "question": "useEffect trong React dùng để làm gì?",
+        "options": [
+            "Thêm CSS",
+            "Quản lý DOM trực tiếp",
+            "Thực hiện side effects như gọi API",
+            "Tăng hiệu năng render"
+        ],
+        "answer": "Thực hiện side effects như gọi API"
+    },
+    {
+        "question": "Next.js hỗ trợ phương thức routing nào?",
+        "options": [
+            "Hash routing",
+            "Server-side routing",
+            "File-based routing",
+            "Manual routing"
+        ],
+        "answer": "File-based routing"
+    },
+    {
+        "question": "Tập tin nào trong Next.js dùng để định nghĩa layout tổng?",
+        "options": [
+            "_layout.tsx",
+            "app/layout.tsx",
+            "pages/_layout.tsx",
+            "layout.config.ts"
+        ],
+        "answer": "app/layout.tsx"
+    },
+    {
+        "question": "Câu nào mô tả đúng về Server Components trong Next.js?",
+        "options": [
+            "Chạy trên trình duyệt người dùng",
+            "Có thể gọi database trực tiếp mà không lộ ra client",
+            "Không thể import component client",
+            "Không thể render HTML"
+        ],
+        "answer": "Có thể gọi database trực tiếp mà không lộ ra client"
+    }
+]

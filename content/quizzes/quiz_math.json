@@ -1,0 +1,52 @@
+[
+    {
+        "question": "Số nào là số nguyên tố?",
+        "options": [
+            "4",
+            "6",
+            "7",
+            "9"
+        ],
+        "answer": "7"
+    },
+    {
+        "question": "Kết quả của phép tính 12 x 8 là bao nhiêu?",
+        "options": [
+            "96",
+            "84",
+            "108",
+            "88"
+        ],
+        "answer": "96"
+    },
+    {
+        "question": "Chu vi hình tròn được tính bằng công thức nào?",
+        "options": [
+            "π × r²",
+            "2 × π × r",
+            "π × d²",
+            "r × r × π"
+        ],
+        "answer": "2 × π × r"
+    },
+    {
+        "question": "Căn bậc hai của 144 là bao nhiêu?",
+        "options": [
+            "10",
+            "12",
+            "14",
+            "16"
+        ],
+        "answer": "12"
+    },
+    {
+        "question": "1 phần 4 bằng bao nhiêu phần trăm?",
+        "options": [
+            "15%",
+            "20%",
+            "25%",
+            "40%"
+        ],
+        "answer": "25%"
+    }
+]

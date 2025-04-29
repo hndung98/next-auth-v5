@@ -16,6 +16,10 @@ const navItems = [
     name: "Gallery",
     href: "/gallery",
   },
+  {
+    name: "Quiz",
+    href: "/quiz",
+  },
 ];
 
 export const NavBar = ({ showLogin }: { showLogin: boolean }) => {

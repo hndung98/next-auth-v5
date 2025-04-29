@@ -1,0 +1,52 @@
+[
+    {
+        "question": "Cuba nằm ở châu lục nào?",
+        "options": [
+            "Châu Á",
+            "Châu Phi",
+            "Châu Mỹ",
+            "Châu Âu"
+        ],
+        "answer": "Châu Mỹ"
+    },
+    {
+        "question": "Đỉnh núi cao nhất thế giới là gì?",
+        "options": [
+            "Everest",
+            "Kilimanjaro",
+            "Fuji",
+            "Alps"
+        ],
+        "answer": "Everest"
+    },
+    {
+        "question": "Sông nào dài nhất thế giới?",
+        "options": [
+            "Amazon",
+            "Nile",
+            "Mississippi",
+            "Yangtze"
+        ],
+        "answer": "Nile"
+    },
+    {
+        "question": "Thủ đô của Úc là gì?",
+        "options": [
+            "Sydney",
+            "Melbourne",
+            "Canberra",
+            "Brisbane"
+        ],
+        "answer": "Canberra"
+    },
+    {
+        "question": "Sa mạc lớn nhất thế giới là gì?",
+        "options": [
+            "Sahara",
+            "Gobi",
+            "Atacama",
+            "Arabian"
+        ],
+        "answer": "Sahara"
+    }
+]
