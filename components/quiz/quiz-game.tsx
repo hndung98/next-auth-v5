@@ -83,7 +83,7 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
   if (showResult) {
     return (
       <div className="p-8 text-center space-x-4">
-        <h1 className="text-2xl font-bold mb-4">Hoàn thành!</h1>
+        <h1 className="text-2xl font-bold mb-4">Completed!</h1>
         <p className="text-lg">
           Your score: {score}/{questions.length}
         </p>
