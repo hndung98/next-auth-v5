@@ -75,7 +75,7 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
             </SelectGroup>
           </SelectContent>
         </Select>
-        <p>Đang tải câu hỏi...</p>
+        <p>Loading...</p>
       </div>
     );
   }
@@ -85,7 +85,7 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
       <div className="p-8 text-center space-x-4">
         <h1 className="text-2xl font-bold mb-4">Hoàn thành!</h1>
         <p className="text-lg">
-          Điểm số của bạn: {score}/{questions.length}
+          Your score: {score}/{questions.length}
         </p>
         <button
           onClick={() => {
@@ -93,9 +93,9 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
             setScore(0);
             setShowResult(false);
           }}
-          className="mt-6 px-4 py-2 bg-blue-500 text-white rounded"
+          className="mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer"
         >
-          Chơi lại
+          Play again
         </button>
         <button
           onClick={() => {
@@ -104,9 +104,9 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
             setShowResult(false);
             setQuestions([]);
           }}
-          className="mt-6 px-4 py-2 bg-blue-500 text-white rounded"
+          className="mt-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded cursor-pointer"
         >
-          Chơi tiếp
+          Go on
         </button>
       </div>
     );
@@ -119,7 +119,7 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
       <h1 className="text-2xl font-bold mb-4">Quiz Game</h1>
       <div className="mb-6">
         <h2 className="text-lg font-semibold mb-2">
-          Câu {currentIndex + 1}: {currentQuestion.question}
+          No {currentIndex + 1}: {currentQuestion.question}
         </h2>
         <div className="flex flex-col gap-2">
           {currentQuestion.options.map((option, index) => (
@@ -134,7 +134,7 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
         </div>
       </div>
       <p className="text-gray-500">
-        Câu hỏi {currentIndex + 1}/{questions.length}
+        Question {currentIndex + 1}/{questions.length}
       </p>
     </div>
   );

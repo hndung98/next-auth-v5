@@ -14,12 +14,12 @@ export const WidgetsTable = async ({
   return (
     <div className="flow-root mt-6">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0 my-dark-style">
           <div className="md:hidden">
             {widgets.map((widget) => (
               <div
                 key={"mini-tlb-" + widget.id}
-                className="mb-2 w-full rounded-lg bg-white p-4"
+                className="mb-2 w-full rounded-lg bg-white p-4 my-dark-style"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
@@ -48,7 +48,7 @@ export const WidgetsTable = async ({
               </div>
             ))}
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
+          <table className="hidden min-w-full text-gray-900 md:table my-dark-style">
             <thead className="rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium sm:pl-6">

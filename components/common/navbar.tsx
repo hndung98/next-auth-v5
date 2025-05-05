@@ -1,10 +1,18 @@
 "use client";
 
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { UserButton } from "@/components/common/user-button";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 const navItems = [
@@ -22,12 +30,39 @@ const navItems = [
   },
 ];
 
+function ModeToggle() {
+  const { setTheme } = useTheme();
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export const NavBar = ({ showLogin }: { showLogin: boolean }) => {
   const user = useCurrentUser();
   const pathname = usePathname();
   const encodedCallbackUrl = encodeURIComponent(pathname);
   return (
-    <nav className="bg-secondary flex justify-between items-center p-4 rounded-xl w-full shadow-sm">
+    <nav className="bg-secondary flex justify-between items-center p-4 w-full shadow-sm my-dark-style">
       <div className="flex gap-x-2">
         {navItems.map((item) => (
           <Button
@@ -39,17 +74,20 @@ export const NavBar = ({ showLogin }: { showLogin: boolean }) => {
           </Button>
         ))}
       </div>
-      {user?.id ? (
-        <UserButton isPublic={true} />
-      ) : (
-        showLogin && (
-          <Button asChild variant="link">
-            <Link href={`/auth/login?callbackUrl=${encodedCallbackUrl}`}>
-              Login
-            </Link>
-          </Button>
-        )
-      )}
+      <div className="space-x-2">
+        <ModeToggle />
+        {user?.id ? (
+          <UserButton isPublic={true} />
+        ) : (
+          showLogin && (
+            <Button asChild variant="link">
+              <Link href={`/auth/login?callbackUrl=${encodedCallbackUrl}`}>
+                Login
+              </Link>
+            </Button>
+          )
+        )}
+      </div>
     </nav>
   );
 };

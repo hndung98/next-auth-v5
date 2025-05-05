@@ -16,12 +16,12 @@ export default async function AuthorsTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0 my-dark-style">
           <div className="md:hidden">
             {authors?.map((author) => (
               <div
                 key={"author-" + author.id}
-                className="mb-2 w-full rounded-md bg-white p-4"
+                className="mb-2 w-full rounded-md bg-white p-4 my-dark-style"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div>
@@ -56,7 +56,7 @@ export default async function AuthorsTable({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white my-dark-style">
               {authors?.map((author) => (
                 <tr
                   key={author.id}

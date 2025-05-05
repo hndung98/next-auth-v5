@@ -20,23 +20,23 @@ export default async function Page() {
   ];
   return (
     <>
-      <div className="w-full flex-none md:w-64 bg-blue-100 justify-center items-center space-y-2 pt-4">
+      <div className="w-full flex-none md:w-64 justify-center items-center">
         <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-          <div className="hidden h-auto w-full grow rounded-md bg-blue-100 md:block text-center">
+          <div className="hidden h-auto w-full grow rounded-md md:block text-center">
             {"Choose level..."}
           </div>
-          <div className="hidden h-auto w-full grow rounded-md bg-blue-100 md:block text-center mt-6">
+          <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
             {"Top 5 highest scores..."}
           </div>
-          <div className="hidden h-auto w-full grow rounded-md bg-blue-100 md:block text-center mt-6">
+          <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
             {"Advertising..."}
           </div>
-          <div className="hidden h-auto w-full grow rounded-md bg-blue-100 md:block text-center mt-6">
+          <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
             {"Something else..."}
           </div>
         </div>
       </div>
-      <div className="flex-grow p-4 md:overflow-y-auto md:p-6 bg-gray-100">
+      <div className="flex-grow p-4 md:overflow-y-auto md:p-6 my-dark-style">
         <div className="p-4 text-center space-y-4">
           <h1>{"(Demo)"}</h1>
           <QuizGame data={data} />

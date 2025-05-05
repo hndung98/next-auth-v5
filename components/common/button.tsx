@@ -74,7 +74,7 @@ export function CreateButton({
 
 export function EditButton({ href }: { href: string }) {
   return (
-    <Link href={href} className="rounded-md border p-2 hover:bg-gray-100">
+    <Link href={href} className="rounded-md border p-2 hover:bg-gray-100 my-dark-style">
       <HiOutlinePencil className="h-5 w-5" />
     </Link>
   );
@@ -89,7 +89,7 @@ export function DeleteButton({
 }) {
   return (
     <button
-      className="rounded-md border p-2 hover:bg-gray-100 cursor-pointer"
+      className="rounded-md border p-2 hover:bg-gray-100 cursor-pointer my-dark-style"
       onClick={async () => {
         const confirmed = window.confirm("Are you sure?");
         if (confirmed) {

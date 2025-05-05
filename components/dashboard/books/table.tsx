@@ -13,12 +13,12 @@ export default async function BooksTable({
   return (
     <div className="mt-6 flow-root">
       <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
+        <div className="rounded-lg bg-gray-50 p-2 md:pt-0 my-dark-style">
           <div className="md:hidden">
             {books.map((book) => (
               <div
                 key={"mini-tlb-" + book.id}
-                className="mb-2 w-full rounded-lg bg-white p-4"
+                className="mb-2 w-full rounded-lg bg-white p-4 my-dark-style"
               >
                 <div className="flex items-center justify-between border-b pb-4">
                   <div className="mb-2 flex items-center">
@@ -55,7 +55,7 @@ export default async function BooksTable({
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white">
+            <tbody className="bg-white my-dark-style">
               {books.map((book) => (
                 <tr key={book.id}>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">

@@ -10,7 +10,7 @@ export default async function Layout({
       <div className="sticky top-0 z-50">
         <NavBar showLogin />
       </div>
-      <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
+      <div className="flex h-screen flex-col md:flex-row md:overflow-hidden my-dark-style">
         {children}
       </div>
     </>

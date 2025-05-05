@@ -26,6 +26,10 @@ export function BlogNavLinks() {
               {
                 "bg-sky-100 text-blue-600":
                   link.shortName.toLowerCase() === searchParams.get("category"),
+              },
+              {
+                "my-dark-style":
+                  link.shortName.toLowerCase() !== searchParams.get("category"),
               }
             )}
           >

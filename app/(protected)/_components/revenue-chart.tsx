@@ -23,11 +23,11 @@ export default async function RevenueChart() {
 
   if (!revenue || revenue.length === 0) {
     return (
-      <div className="w-full md:col-span-4">
+      <div className="w-full md:col-span-4 my-dark-style">
         <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
           Recent Revenue
         </h2>
-        <div className="rounded-xl bg-gray-50 p-4 min-h-[300px]">
+        <div className="rounded-xl bg-gray-50 p-4 min-h-[300px] my-dark-style">
           <p className="mt-4 text-gray-400">No data available.</p>
         </div>
       </div>
@@ -39,8 +39,8 @@ export default async function RevenueChart() {
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Recent Revenue
       </h2>
-      <div className="rounded-xl bg-gray-50 p-4">
-        <div className="sm:grid-cols-13 mt-0 grid grid-cols-12 items-end gap-2 rounded-md bg-white p-4 md:gap-4">
+      <div className="rounded-xl bg-gray-50 p-4 my-dark-style">
+        <div className="sm:grid-cols-13 mt-0 grid grid-cols-12 items-end gap-2 rounded-md bg-white p-4 md:gap-4 my-dark-style">
           <div
             className="mb-6 hidden flex-col justify-between text-sm text-gray-400 sm:flex"
             style={{ height: `${chartHeight}px` }}

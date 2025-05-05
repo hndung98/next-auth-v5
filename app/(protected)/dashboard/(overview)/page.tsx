@@ -13,7 +13,7 @@ import { lusitana } from "@/lib/fonts";
 
 export default function Page() {
   return (
-    <main>
+    <main className="my-dark-style">
       <h1 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>
         Overview
       </h1>

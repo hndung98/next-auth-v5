@@ -19,7 +19,7 @@ export function CreateForm() {
 
   return (
     <form action={formAction}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <div className="rounded-md bg-gray-50 p-4 md:p-6 my-dark-style">
         {/* Author Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
@@ -97,7 +97,7 @@ export function CreateForm() {
         </Button>
         <Link
           href="/dashboard/authors"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200 my-dark-style"
         >
           Cancel
         </Link>
@@ -117,7 +117,7 @@ export function EditForm({ author }: { author: Author }) {
 
   return (
     <form action={formAction}>
-      <div className="rounded-md bg-gray-50 p-4 md:p-6">
+      <div className="rounded-md bg-gray-50 p-4 md:p-6 my-dark-style">
         {/* Author Name */}
         <div className="mb-4">
           <label htmlFor="name" className="mb-2 block text-sm font-medium">
@@ -195,7 +195,7 @@ export function EditForm({ author }: { author: Author }) {
         </Button>
         <Link
           href="/dashboard/authors"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
+          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200 my-dark-style"
         >
           Cancel
         </Link>

@@ -7,7 +7,7 @@ export default async function Layout({
 }) {
   return (
     <>
-      <div className="sticky top-0 z-50">
+      <div className="sticky top-0 z-50 mb-1">
         <NavBar showLogin />
       </div>
       <div className="flex h-screen flex-col md:flex-row">{children}</div>
