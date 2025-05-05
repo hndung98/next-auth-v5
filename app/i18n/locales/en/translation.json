@@ -1,0 +1,15 @@
+{
+    "menu": {
+        "home": "Home"
+    },
+    "message": {
+        "confirm": "Are you sure?"
+    },
+    "word": {
+        "id": "id",
+        "name": "name",
+        "email": "email",
+        "role": "role",
+        "two_factor_auth": "two factor authentication"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "menu": {
+        "home": "Trang chủ"
+    },
+    "message": {
+        "confirm": "Bạn chắc chứ?"
+    },
+    "word": {
+        "id": "mã",
+        "name": "tên",
+        "email": "email",
+        "role": "chức vụ",
+        "two_factor_auth": "Xác thực 2 yếu tố"
+    }
+}

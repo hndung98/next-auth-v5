@@ -22,7 +22,7 @@ export const FloatingBox = () => {
       <div className="relative w-1/2 h-full">
         {inLeftPanel && (
           <div
-            className="absolute p-4 bg-white border border-gray-400 rounded-lg shadow-md transition-all duration-300"
+            className="absolute p-4 bg-white border border-gray-400 rounded-lg shadow-md transition-all duration-300 my-dark-style"
             style={{ top: `${position.top}px`, left: `${position.left}px` }}
             onMouseEnter={handleMouseEnter}
           >
@@ -40,7 +40,7 @@ export const FloatingBox = () => {
       <div className="relative w-1/2 h-full">
         {!inLeftPanel && (
           <div
-            className="absolute p-4 bg-white border border-gray-400 rounded-lg shadow-md transition-all duration-300"
+            className="absolute p-4 bg-white border border-gray-400 rounded-lg shadow-md transition-all duration-300 my-dark-style"
             style={{ top: `${position.top}px`, left: `${position.left}px` }}
             onMouseEnter={handleMouseEnter}
           >

@@ -1,5 +1,13 @@
+import acceptLanguage from "accept-language";
 import NextAuth from "next-auth";
+import { NextResponse } from "next/server";
 
+import {
+  cookieName,
+  fallbackLng,
+  headerName,
+  languages,
+} from "@/app/i18n/settings";
 import authConfig from "@/auth.config";
 import {
   DEFAULT_LOGIN_REDIRECT,
@@ -16,8 +24,8 @@ const checkPublicRoute = (route: string) => {
   );
 };
 
-export default auth((req) => {
-  const { nextUrl } = req;
+export default auth((req, res) => {
+  const { nextUrl, cookies } = req;
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -43,6 +51,36 @@ export default auth((req) => {
     return Response.redirect(
       new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
     );
+  }
+
+  let lng: string | undefined | null;
+  if (cookies.has(cookieName))
+    lng = acceptLanguage.get(cookies.get(cookieName)?.value);
+  if (!lng) lng = acceptLanguage.get(req.headers.get("Accept-Language"));
+  if (!lng) lng = fallbackLng;
+
+  const lngInPath = languages.find((loc) =>
+    req.nextUrl.pathname.startsWith(`/${loc}`)
+  );
+  const headers = new Headers(req.headers);
+  headers.set(headerName, lngInPath || lng);
+
+  // Redirect if lng in path is not supported
+  if (!lngInPath && !req.nextUrl.pathname.startsWith("/_next")) {
+    // return NextResponse.redirect(
+    //   new URL(`/${lng}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url)
+    // );
+  } else {
+    if (req.headers.has("referer")) {
+      const refererUrl = new URL(req.headers.get("referer") || "");
+      const lngInReferer = languages.find((l) =>
+        refererUrl.pathname.startsWith(`/${l}`)
+      );
+      const response = NextResponse.next({ headers });
+      if (lngInReferer) response.cookies.set(cookieName, lngInReferer);
+      return response;
+    }
+    return NextResponse.next({ headers });
   }
 
   return;

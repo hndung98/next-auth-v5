@@ -1,7 +1,22 @@
+import { languages } from "@/app/i18n/settings";
+import { getT } from "@/app/i18n";
+
+export async function generateStaticParams() {
+  return languages.map((lng) => ({ lng }));
+}
+
+export async function generateMetadata() {
+  const { t } = await getT("client-page");
+  return {
+    title: t("title"),
+  };
+}
+
 export default async function Layout({
   children,
 }: {
   children: React.ReactNode;
+  params: Promise<{ lng: string }>;
 }) {
   return (
     <>

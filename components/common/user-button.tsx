@@ -39,16 +39,28 @@ export const UserButton = ({ isPublic }: UserButtonProps) => {
             Dashboard
           </DropdownMenuItem>
         </MenuItemButton>
-        <MenuItemButton href="/client">
+        <MenuItemButton href="/en/client">
           <DropdownMenuItem>
             <PiDevices className="h-4 w-4 mr-2" />
-            Client Side
+            Client (En)
           </DropdownMenuItem>
         </MenuItemButton>
-        <MenuItemButton href="/server">
+        <MenuItemButton href="/vi/client">
+          <DropdownMenuItem>
+            <PiDevices className="h-4 w-4 mr-2" />
+            Client (Vi)
+          </DropdownMenuItem>
+        </MenuItemButton>
+        <MenuItemButton href="/en/server">
           <DropdownMenuItem>
             <GrServer className="h-4 w-4 mr-2" />
-            Server Side
+            Server (En)
+          </DropdownMenuItem>
+        </MenuItemButton>
+        <MenuItemButton href="/vi/server">
+          <DropdownMenuItem>
+            <GrServer className="h-4 w-4 mr-2" />
+            Server (Vi)
           </DropdownMenuItem>
         </MenuItemButton>
         <MenuItemButton href="/dashboard/settings">
