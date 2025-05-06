@@ -75,7 +75,6 @@ export const CreateForm = () => {
 
   function onSubmit(values: z.infer<typeof InvoiceSchema>) {
     startTransition(() => {
-      console.log(values);
       const formData = new FormData();
       formData.append("userId", values.userId);
       formData.append("amount", values.amount.toString());
@@ -85,8 +84,6 @@ export const CreateForm = () => {
 
       createInvoice(formData).then((res) => {
         if (res.message) setError(res.message);
-        console.log(res);
-
         setSuccess("");
       });
     });
@@ -95,30 +92,6 @@ export const CreateForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* <FormField
-          control={form.control}
-          name="userId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Customer</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose a Customer" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {customers.map((customer) => (
-                    <SelectItem key={customer.id} value={customer.id}>
-                      {customer.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <FormField
           control={form.control}
           name="userId"
