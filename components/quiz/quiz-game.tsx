@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useParams } from "next/navigation";
 
 import {
   Select,
@@ -28,16 +27,6 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
-  const { lng } = useParams();
-
-  // useEffect(() => {
-  //   async function loadQuestions() {
-  //     const res = await fetch("/quiz/quiz_1.json");
-  //     const data = await res.json();
-  //     setQuestions(data);
-  //   }
-  //   loadQuestions();
-  // }, []);
 
   const handleAnswer = (selected: string) => {
     if (questions.length === 0) return;
@@ -78,7 +67,6 @@ export default function QuizGame({ data }: { data: QuizData[] }) {
           </SelectContent>
         </Select>
         <p>Loading...</p>
-        <p>{"lang: " + lng}</p>
       </div>
     );
   }
