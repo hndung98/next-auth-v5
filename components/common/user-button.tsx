@@ -16,6 +16,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
+const menuItems = [
+  { name: "Home", href: "/dashboard", icon: GrUserAdmin },
+  { name: "Client (En)", href: "/en/client", icon: PiDevices },
+  { name: "Client (Vi)", href: "/vi/client", icon: PiDevices },
+  { name: "Server (En)", href: "/en/server", icon: GrServer },
+  { name: "Server (Vi)", href: "/vi/server", icon: GrServer },
+  { name: "Settings", href: "/dashboard/settings", icon: IoSettingsOutline },
+];
+
 type UserButtonProps = {
   isPublic?: boolean;
 };
@@ -33,42 +42,20 @@ export const UserButton = ({ isPublic }: UserButtonProps) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="[&_*]:cursor-pointer w-40" align="end">
-        <MenuItemButton href="/dashboard">
-          <DropdownMenuItem>
-            <GrUserAdmin className="h-4 w-4 mr-2" />
-            Dashboard
-          </DropdownMenuItem>
-        </MenuItemButton>
-        <MenuItemButton href="/en/client">
-          <DropdownMenuItem>
-            <PiDevices className="h-4 w-4 mr-2" />
-            Client (En)
-          </DropdownMenuItem>
-        </MenuItemButton>
-        <MenuItemButton href="/vi/client">
-          <DropdownMenuItem>
-            <PiDevices className="h-4 w-4 mr-2" />
-            Client (Vi)
-          </DropdownMenuItem>
-        </MenuItemButton>
-        <MenuItemButton href="/en/server">
-          <DropdownMenuItem>
-            <GrServer className="h-4 w-4 mr-2" />
-            Server (En)
-          </DropdownMenuItem>
-        </MenuItemButton>
-        <MenuItemButton href="/vi/server">
-          <DropdownMenuItem>
-            <GrServer className="h-4 w-4 mr-2" />
-            Server (Vi)
-          </DropdownMenuItem>
-        </MenuItemButton>
-        <MenuItemButton href="/dashboard/settings">
-          <DropdownMenuItem>
-            <IoSettingsOutline className="h-4 w-4 mr-2" />
-            Settings
-          </DropdownMenuItem>
-        </MenuItemButton>
+        {menuItems.map((item, index) => {
+          const LinkIcon = item.icon;
+          return (
+            <MenuItemButton
+              key={"menu-item-on-user-button-" + index}
+              href={item.href}
+            >
+              <DropdownMenuItem>
+                <LinkIcon className="h-4 w-4 mr-2" />
+                {item.name}
+              </DropdownMenuItem>
+            </MenuItemButton>
+          );
+        })}
         <LogoutButton reload={isPublic}>
           <DropdownMenuItem>
             <IoMdExit className="h-4 w-4 mr-2" />
