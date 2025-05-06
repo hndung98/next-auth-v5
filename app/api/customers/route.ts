@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("query") || "";
 
-    const customers = await getCustomers(query, 1);
+    const customers = await getCustomers(query, 1, 5);
 
     const res = customers.map((customer) => ({
       id: customer.id,
