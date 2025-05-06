@@ -14,6 +14,7 @@ import { createInvoice, updateInvoice } from "@/actions/invoice";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
+import ComboBox from "@/components/ui/combobox";
 import {
   Form,
   FormControl,
@@ -33,6 +34,19 @@ import {
 import { getCurrentDateFormatted } from "@/lib/utils";
 import { InvoiceSchema } from "@/schemas";
 
+async function getCustomers(
+  query: string,
+  offset = 1,
+  size = 10
+): Promise<CustomerInfo[]> {
+  console.log({ offset, size });
+  return fetch(`/api/customers?query=${query}`)
+    .then((res) => res.json())
+    .then((data) => {
+      return data;
+    });
+}
+
 type CustomerInfo = {
   id: string;
   name: string;
@@ -47,7 +61,7 @@ export const CreateForm = () => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [customers, setCustomers] = useState<CustomerInfo[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<CustomerInfo>();
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(today);
   const [month, setMonth] = useState(nextMonth);
@@ -82,16 +96,10 @@ export const CreateForm = () => {
     });
   }
 
-  useEffect(() => {
-    fetch("/api/customers")
-      .then((res) => res.json())
-      .then(setCustomers);
-  }, []);
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
+        {/* <FormField
           control={form.control}
           name="userId"
           render={({ field }) => (
@@ -111,6 +119,29 @@ export const CreateForm = () => {
                   ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        /> */}
+        <FormField
+          control={form.control}
+          name="userId"
+          render={({ field: { value, onChange, ...fieldProps } }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Customer</FormLabel>
+              <ComboBox<CustomerInfo>
+                {...fieldProps}
+                title="Customer"
+                valueKey="id"
+                value={selectedCustomer}
+                searchFn={getCustomers}
+                renderText={(customer: CustomerInfo) => `${customer?.name}`}
+                onChange={(customer) => {
+                  console.log({ value });
+                  onChange(customer.id);
+                  setSelectedCustomer(customer);
+                }}
+              />
               <FormMessage />
             </FormItem>
           )}
