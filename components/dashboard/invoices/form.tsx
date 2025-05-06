@@ -43,6 +43,10 @@ async function getCustomers(
   return fetch(`/api/customers?query=${query}`).then((res) => res.json());
 }
 
+async function getCustomerById(id: string): Promise<CustomerInfo> {
+  return fetch(`/api/customers/${id}`).then((res) => res.json());
+}
+
 type CustomerInfo = {
   id: string;
   name: string;
@@ -244,7 +248,7 @@ export const CreateForm = () => {
             Create
           </Button>
           <Link
-            href="/dashboard/customers"
+            href="/dashboard/invoices"
             className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200 my-dark-style"
           >
             Cancel
@@ -263,7 +267,7 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const [customers, setCustomers] = useState<CustomerInfo[]>([]);
+  const [selectedCustomer, setSelectedCustomer] = useState<CustomerInfo>();
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(today);
   const [month, setMonth] = useState(nextMonth);
@@ -299,9 +303,9 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
   }
 
   useEffect(() => {
-    fetch("/api/customers")
+    fetch(`/api/customers/${invoice.userId}`)
       .then((res) => res.json())
-      .then(setCustomers);
+      .then(setSelectedCustomer);
   }, []);
 
   return (
@@ -310,23 +314,24 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
         <FormField
           control={form.control}
           name="userId"
-          render={({ field }) => (
-            <FormItem>
+          render={({ field: { value, onChange, ...fieldProps } }) => (
+            <FormItem className="flex flex-col">
               <FormLabel>Customer</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose a Customer" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {customers.map((customer) => (
-                    <SelectItem key={customer.id} value={customer.id}>
-                      {customer.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <ComboBox<CustomerInfo>
+                {...fieldProps}
+                title="Customer"
+                valueKey="id"
+                value={selectedCustomer}
+                searchFn={getCustomers}
+                oldValueId={invoice.userId}
+                getOldValueFn={getCustomerById}
+                renderText={(customer: CustomerInfo) => `${customer?.name}`}
+                onChange={(customer) => {
+                  console.log({ value });
+                  onChange(customer.id);
+                  setSelectedCustomer(customer);
+                }}
+              />
               <FormMessage />
             </FormItem>
           )}
