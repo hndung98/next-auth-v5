@@ -23,21 +23,25 @@ interface Props<T extends object> {
   title?: string;
   value?: T;
   valueKey: keyof T;
+  oldValueId?: string;
   disabled?: boolean;
   size?: number;
   renderText: (value: T) => string;
   onChange?: (value: T) => void;
   searchFn: (search: string, offset: number, size: number) => Promise<T[]>;
+  getOldValueFn?: (id: string) => Promise<T>;
 }
 const ComboBox = <T extends object>({
   title,
   value,
   valueKey,
+  oldValueId,
   disabled = false,
   size = 25,
   renderText,
   onChange,
   searchFn,
+  getOldValueFn,
 }: Props<T>) => {
   const [search, setSearch] = useState<string>("");
   const [options, setOptions] = useState<T[]>([]);
@@ -51,7 +55,16 @@ const ComboBox = <T extends object>({
     if (searchResult?.length === 0 || searchResult?.length < size) {
       setCanLoadMore(false);
     }
-    console.log({ searchResult });
+    let oldValue: T;
+    if (oldValueId && getOldValueFn) {
+      oldValue = await getOldValueFn(oldValueId);
+      if (oldValue) {
+        const existingValue = searchResult.find(
+          (value) => value[valueKey] === oldValue[valueKey]
+        );
+        if (!existingValue) searchResult.push(oldValue);
+      }
+    }
     setOptions(searchResult);
     setIsLoading(false);
   }, [debouncedsearch, searchFn, size]);
