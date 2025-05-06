@@ -40,11 +40,7 @@ async function getCustomers(
   size = 10
 ): Promise<CustomerInfo[]> {
   console.log({ offset, size });
-  return fetch(`/api/customers?query=${query}`)
-    .then((res) => res.json())
-    .then((data) => {
-      return data;
-    });
+  return fetch(`/api/customers?query=${query}`).then((res) => res.json());
 }
 
 type CustomerInfo = {
