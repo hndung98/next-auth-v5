@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UserRole } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -30,7 +31,6 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { SettingsSchema } from "@/schemas";
-import { UserRole } from "@prisma/client";
 
 export const SettingsForm = () => {
   const { update } = useSession();
@@ -74,11 +74,11 @@ export const SettingsForm = () => {
   }
 
   return (
-    <Card className="w-full flex flex-col justify-start items-center">
-      <CardHeader>
+    <Card className="w-full max-w-2xl flex flex-col justify-start items-center">
+      <CardHeader className="w-full">
         <p className="text-2xl font-semibold text-center">Settings</p>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-4">
@@ -159,7 +159,6 @@ export const SettingsForm = () => {
                         <FormLabel>Enable two factor anthentication</FormLabel>
                         <FormControl>
                           <Switch
-                            className=""
                             disabled={isPending}
                             checked={field.value}
                             onCheckedChange={field.onChange}
@@ -181,7 +180,7 @@ export const SettingsForm = () => {
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className="w-[480px]">
+                      <SelectTrigger className="w-full">
                         <SelectValue placeholder="Choose a role" />
                       </SelectTrigger>
                       <SelectContent>

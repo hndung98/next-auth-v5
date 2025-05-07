@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { SettingsForm } from "@/components/settings/settings-form";
+import { SettingsForm } from "@/components/settings/form";
 
 export const metadata: Metadata = {
   title: "Admin - Settings",
