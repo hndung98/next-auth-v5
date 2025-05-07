@@ -4,6 +4,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { IoMdLogIn } from "react-icons/io";
 
 import { UserButton } from "@/components/common/user-button";
 import { Button } from "@/components/ui/button";
@@ -36,7 +37,11 @@ function ModeToggle() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button
+          variant="outline"
+          size="icon"
+          className="cursor-pointer bg-transparent"
+        >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
           <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
           <span className="sr-only">Toggle theme</span>
@@ -80,9 +85,9 @@ export const NavBar = ({ showLogin }: { showLogin: boolean }) => {
           <UserButton isPublic={true} />
         ) : (
           showLogin && (
-            <Button asChild variant="link">
+            <Button asChild variant="outline" size="icon">
               <Link href={`/auth/login?callbackUrl=${encodedCallbackUrl}`}>
-                Login
+                <IoMdLogIn className="h-[1.2rem] w-[1.2rem]" />
               </Link>
             </Button>
           )

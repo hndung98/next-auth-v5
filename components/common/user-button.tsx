@@ -8,6 +8,7 @@ import { PiDevices } from "react-icons/pi";
 
 import { LogoutButton, MenuItemButton } from "@/components/common/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -33,13 +34,19 @@ export const UserButton = ({ isPublic }: UserButtonProps) => {
   const user = useCurrentUser();
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
-        <Avatar>
-          <AvatarImage src={user?.image || ""} />
-          <AvatarFallback className="bg-blue-400 cursor-pointer">
-            <FaUser className="text-white" />
-          </AvatarFallback>
-        </Avatar>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          size="icon"
+          className="cursor-pointer bg-blue-400 dark:bg-gray-800"
+        >
+          <Avatar>
+            <AvatarImage src={user?.image || ""} />
+            <AvatarFallback className="cursor-pointer bg-blue-400 dark:bg-gray-800">
+              <FaUser className="text-white" />
+            </AvatarFallback>
+          </Avatar>
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="[&_*]:cursor-pointer w-40" align="end">
         {menuItems.map((item, index) => {
