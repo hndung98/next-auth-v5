@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { currentUser } from "@/lib/auth";
 import { getCustomerById } from "@/data/customer";
+import { currentUser } from "@/lib/auth";
 
 export async function GET(
   _req: NextRequest,
