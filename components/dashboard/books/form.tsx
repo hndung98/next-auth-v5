@@ -29,6 +29,19 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BookSchema } from "@/schemas";
+import ComboBox from "@/components/ui/combobox";
+
+async function getAuthors(
+  query: string,
+  _offset = 1,
+  _size = 10
+): Promise<AuthorInfo[]> {
+  return fetch(`/api/authors?query=${query}`).then((res) => res.json());
+}
+
+async function getAuthorById(id: string): Promise<AuthorInfo> {
+  return fetch(`/api/authors/${id}`).then((res) => res.json());
+}
 
 type AuthorInfo = {
   id: string;
@@ -42,7 +55,7 @@ export function CreateForm() {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [files, setFiles] = useState<FileList | null>(null);
-  const [authors, setAuthors] = useState<AuthorInfo[]>([]);
+  const [selectedAuthor, setSelectedAuthor] = useState<AuthorInfo>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filesList = event.target.files;
@@ -66,7 +79,6 @@ export function CreateForm() {
 
   function onSubmit(values: z.infer<typeof BookSchema>) {
     startTransition(() => {
-      console.log(values);
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("authorId", values.authorId);
@@ -81,12 +93,6 @@ export function CreateForm() {
     });
   }
 
-  useEffect(() => {
-    fetch("/api/authors")
-      .then((res) => res.json())
-      .then(setAuthors);
-  }, []);
-
   return (
     <Form {...form}>
       <form
@@ -94,6 +100,29 @@ export function CreateForm() {
         className="space-y-6 max-w-[780px]"
       >
         <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="authorId"
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Author</FormLabel>
+                <ComboBox<AuthorInfo>
+                  {...fieldProps}
+                  title="Author"
+                  valueKey="id"
+                  value={selectedAuthor}
+                  searchFn={getAuthors}
+                  renderText={(author: AuthorInfo) => `${author?.name}`}
+                  onChange={(author) => {
+                    console.log({ value });
+                    onChange(author.id);
+                    setSelectedAuthor(author);
+                  }}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="title"
@@ -108,33 +137,6 @@ export function CreateForm() {
                     type="text"
                   />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="authorId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Author</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select an author" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {authors.map((author) => (
-                      <SelectItem key={author.id} value={author.id}>
-                        {author.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
                 <FormMessage />
               </FormItem>
             )}
@@ -238,7 +240,7 @@ export function EditForm({ book }: { book: Book }) {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [files, setFiles] = useState<FileList | null>(null);
-  const [authors, setAuthors] = useState<AuthorInfo[]>([]);
+  const [selectedAuthor, setSelectedAuthor] = useState<AuthorInfo>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filesList = event.target.files;
@@ -262,7 +264,6 @@ export function EditForm({ book }: { book: Book }) {
 
   function onSubmit(values: z.infer<typeof BookSchema>) {
     startTransition(() => {
-      console.log(values);
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("authorId", values.authorId);
@@ -278,9 +279,9 @@ export function EditForm({ book }: { book: Book }) {
   }
 
   useEffect(() => {
-    fetch("/api/authors")
+    fetch(`/api/authors/${book.authorId}`)
       .then((res) => res.json())
-      .then(setAuthors);
+      .then(setSelectedAuthor);
   }, []);
 
   return (
@@ -290,6 +291,31 @@ export function EditForm({ book }: { book: Book }) {
         className="space-y-6 max-w-[780px]"
       >
         <div className="space-y-4">
+          <FormField
+            control={form.control}
+            name="authorId"
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Author</FormLabel>
+                <ComboBox<AuthorInfo>
+                  {...fieldProps}
+                  title="Author"
+                  valueKey="id"
+                  value={selectedAuthor}
+                  searchFn={getAuthors}
+                  oldValueId={book.authorId}
+                  getOldValueFn={getAuthorById}
+                  renderText={(author: AuthorInfo) => `${author?.name}`}
+                  onChange={(author) => {
+                    console.log({ value });
+                    onChange(author.id);
+                    setSelectedAuthor(author);
+                  }}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <FormField
             control={form.control}
             name="title"
@@ -304,33 +330,6 @@ export function EditForm({ book }: { book: Book }) {
                     type="text"
                   />
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="authorId"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Author</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={book.authorId || field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select an author" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {authors.map((author) => (
-                      <SelectItem key={author.id} value={author.id}>
-                        {author.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
                 <FormMessage />
               </FormItem>
             )}
