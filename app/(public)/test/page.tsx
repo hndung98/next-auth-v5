@@ -1,35 +1,30 @@
-import { FetchButton } from "./test-button";
+import Chat from "./chat";
 
 export default async function Page() {
+  const username = "User" + Math.floor(Math.random() * 1000);
   return (
     <>
       <div className="w-full flex-none md:w-64 justify-center items-center">
         <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
           <div className="hidden h-auto w-full grow rounded-md md:block text-center">
-            {"Choose level..."}
+            {"Online users"}
           </div>
           <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
-            {"Top 5 highest scores..."}
+            {"User 1"}
           </div>
           <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
-            {"Advertising..."}
+            {"User 2"}
           </div>
           <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
-            {"Something else..."}
+            {"User 3"}
           </div>
         </div>
       </div>
       <div className="flex-grow p-4 md:overflow-y-auto md:p-6 my-dark-style">
         <div className="p-4 text-center space-y-6">
-          <h1>{"(Test)"}</h1>
+          <h1>{"(demo)"}</h1>
           <div>
-            <FetchButton text="fetch customers" apiUrl="/api/customers" />
-          </div>
-          <div>
-            <FetchButton
-              text="fetch customer 123"
-              apiUrl="/api/customers/123456"
-            />
+            <Chat username={username} />
           </div>
         </div>
       </div>
