@@ -1,4 +1,4 @@
-import { GiKatana, GiWhirlwind, GiFireExtinguisher } from "react-icons/gi";
+import { GiWhirlwind, GiFireExtinguisher } from "react-icons/gi";
 
 import { lusitana } from "@/lib/fonts";
 

@@ -40,7 +40,9 @@ async function getCustomers(
   size = 10
 ): Promise<CustomerInfo[]> {
   console.log({ offset, size });
-  return fetch(`/api/customers?query=${query}`).then((res) => res.json());
+  return fetch(
+    `/api/customers?offset=${offset}&size=${size}&query=${query}`
+  ).then((res) => res.json());
 }
 
 async function getCustomerById(id: string): Promise<CustomerInfo> {
@@ -304,7 +306,7 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
     fetch(`/api/customers/${invoice.userId}`)
       .then((res) => res.json())
       .then(setSelectedCustomer);
-  }, []);
+  }, [invoice.userId]);
 
   return (
     <Form {...form}>

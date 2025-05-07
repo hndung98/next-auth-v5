@@ -67,7 +67,7 @@ const ComboBox = <T extends object>({
     }
     setOptions(searchResult);
     setIsLoading(false);
-  }, [debouncedsearch, searchFn, size]);
+  }, [debouncedsearch, searchFn, getOldValueFn, oldValueId, size, valueKey]);
 
   const getMoreOptions = useCallback(async () => {
     setIsLoading(true);

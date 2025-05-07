@@ -12,6 +12,7 @@ import { createBook, updateBook } from "@/actions/book";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from "@/components/ui/button";
+import ComboBox from "@/components/ui/combobox";
 import {
   Form,
   FormControl,
@@ -21,22 +22,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { BookSchema } from "@/schemas";
-import ComboBox from "@/components/ui/combobox";
 
 async function getAuthors(
   query: string,
-  _offset = 1,
-  _size = 10
+  offset = 1,
+  size = 10
 ): Promise<AuthorInfo[]> {
-  return fetch(`/api/authors?query=${query}`).then((res) => res.json());
+  return fetch(
+    `/api/authors?offset=${offset}&size=${size}&query=${query}`
+  ).then((res) => res.json());
 }
 
 async function getAuthorById(id: string): Promise<AuthorInfo> {
@@ -282,7 +277,7 @@ export function EditForm({ book }: { book: Book }) {
     fetch(`/api/authors/${book.authorId}`)
       .then((res) => res.json())
       .then(setSelectedAuthor);
-  }, []);
+  }, [book.authorId]);
 
   return (
     <Form {...form}>
