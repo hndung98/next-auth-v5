@@ -22,7 +22,13 @@ export async function GET(
       );
     }
 
-    return NextResponse.json(author);
+    const res = {
+      id: author.id,
+      name: author.name,
+      nationality: author.nationality,
+    };
+
+    return NextResponse.json(res);
   } catch (error) {
     console.log(error);
     return new NextResponse(null, { status: 500 });

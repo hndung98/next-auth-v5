@@ -11,9 +11,15 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("query") || "";
 
-    const authors = await getAuthors(query, 1);
+    const authors = await getAuthors(query, 1, 5);
 
-    return NextResponse.json(authors);
+    const res = authors.map((author) => ({
+      id: author.id,
+      name: author.name,
+      nationality: author.nationality,
+    }));
+
+    return NextResponse.json(res);
   } catch (error) {
     console.log(error);
     return new NextResponse(null, { status: 500 });
