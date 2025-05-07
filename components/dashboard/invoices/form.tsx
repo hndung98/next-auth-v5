@@ -295,8 +295,6 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
 
       updateInvoice(invoice.id, formData).then((res) => {
         if (res.message) setError(res.message);
-        console.log(res);
-
         setSuccess("");
       });
     });
