@@ -116,6 +116,10 @@
   @apply dark:bg-gray-900 dark:text-white;
 }
 
+.my-button-dark-style {
+  @apply dark:bg-gray-900 dark:text-white dark:hover:bg-gray-700;
+}
+
 html,
 body {
   height: 100%;

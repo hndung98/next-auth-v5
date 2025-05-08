@@ -29,6 +29,10 @@ const navItems = [
     name: "Quiz",
     href: "/quiz",
   },
+  {
+    name: "Chat",
+    href: "/chat",
+  },
 ];
 
 function ModeToggle() {

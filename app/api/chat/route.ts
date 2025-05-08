@@ -1,3 +1,4 @@
+import { currentUser } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 import Pusher from "pusher";
 
@@ -8,17 +9,16 @@ const pusher = new Pusher({
   cluster: process.env.PUSHER_CLUSTER!,
 });
 
-// using pusher-js
-// const pusher = new Pusher(process.env.PUSHER_KEY!, {
-//   cluster: process.env.PUSHER_CLUSTER!,
-// });
-
 export async function POST(req: NextRequest) {
   try {
-    const { username, message } = await req.json();
+    const { roomId, message } = await req.json();
 
-    const trigger = await pusher.trigger("chat", "message", {
-      username,
+    const user = await currentUser();
+    if (!user?.role) return new NextResponse(null, { status: 403 });
+
+    const trigger = await pusher.trigger(roomId, "message", {
+      userId: user.id,
+      username: user.name,
       message,
     });
 
@@ -27,7 +27,6 @@ export async function POST(req: NextRequest) {
       trigger: trigger,
     };
     return NextResponse.json(res);
-    // return new Response(JSON.stringify({ success: true }));
   } catch (error) {
     console.log(error);
     return new NextResponse(null, { status: 500 });
