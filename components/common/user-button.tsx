@@ -39,7 +39,7 @@ export const UserButton = ({ isPublic }: UserButtonProps) => {
         <Button
           variant="outline"
           size="icon"
-          className="cursor-pointer bg-blue-400 dark:bg-gray-800"
+          className="cursor-pointer border-0 bg-transparent dark:border-0 dark:bg-transparent"
         >
           <Avatar>
             <AvatarImage src={user?.image || ""} />

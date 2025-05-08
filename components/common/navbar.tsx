@@ -79,7 +79,7 @@ export const NavBar = ({ showLogin }: { showLogin: boolean }) => {
           </Button>
         ))}
       </div>
-      <div className="space-x-2">
+      <div className="space-x-2 flex gap-x-0.5">
         <ModeToggle />
         {user?.id ? (
           <UserButton isPublic={true} />
