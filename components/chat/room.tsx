@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
-import Pusher from "pusher-js";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Pusher from "pusher-js";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -47,11 +47,18 @@ export default function Room({
   });
 
   function onSubmit(values: z.infer<typeof messageSchema>) {
-    startTransition(() => {
-      const message = values.message;
-      sendMessage(roomId, message).then((res) => {
-        console.log("sendMessage-res", res);
-      });
+    const message = values.message;
+    if (!message) return;
+    startTransition(async () => {
+      const res = await sendMessage(roomId, message);
+      if (res) {
+        setTimeout(() => {
+          form.reset();
+          form.setFocus("message");
+        }, 300);
+      } else {
+        alert("err");
+      }
     });
   }
 
@@ -74,7 +81,10 @@ export default function Room({
     };
   }, [roomId]);
 
+  const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
   const sendMessage = async (roomId: string, message: string) => {
+    await delay(500);
     const res = await fetch("/api/chat", {
       method: "POST",
       body: JSON.stringify({
@@ -85,9 +95,17 @@ export default function Room({
     const data = await res.json();
     console.log(data);
     if (res.ok) {
-      form.setValue("message", "");
+      return true;
     } else {
-      alert("Something went wrong...");
+      return false;
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.ctrlKey && e.key === "Enter") {
+      e.preventDefault(); // prevent creating new line
+      console.log(form.getValues());
+      onSubmit(form.getValues());
     }
   };
 
@@ -129,6 +147,8 @@ export default function Room({
                           className="resize-none"
                           placeholder="Type your message here."
                           id="message-text-area"
+                          disabled={isPending}
+                          onKeyDown={handleKeyDown}
                           {...field}
                         />
                         <Button type="submit" disabled={isPending}>
