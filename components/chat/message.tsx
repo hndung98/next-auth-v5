@@ -30,7 +30,9 @@ export const Message = ({
         <span className="py-1 px-2 inline-block max-w-[90%] rounded-md bg-gray-200 dark:bg-gray-600">
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className="text-end">{message}</TooltipTrigger>
+              <TooltipTrigger className="text-end whitespace-pre-line">
+                {message}
+              </TooltipTrigger>
               <TooltipContent>
                 <p>{"You, " + (createAt ?? "")}</p>
               </TooltipContent>
@@ -59,7 +61,9 @@ export const Message = ({
         <span className="py-1 px-1 inline-block rounded-md bg-gray-200 dark:bg-gray-600">
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger className="text-start">{message}</TooltipTrigger>
+              <TooltipTrigger className="text-start whitespace-pre-line">
+                {message}
+              </TooltipTrigger>
               <TooltipContent>
                 <p>{createAt ?? ""}</p>
               </TooltipContent>
