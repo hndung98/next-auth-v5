@@ -74,7 +74,21 @@ export default function Room({
     Pusher.logToConsole = true;
     const channel = pusher.subscribe(roomId);
     channel.bind("message", function (data: Message) {
-      setMessages((prev) => [...prev, data]);
+      setMessages((prev) => {
+        if (prev.length > 0) {
+          let lastUserId = prev[prev.length - 1].userId;
+          if (lastUserId === data.userId) {
+            return [
+              ...prev,
+              {
+                ...data,
+                username: "",
+              },
+            ];
+          }
+        }
+        return [...prev, data];
+      });
       if (data.userId !== user?.id) console.log("You have new message.", data);
     });
 
