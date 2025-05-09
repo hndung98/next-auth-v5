@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Message } from "./message";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const messageSchema = z.object({
   message: z.string().nonempty("Message cannot be empty"),
@@ -26,6 +27,7 @@ type Message = {
   userId: string;
   username: string;
   message: string;
+  createAt: string;
 };
 
 export default function Room({
@@ -34,6 +36,7 @@ export default function Room({
   room?: { id?: string; name?: string };
 }) {
   const roomId = room?.id ?? "chat";
+  const user = useCurrentUser();
 
   const [isPending, startTransition] = useTransition();
 
@@ -71,8 +74,8 @@ export default function Room({
     Pusher.logToConsole = true;
     const channel = pusher.subscribe(roomId);
     channel.bind("message", function (data: Message) {
-      console.log("data", data);
       setMessages((prev) => [...prev, data]);
+      if (data.userId !== user?.id) console.log("You have new message.", data);
     });
 
     return () => {
@@ -109,9 +112,6 @@ export default function Room({
     }
   };
 
-  useEffect(() => {
-    console.log({ messages });
-  }, [messages]);
   if (!room || !room?.id) return <div>No selected room.</div>;
   return (
     <div className="p-4 max-w-2xl mx-auto">
@@ -123,7 +123,8 @@ export default function Room({
             key={`msg-${idx}`}
             message={msg.message}
             username={msg.username}
-            userId={msg.userId}
+            isOwner={msg.userId === user?.id}
+            createAt={msg.createAt}
           />
         ))}
       </div>

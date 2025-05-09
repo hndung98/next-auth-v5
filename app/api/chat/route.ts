@@ -16,10 +16,13 @@ export async function POST(req: NextRequest) {
     const user = await currentUser();
     if (!user?.role) return new NextResponse(null, { status: 403 });
 
+    const now = new Date();
+
     const trigger = await pusher.trigger(roomId, "message", {
       userId: user.id,
       username: user.name,
       message,
+      createAt: now.toDateString() + " " + now.toLocaleTimeString("it-IT"),
     });
 
     const res = {
