@@ -76,8 +76,7 @@ export default function Room({
     channel.bind("message", function (data: Message) {
       setMessages((prev) => {
         if (prev.length > 0) {
-          let lastUserId = prev[prev.length - 1].userId;
-          if (lastUserId === data.userId) {
+          if (prev[prev.length - 1].userId === data.userId) {
             return [
               ...prev,
               {

@@ -60,7 +60,7 @@ export const Message = ({
             </TooltipProvider>
           </span>
         ) : (
-          <span className="w-6 h-6 cursor-pointer"></span>
+          <span className="w-6 h-6"></span>
         )}
         <span
           className={clsx(
