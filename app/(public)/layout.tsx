@@ -1,7 +1,5 @@
-import Link from "next/link";
-
-import { NavBar } from "@/components/common/navbar";
 import { PublicFooter } from "@/components/common/footer";
+import { NavBar } from "@/components/common/navbar";
 
 export default async function Layout({
   children,

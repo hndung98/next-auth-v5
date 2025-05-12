@@ -1,21 +1,6 @@
 import Link from "next/link";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 
-const links = [
-  {
-    name: "Blogs",
-    href: "/blogs",
-  },
-  {
-    name: "Gallery",
-    href: "/gallery",
-  },
-  {
-    name: "Quiz",
-    href: "/quiz",
-  },
-];
-
 export const PublicFooter = () => {
   return (
     <footer className="row-start-3 flex gap-[24px] py-2">
