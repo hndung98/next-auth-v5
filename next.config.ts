@@ -5,6 +5,11 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "/**", // allow image on localhost
+      },
+      {
         protocol: "https",
         hostname: "res.cloudinary.com",
         pathname: "/**", // allow image on Cloudinary
