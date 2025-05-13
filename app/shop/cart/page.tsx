@@ -1,3 +1,4 @@
+import { CartIcon } from "@/components/shop/cart/CartIcon";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,7 +8,12 @@ export const metadata: Metadata = {
 export default async function Page() {
   return (
     <div className="w-full min-h-screen">
-      <main>Cart Page</main>
+      <main>
+        <h3>Cart Page</h3>
+        <div className="mt-4">
+          <CartIcon itemCount={9} />
+        </div>
+      </main>
     </div>
   );
 }

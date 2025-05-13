@@ -18,9 +18,7 @@ export default async function Page() {
             {"Item 3"}
           </div>
         </div>
-      </div>
-      <div className="flex-grow p-4 md:overflow-y-auto md:p-6 my-dark-style">
-        <div className="p-4 text-center space-y-6 min-h-screen">
+        <div className="mt-4 p-4 text-center space-y-6 min-h-screen">
           <div>
             <Link href={"/shop/products"}>All Products</Link>
           </div>
@@ -35,6 +33,7 @@ export default async function Page() {
           </div>
         </div>
       </div>
+      <div className="flex-grow p-4 md:overflow-y-auto md:p-6 my-dark-style"></div>
     </div>
   );
 }
