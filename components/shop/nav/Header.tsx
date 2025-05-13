@@ -10,7 +10,7 @@ export function Header({ channel }: { channel: string }) {
         <div className="flex h-16 justify-between gap-4 md:gap-8">
           <div className="flex items-center">
             <Link href={"/shop"}>
-              <IoLogoFreebsdDevil className="w-8 h-8" />
+              <IoLogoFreebsdDevil className="w-8 h-8 text-green-600 dark:text-green-300" />
             </Link>
           </div>
           <Nav channel={channel} />
