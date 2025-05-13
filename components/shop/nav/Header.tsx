@@ -1,7 +1,7 @@
 import { IoLogoFreebsdDevil } from "react-icons/io";
-
-import { Nav } from "./Nav";
 import Link from "next/link";
+
+import { Nav } from "@/components/shop/nav/Nav";
 
 export function Header({ channel }: { channel: string }) {
   return (

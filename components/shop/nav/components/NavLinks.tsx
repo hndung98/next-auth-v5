@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { NavLink } from "./NavLink";
 
-export const NavLinks = async ({ channel }: { channel: string }) => {
+import { NavLink } from "@/components/shop/nav/components/NavLink";
+
+export const NavLinks = async () => {
   const navLinks = {
     menu: {
       items: [

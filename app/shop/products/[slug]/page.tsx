@@ -16,7 +16,7 @@ export default async function Page(props: {
     },
     image: [],
     price: 1600,
-    slug: "les-miserables",
+    slug: params.slug,
     description: [
       "Wondering if this will look as good on you as it does on the screen? The answer is yes. A quality Monospace Tee variant art with smart styling.",
     ],

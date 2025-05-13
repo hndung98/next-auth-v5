@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { type ReactElement } from "react";
-import { LinkWithChannel } from "../../products/LinkWithChannel";
+import { LinkWithChannel } from "@/components/shop/products/LinkWithChannel";
 
 export function NavLink({
   href,
