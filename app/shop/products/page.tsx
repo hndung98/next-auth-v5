@@ -1,24 +1,10 @@
 import { Metadata } from "next";
 
 import { ProductList } from "@/components/shop/products/ProductList";
+import { ProductElementType } from "@/components/shop/products/ProductElement";
 
 export const metadata: Metadata = {
   title: "Products",
-};
-
-export type ProductElementType = {
-  id: string;
-  slug: string;
-  name: string;
-  image: string[];
-  price: number;
-  thumbnail: {
-    url: string;
-    alt: string;
-  };
-  category: string;
-  description: string[];
-  options: string[];
 };
 
 export default async function Page() {
@@ -38,6 +24,8 @@ export default async function Page() {
         "Wondering if this will look as good on you as it does on the screen? The answer is yes. A quality Monospace Tee variant art with smart styling.",
       ],
       options: ["Red", "Blue", "White", "Random"],
+      averageRating: 5.0,
+      totalReviews: 41,
     },
     {
       id: "prod-1002",
@@ -54,6 +42,8 @@ export default async function Page() {
         "Wondering if this will look as good on you as it does on the screen? The answer is yes. A quality Monospace Tee variant art with smart styling.",
       ],
       options: ["Red", "Blue", "White", "Random"],
+      averageRating: 5.0,
+      totalReviews: 41,
     },
   ] as ProductElementType[];
   return (

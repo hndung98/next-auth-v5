@@ -1,11 +1,11 @@
 import { Suspense } from "react";
-import { IoNotificationsSharp } from "react-icons/io5";
+import { MdOutlineNotifications } from "react-icons/md";
 
 import { ThemeToggle } from "@/components/common/theme-toggle";
 import { CartIcon } from "@/components/shop/cart/CartIcon";
+import { MobileMenu } from "@/components/shop/nav/components/MobileMenu";
 import { NavLinks } from "@/components/shop/nav/components/NavLinks";
 import { SearchBar } from "@/components/shop/nav/components/SearchBar";
-import { MobileMenu } from "@/components/shop/nav/components/MobileMenu";
 
 const showMobileMenu = false;
 
@@ -23,7 +23,7 @@ export const Nav = ({ channel }: { channel: string }) => {
           <ThemeToggle />
         </div>
         <Suspense fallback={<div className="w-8" />}>
-          <IoNotificationsSharp className="w-6 h-6 cursor-pointer" />
+          <MdOutlineNotifications className="w-6 h-6 cursor-pointer" />
           <CartIcon itemCount={2} />
         </Suspense>
       </div>

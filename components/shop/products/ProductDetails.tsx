@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { FaRegStar } from "react-icons/fa";
 import { toast } from "sonner";
 import xss from "xss";
 import { z } from "zod";
@@ -81,6 +82,10 @@ export const ProductDetails = ({
               <h1 className="mb-4 flex-auto text-3xl font-medium tracking-tight text-neutral-900 my-text-dark-style">
                 {product?.name}
               </h1>
+              <div className="mb-4 flex items-center gap-1">
+                <FaRegStar />
+                <p>{product.averageRating}</p>
+              </div>
               <p className="mb-8 text-sm " data-testid="ProductElement_Price">
                 {formatCurrency(price)}
               </p>

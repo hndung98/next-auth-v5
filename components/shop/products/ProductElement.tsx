@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { FaCartPlus } from "react-icons/fa";
+import { BiDislike, BiSolidLike } from "react-icons/bi";
+import { FaRegStar } from "react-icons/fa";
 
 import { LinkWithChannel } from "@/components/shop/products/LinkWithChannel";
 import { ProductImageWrapper } from "@/components/shop/products/ProductImageWrapper";
@@ -18,6 +18,8 @@ export type ProductElementType = {
   category: string;
   description: string[];
   options: string[];
+  averageRating: number;
+  totalReviews: number;
 };
 
 export function ProductElement({
@@ -52,20 +54,27 @@ export function ProductElement({
                 className="mt-1 text-sm text-neutral-500 text-left dark:text-gray-300"
                 data-testid="ProductElement_Category"
               >
-                {product.category}
+                {"#" + product.category}
               </h6>
             </div>
-            <p
-              className="mt-1 text-sm font-medium text-neutral-900 my-dark-style"
-              data-testid="ProductElement_PriceRange"
-            >
-              {formatCurrency(product.price)}
-            </p>
+            <div>
+              <span className="flex items-center gap-1">
+                <FaRegStar />
+                <p>{product.averageRating}</p>
+              </span>
+              <p
+                className="mt-1 text-sm font-medium text-neutral-900 my-dark-style"
+                data-testid="ProductElement_PriceRange"
+              >
+                {formatCurrency(product.price)}
+              </p>
+            </div>
           </div>
         </div>
       </LinkWithChannel>
-      <div className="mt-2 flex items-center justify-center">
-        <FaCartPlus className="w-6 h-6 cursor-pointer" />
+      <div className="mt-1 gap-2 flex items-center justify-end">
+        <BiSolidLike className="w-6 h-6 cursor-pointer" />
+        <BiDislike className="w-6 h-6 cursor-pointer" />
       </div>
     </li>
   );
