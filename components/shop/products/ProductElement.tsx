@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaCartPlus } from "react-icons/fa";
 
 import { LinkWithChannel } from "@/components/shop/products/LinkWithChannel";
 import { ProductImageWrapper } from "@/components/shop/products/ProductImageWrapper";
@@ -47,12 +48,12 @@ export function ProductElement({
               <h3 className="mt-1 text-sm font-semibold text-neutral-900 my-dark-style">
                 {product.name}
               </h3>
-              <p
-                className="mt-1 text-sm text-neutral-500 dark:text-gray-300"
+              <h6
+                className="mt-1 text-sm text-neutral-500 text-left dark:text-gray-300"
                 data-testid="ProductElement_Category"
               >
                 {product.category}
-              </p>
+              </h6>
             </div>
             <p
               className="mt-1 text-sm font-medium text-neutral-900 my-dark-style"
@@ -63,8 +64,8 @@ export function ProductElement({
           </div>
         </div>
       </LinkWithChannel>
-      <div className="mt-2">
-        <Link href={"/test"}> View</Link>
+      <div className="mt-2 flex items-center justify-center">
+        <FaCartPlus className="w-6 h-6 cursor-pointer" />
       </div>
     </li>
   );

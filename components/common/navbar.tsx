@@ -1,12 +1,11 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IoMdLogIn, IoMdMore } from "react-icons/io";
 
 import { MenuItemButton } from "@/components/common/button";
+import { ThemeToggle } from "@/components/common/theme-toggle";
 import { UserButton } from "@/components/common/user-button";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,7 +46,7 @@ export const NavBar = ({ showLogin }: { showLogin: boolean }) => {
       </div>
       <div className="space-x-2 flex gap-x-0.5">
         <MoreToggle />
-        <ModeToggle />
+        <ThemeToggle />
         {user?.id ? (
           <UserButton isPublic={true} />
         ) : (
@@ -97,37 +96,6 @@ function MoreToggle() {
             <DropdownMenuItem>{item.name}</DropdownMenuItem>
           </MenuItemButton>
         ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
-
-function ModeToggle() {
-  const { setTheme } = useTheme();
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon"
-          className="cursor-pointer bg-transparent"
-        >
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
