@@ -12,7 +12,7 @@ export default async function Page(props: {
     category: "book",
     thumbnail: {
       alt: "Les Miserables",
-      url: "http://localhost:3000/image/books/war-and-peace.jpg",
+      url: "/image/books/war-and-peace.jpg",
     },
     image: [],
     price: 1600,
@@ -20,6 +20,7 @@ export default async function Page(props: {
     description: [
       "Wondering if this will look as good on you as it does on the screen? The answer is yes. A quality Monospace Tee variant art with smart styling.",
     ],
+    options: ["Option 1", "Option 2", "Option 3", "Option 4"],
   };
 
   if (!product) {
@@ -27,9 +28,10 @@ export default async function Page(props: {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 min-h-screen">
-      <div>{params.slug}</div>
+    <div className="w-full max-w-6xl mx-auto px-4 py-8 min-h-screen">
       <ProductDetails product={product} />
+      <div className="mt-6">Related products</div>
+      <div className="mt-4">Other products</div>
     </div>
   );
 }

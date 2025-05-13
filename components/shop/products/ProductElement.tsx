@@ -16,6 +16,7 @@ export type ProductElementType = {
   };
   category: string;
   description: string[];
+  options: string[];
 };
 
 export function ProductElement({

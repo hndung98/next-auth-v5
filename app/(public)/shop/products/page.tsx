@@ -18,6 +18,7 @@ export type ProductElementType = {
   };
   category: string;
   description: string[];
+  options: string[];
 };
 
 export default async function Page() {
@@ -28,7 +29,7 @@ export default async function Page() {
       category: "book",
       thumbnail: {
         alt: "Les Miserables",
-        url: "http://localhost:3000/image/books/war-and-peace.jpg",
+        url: "/image/books/war-and-peace.jpg",
       },
       image: [],
       price: 1600,
@@ -36,6 +37,7 @@ export default async function Page() {
       description: [
         "Wondering if this will look as good on you as it does on the screen? The answer is yes. A quality Monospace Tee variant art with smart styling.",
       ],
+      options: ["Red", "Blue", "White", "Random"],
     },
     {
       id: "prod-1002",
@@ -43,7 +45,7 @@ export default async function Page() {
       category: "book",
       thumbnail: {
         alt: "Les Miserables",
-        url: "http://localhost:3000/image/books/war-and-peace.jpg",
+        url: "/image/books/war-and-peace.jpg",
       },
       image: [],
       price: 1300,
@@ -51,6 +53,7 @@ export default async function Page() {
       description: [
         "Wondering if this will look as good on you as it does on the screen? The answer is yes. A quality Monospace Tee variant art with smart styling.",
       ],
+      options: ["Red", "Blue", "White", "Random"],
     },
   ] as ProductElementType[];
   return (

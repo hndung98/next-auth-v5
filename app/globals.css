@@ -120,6 +120,10 @@
   @apply dark:bg-gray-900 dark:text-white dark:hover:bg-gray-700;
 }
 
+.my-text-dark-style {
+  @apply dark:bg-transparent dark:text-white;
+}
+
 html,
 body {
   height: 100%;
