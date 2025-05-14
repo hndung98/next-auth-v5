@@ -78,11 +78,11 @@ export default function CartToggle({
               <span>Total:</span>
               <span>{formatCurrency(totalPrice)}</span>
             </div>
-            <div className="px-3 pb-3 pt-1">
-              <Link href="/shop/orders">
-                <Button variant="link" className="w-full cursor-pointer">
-                  Go to orders page
-                </Button>
+            <div className="px-3 pb-3 pt-1 w-full">
+              <Link href="/shop/checkout">
+                <DropdownMenuItem className="flex flex-col justify-between items-center cursor-pointer gap-2">
+                  Check out
+                </DropdownMenuItem>
               </Link>
             </div>
           </>
