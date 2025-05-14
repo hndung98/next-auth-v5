@@ -27,6 +27,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatCurrency } from "@/lib/utils";
+import { CartItem } from "@/stores/cart-store";
 
 const formSchema = z.object({
   option: z.string().min(2, {
@@ -45,6 +46,12 @@ export const ProductDetails = ({
   const price = product.price;
   const isAvailable = true;
   const disabled = false;
+  const cartItem = {
+    id: product.id,
+    name: product.name,
+    price: product.price,
+    quantity: 1,
+  } as CartItem;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -132,7 +139,7 @@ export const ProductDetails = ({
                 )}
               />
               <div className="mt-8">
-                <AddButton disabled={disabled} />
+                <AddButton disabled={disabled} cartItem={cartItem} />
               </div>
               {description && (
                 <div className="mt-8 space-y-6 text-sm text-neutral-500 my-text-dark-style">

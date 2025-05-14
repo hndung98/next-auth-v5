@@ -15,8 +15,11 @@ import { SearchBar } from "@/components/shop/nav/components/SearchBar";
 import { UserToggle } from "@/components/shop/nav/components/UserToggle";
 import { Button } from "@/components/ui/button";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useCartStore } from "@/stores/cart-store";
 
 export const Nav = ({ channel }: { channel: string }) => {
+  const cartItems = useCartStore((state) => state.items);
+  const removeItem = useCartStore((state) => state.removeItem);
   const user = useCurrentUser();
   const pathname = usePathname();
   const encodedCallbackUrl = encodeURIComponent(pathname);
@@ -43,15 +46,12 @@ export const Nav = ({ channel }: { channel: string }) => {
       createdAt: "11/04/2025, 09:54:12",
     },
   ] as NotificationsType[];
-  const cartItems = [
-    { id: "p1", name: "book 1", price: 1200, quantity: 1 },
-    { id: "p2", name: "book 2", price: 1650, quantity: 1 },
-    { id: "p3", name: "book 3", price: 990, quantity: 1 },
-    { id: "p4", name: "book 4", price: 1350, quantity: 1 },
-  ];
-  const removeItem = (id: string) => {
-    console.log(id);
-  };
+  // const cartItems = [
+  //   { id: "p1", name: "book 1", price: 1200, quantity: 1 },
+  //   { id: "p2", name: "book 2", price: 1650, quantity: 1 },
+  //   { id: "p3", name: "book 3", price: 990, quantity: 1 },
+  //   { id: "p4", name: "book 4", price: 1350, quantity: 1 },
+  // ];
   return (
     <nav className="flex w-full gap-4 lg:gap-6" aria-label="Main navigation">
       <ul className="hidden gap-4 overflow-x-auto whitespace-nowrap md:flex lg:gap-8 lg:px-0">

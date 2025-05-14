@@ -30,7 +30,7 @@ export default function CartToggle({
 }: CartToggleProps) {
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce(
-    (sum, item) => sum + item.quantity * item.price,
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 
@@ -85,9 +85,9 @@ export default function CartToggle({
               <span>{formatCurrency(totalPrice)}</span>
             </div>
             <div className="px-3 pb-3 pt-1">
-              <Link href="/shop/cart">
+              <Link href="/shop/orders">
                 <Button variant="link" className="w-full cursor-pointer">
-                  View full cart
+                  Go to orders page
                 </Button>
               </Link>
             </div>
