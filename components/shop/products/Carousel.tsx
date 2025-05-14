@@ -1,7 +1,4 @@
-import {
-  ProductElement,
-  ProductElementType,
-} from "@/components/shop/products/ProductElement";
+import { ProductElement } from "@/components/shop/products/ProductElement";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -10,6 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { ProductElementType } from "@/types/product";
 
 export function ProductCarousel({
   products,

@@ -1,16 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type CartItem = {
-  id: string;
-  name: string;
-  price: number;
-  quantity: number;
-};
+import { CartItemType } from "@/types/product";
 
 type CartStore = {
-  items: CartItem[];
-  addItem: (item: CartItem) => void;
+  items: CartItemType[];
+  addItem: (item: CartItemType) => void;
   removeItem: (id: string) => void;
   clear: () => void;
 };

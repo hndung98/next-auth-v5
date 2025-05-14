@@ -11,16 +11,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatCurrency } from "@/lib/utils";
-
-type CartItem = {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
-};
+import { CartItemType } from "@/types/product";
 
 type CartToggleProps = {
-  cartItems: CartItem[];
+  cartItems: CartItemType[];
   onRemoveItem?: (id: string) => void;
 };
 

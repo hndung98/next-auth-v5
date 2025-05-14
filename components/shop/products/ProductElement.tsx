@@ -4,23 +4,7 @@ import { FaRegStar } from "react-icons/fa";
 import { LinkWithChannel } from "@/components/shop/products/LinkWithChannel";
 import { ProductImageWrapper } from "@/components/shop/products/ProductImageWrapper";
 import { formatCurrency } from "@/lib/utils";
-
-export type ProductElementType = {
-  id: string;
-  slug: string;
-  name: string;
-  image: string[];
-  price: number;
-  thumbnail: {
-    url: string;
-    alt: string;
-  };
-  category: string;
-  description: string[];
-  options: string[];
-  averageRating: number;
-  totalReviews: number;
-};
+import { ProductElementType } from "@/types/product";
 
 export function ProductElement({
   product,

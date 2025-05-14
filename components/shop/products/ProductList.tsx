@@ -1,7 +1,5 @@
-import {
-  ProductElement,
-  ProductElementType,
-} from "@/components/shop/products/ProductElement";
+import { ProductElement } from "@/components/shop/products/ProductElement";
+import { ProductElementType } from "@/types/product";
 
 export const ProductList = ({
   products,

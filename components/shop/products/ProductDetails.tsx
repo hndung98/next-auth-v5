@@ -9,7 +9,6 @@ import { z } from "zod";
 
 import { AddButton } from "@/components/shop/products/AddButton";
 import { AvailabilityMessage } from "@/components/shop/products/AvailabilityMessage";
-import { ProductElementType } from "@/components/shop/products/ProductElement";
 import { ProductImageWrapper } from "@/components/shop/products/ProductImageWrapper";
 import {
   Form,
@@ -27,7 +26,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatCurrency } from "@/lib/utils";
-import { CartItem } from "@/stores/cart-store";
+import { CartItemType, ProductElementType } from "@/types/product";
 
 const formSchema = z.object({
   option: z.string().min(2, {
@@ -51,7 +50,7 @@ export const ProductDetails = ({
     name: product.name,
     price: product.price,
     quantity: 1,
-  } as CartItem;
+  } as CartItemType;
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

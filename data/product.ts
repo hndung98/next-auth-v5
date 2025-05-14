@@ -1,4 +1,4 @@
-import { ProductElementType } from "@/components/shop/products/ProductElement";
+import { ProductElementType } from "@/types/product";
 
 const products = [
   {

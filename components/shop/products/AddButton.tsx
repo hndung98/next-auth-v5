@@ -1,14 +1,16 @@
 "use client";
 
-import { CartItem, useCartStore } from "@/stores/cart-store";
 import { useFormStatus } from "react-dom";
+
+import { useCartStore } from "@/stores/cart-store";
+import { CartItemType } from "@/types/product";
 
 export function AddButton({
   disabled,
   cartItem,
 }: {
   disabled?: boolean;
-  cartItem: CartItem;
+  cartItem: CartItemType;
 }) {
   const { pending } = useFormStatus();
   const isButtonDisabled = disabled || pending;
