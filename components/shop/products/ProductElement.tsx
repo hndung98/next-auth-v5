@@ -1,9 +1,12 @@
-import { BiDislike, BiSolidLike } from "react-icons/bi";
+"use client";
+
 import { FaRegStar } from "react-icons/fa";
 
+import { FavoriteButton } from "@/components/shop/products/Buttons";
 import { LinkWithChannel } from "@/components/shop/products/LinkWithChannel";
 import { ProductImageWrapper } from "@/components/shop/products/ProductImageWrapper";
 import { formatCurrency } from "@/lib/utils";
+import { useFavoriteProducts } from "@/stores/fav-products";
 import { ProductElementType } from "@/types/product";
 
 export function ProductElement({
@@ -14,6 +17,12 @@ export function ProductElement({
   loading: "eager" | "lazy";
   priority?: boolean;
 }) {
+  const favIdList = useFavoriteProducts((state) => state.pidList);
+  const addFavoriteProduct = useFavoriteProducts((state) => state.addProductId);
+  const removeFavoriteProduct = useFavoriteProducts(
+    (state) => state.removeProductId
+  );
+  const isLiked = favIdList.includes(product.id);
   return (
     <li data-testid="ProductElement">
       <LinkWithChannel href={`/shop/products/${product.slug}`} key={product.id}>
@@ -57,8 +66,16 @@ export function ProductElement({
         </div>
       </LinkWithChannel>
       <div className="mt-1 gap-2 flex items-center justify-end">
-        <BiSolidLike className="w-6 h-6 cursor-pointer" />
-        <BiDislike className="w-6 h-6 cursor-pointer" />
+        {isLiked && (
+          <FavoriteButton
+            pid={product.id}
+            action={removeFavoriteProduct}
+            isLiked
+          />
+        )}
+        {!isLiked && (
+          <FavoriteButton pid={product.id} action={addFavoriteProduct} />
+        )}
       </div>
     </li>
   );

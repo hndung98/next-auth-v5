@@ -1,18 +1,18 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type LikedProducts = {
+type FavoriteProducts = {
   pidList: string[];
-  addPid: (id: string) => void;
-  removePid: (id: string) => void;
+  addProductId: (id: string) => void;
+  removeProductId: (id: string) => void;
   clear: () => void;
 };
 
-export const useLikedProducts = create<LikedProducts>()(
+export const useFavoriteProducts = create<FavoriteProducts>()(
   persist(
     (set) => ({
       pidList: [],
-      addPid: (id) => {
+      addProductId: (id) => {
         set((state) => {
           const exists = state.pidList.find((v) => v === id);
           if (exists)
@@ -24,7 +24,7 @@ export const useLikedProducts = create<LikedProducts>()(
           };
         });
       },
-      removePid: (id) => {
+      removeProductId: (id) => {
         set((state) => {
           return {
             pidList: state.pidList.filter((v) => v !== id),
@@ -35,6 +35,6 @@ export const useLikedProducts = create<LikedProducts>()(
         set({ pidList: [] });
       },
     }),
-    { name: "liked-products-storage" }
+    { name: "favorite-products-storage" }
   )
 );

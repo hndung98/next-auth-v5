@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import xss from "xss";
 import { z } from "zod";
 
-import { AddButton } from "@/components/shop/products/AddButton";
+import { AddButton } from "@/components/shop/products/Buttons";
 import { AvailabilityMessage } from "@/components/shop/products/AvailabilityMessage";
 import { ProductImageWrapper } from "@/components/shop/products/ProductImageWrapper";
 import {

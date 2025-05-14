@@ -1,7 +1,9 @@
 "use client";
 
 import { useFormStatus } from "react-dom";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
+import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/stores/cart-store";
 import { CartItemType } from "@/types/product";
 
@@ -18,7 +20,7 @@ export function AddButton({
   const addItem = useCartStore((state) => state.addItem);
 
   return (
-    <button
+    <Button
       type="submit"
       aria-disabled={isButtonDisabled}
       aria-busy={pending}
@@ -55,6 +57,29 @@ export function AddButton({
       ) : (
         <span>Add to cart</span>
       )}
-    </button>
+    </Button>
+  );
+}
+
+export function FavoriteButton({
+  pid,
+  isLiked,
+  action,
+}: {
+  pid: string;
+  isLiked?: boolean;
+  action: (id: string) => void;
+}) {
+  return (
+    <Button
+      variant="outline"
+      className="cursor-pointer"
+      onClick={() => {
+        action(pid);
+      }}
+    >
+      {isLiked && <MdFavorite className="w-6 h-6" />}
+      {!isLiked && <MdFavoriteBorder className="w-6 h-6" />}
+    </Button>
   );
 }
