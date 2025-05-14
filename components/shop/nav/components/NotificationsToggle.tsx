@@ -25,15 +25,21 @@ export function NotificationsToggle({
 }: {
   notifications: NotificationsType[];
 }) {
+  const itemCount = 3;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
           size="icon"
-          className="cursor-pointer bg-transparent"
+          className="relative cursor-pointer bg-transparent"
         >
           <MdOutlineNotifications className="w-7 h-7 cursor-pointer" />
+          {itemCount > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
+              {itemCount}
+            </span>
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
