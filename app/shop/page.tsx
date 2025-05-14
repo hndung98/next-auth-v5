@@ -9,13 +9,7 @@ export default async function Page() {
             {"Search..."}
           </div>
           <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
-            {"Item 1"}
-          </div>
-          <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
-            {"Item 2"}
-          </div>
-          <div className="hidden h-auto w-full grow rounded-md md:block text-center mt-6">
-            {"Item 3"}
+            {"Something..."}
           </div>
         </div>
         <div className="mt-4 p-4 text-center space-y-6 min-h-screen">
@@ -27,9 +21,6 @@ export default async function Page() {
           </div>
           <div>
             <Link href={"/shop/orders"}>Your Orders</Link>
-          </div>
-          <div>
-            <Link href={"/shop/cart"}>Your Cart</Link>
           </div>
         </div>
       </div>

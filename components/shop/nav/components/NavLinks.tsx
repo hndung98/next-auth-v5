@@ -52,8 +52,9 @@ export const NavLinks = () => {
 
   return (
     <>
-      <NavLink href="/products">All</NavLink>
+      <NavLink href="/shop/products">All products</NavLink>
       {navLinks.menu?.items?.map((item) => {
+        if (item.id === "") return null;
         if (item.category) {
           return (
             <NavLink key={item.id} href={`/categories/${item.category.slug}`}>
