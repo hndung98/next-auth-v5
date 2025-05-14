@@ -3,7 +3,9 @@
 import { SearchIcon } from "lucide-react";
 
 export const SearchBar = ({ channel }: { channel: string }) => {
-  function onSubmit(formData: FormData) {}
+  function onSubmit(formData: FormData) {
+    console.log(formData, channel);
+  }
 
   return (
     <form

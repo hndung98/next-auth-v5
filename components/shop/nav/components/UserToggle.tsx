@@ -21,11 +21,10 @@ const menuItems = [
 ];
 
 type UserToggleProps = {
-  isPublic?: boolean;
   user?: User;
 };
 
-export const UserToggle = ({ isPublic, user }: UserToggleProps) => {
+export const UserToggle = ({ user }: UserToggleProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

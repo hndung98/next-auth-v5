@@ -95,7 +95,7 @@ export default function Room({
       pusher.unsubscribe(roomId);
       pusher.disconnect();
     };
-  }, [roomId]);
+  }, [roomId, user?.id]);
 
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
