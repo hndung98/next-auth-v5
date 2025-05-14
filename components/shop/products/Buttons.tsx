@@ -78,7 +78,7 @@ export function FavoriteButton({
         action(pid);
       }}
     >
-      {isLiked && <MdFavorite className="w-6 h-6" />}
+      {isLiked && <MdFavorite className="w-6 h-6 text-red-500" />}
       {!isLiked && <MdFavoriteBorder className="w-6 h-6" />}
     </Button>
   );

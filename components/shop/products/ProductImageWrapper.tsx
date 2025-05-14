@@ -5,7 +5,7 @@ export const ProductImageWrapper = (props: ImageProps) => {
     <div className="aspect-square overflow-hidden bg-neutral-50">
       <NextImage
         {...props}
-        className="h-full w-full object-contain object-center p-2"
+        className="h-full w-full object-contain object-center p-2 hover:scale-105 transition-transform duration-300"
       />
     </div>
   );
