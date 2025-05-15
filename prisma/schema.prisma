@@ -26,10 +26,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  accounts Account[]
-  invoices Invoice[]
-  revenue  Revenue[]
-  widgets  Widget[]
+  accounts  Account[]
+  invoices  Invoice[]
+  revenue   Revenue[]
+  widgets   Widget[]
+  playlists Playlist[]
 }
 
 model Account {
@@ -173,4 +174,28 @@ model ChatRoom {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Video {
+  id         String @id @default(cuid())
+  title      String
+  youtubeId  String @unique
+  order      Int
+  playlistId String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  playlist  Playlist? @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+}
+
+model Playlist {
+  id     String @id @default(cuid())
+  name   String
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  videos Video[]
 }

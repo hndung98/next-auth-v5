@@ -12,6 +12,7 @@ export const publicRoutes = [
   "/quiz",
   "/test",
   "/shop",
+  "/music",
 ];
 
 /**

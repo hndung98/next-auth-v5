@@ -175,4 +175,4 @@ const books = [
   ),
 ];
 
-export { users, invoices, revenue, authors, books };
+export { authors, books, invoices, revenue, users };

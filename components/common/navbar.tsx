@@ -18,6 +18,10 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 
 const navItems = [
   {
+    name: "Music",
+    href: "/music",
+  },
+  {
     name: "Shop",
     href: "/shop",
   },
