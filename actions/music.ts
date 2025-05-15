@@ -39,8 +39,8 @@ const defaultUSUKVideos = [
 const defaultLofiVideos = [
   {
     order: 0,
-    title: "Thành Đạt - Ánh Trăng Buồn",
-    youtubeId: "RkD0dq6AJXU",
+    title: "Thành Đạt - Xa Vắng",
+    youtubeId: "aiQBUu34BGA",
     playlistId: "playlist-id",
   },
   {
@@ -69,8 +69,8 @@ const defaultLofiVideos = [
   },
   {
     order: 5,
-    title: "Thành Đạt - Xa Vắng",
-    youtubeId: "aiQBUu34BGA",
+    title: "Thành Đạt - Ánh Trăng Buồn",
+    youtubeId: "RkD0dq6AJXU",
     playlistId: "playlist-id",
   },
 ] as Video[];
