@@ -12,8 +12,9 @@ type VideoPlayerProps = {
 };
 
 export default function VideoPlayer({ videos }: VideoPlayerProps) {
-  const playerRef = useRef<YT.Player | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const currentIndexRef = useRef(currentIndex);
+  const playerRef = useRef<YT.Player | null>(null);
 
   const handleNext = () => {
     if (currentIndex < videos.length - 1) {
@@ -28,18 +29,25 @@ export default function VideoPlayer({ videos }: VideoPlayerProps) {
   };
 
   useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
+
+  useEffect(() => {
     const tag = document.createElement("script");
     tag.src = "https://www.youtube.com/iframe_api";
     document.body.appendChild(tag);
 
     window.onYouTubeIframeAPIReady = () => {
       playerRef.current = new window.YT.Player("player", {
-        videoId: videos[0]?.youtubeId,
+        videoId: videos[currentIndex]?.youtubeId,
         events: {
           onReady: (event: YT.PlayerEvent) => event.target.playVideo(),
           onStateChange: (event: YT.OnStateChangeEvent) => {
             if (event.data === window.YT.PlayerState.ENDED) {
-              handleNext();
+              const current = currentIndexRef.current;
+              if (current < videos.length - 1) {
+                setCurrentIndex(current + 1);
+              }
             }
           },
         },
