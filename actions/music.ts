@@ -7,7 +7,7 @@ import { withAdminOnly } from "@/actions/with-auth";
 import { prisma } from "@/lib/db";
 import { Playlist, Video } from "@prisma/client";
 
-const defaultPlaylists = ["US UK", "Lofi"];
+const defaultPlaylists = ["US UK", "Lofi", "Jimmii"];
 
 const defaultUSUKVideos = [
   {
@@ -75,11 +75,48 @@ const defaultLofiVideos = [
   },
 ] as Video[];
 
+const defaultJimmiVideos = [
+  {
+    order: 0,
+    title: "Live - Hoa Bằng Lăng",
+    youtubeId: "tsIxrc5vJgU",
+    playlistId: "playlist-id",
+  },
+  {
+    order: 1,
+    title: "Live - Khói Thuốc Đợi Chờ",
+    youtubeId: "2FP8JQ2Yrj4",
+    playlistId: "playlist-id",
+  },
+  {
+    order: 2,
+    title: "Live - Mưa Tuyết",
+    youtubeId: "x1neudfJ1f0",
+    playlistId: "playlist-id",
+  },
+  {
+    order: 3,
+    title: "Live - Tình Như Lá Bay Xa",
+    youtubeId: "iOqhbtrl-EI",
+    playlistId: "playlist-id",
+  },
+  {
+    order: 4,
+    title: "Live - Vĩnh Biệt Màu Xanh",
+    youtubeId: "mmIXO0Z95rQ",
+    playlistId: "playlist-id",
+  },
+] as Video[];
+
 const _createDefaultPlaylists = async (formData: FormData) => {
   const data = {
     userId: formData.get("userId") as string,
   };
   const userId = data.userId;
+
+  var usukVideos = [] as Video[];
+  var lofiVideos = [] as Video[];
+  var jimmiiVideos = [] as Video[];
 
   try {
     const playlistData = defaultPlaylists.map((playlist) => {
@@ -96,13 +133,14 @@ const _createDefaultPlaylists = async (formData: FormData) => {
     });
     if (existingPlaylists.length > 0) {
       return {
-        message: "You had one playlist at least.",
+        message: "Please delete your old playlists.",
         data: data,
       };
     }
     await prisma.playlist.createMany({
       data: playlistData,
     });
+
     const recentlyUSUKPlaylist = await prisma.playlist.findFirst({
       where: {
         userId: userId,
@@ -111,16 +149,13 @@ const _createDefaultPlaylists = async (formData: FormData) => {
     });
     if (recentlyUSUKPlaylist) {
       const playlistId = recentlyUSUKPlaylist.id;
-      const videoData = defaultUSUKVideos.map((video) => {
+      usukVideos = defaultUSUKVideos.map((video) => {
         return {
           order: video.order,
           playlistId: playlistId,
           title: video.title,
           youtubeId: video.youtubeId,
         } as Video;
-      });
-      await prisma.video.createMany({
-        data: videoData,
       });
     }
 
@@ -132,7 +167,7 @@ const _createDefaultPlaylists = async (formData: FormData) => {
     });
     if (recentlyLofiPlaylist) {
       const playlistId = recentlyLofiPlaylist.id;
-      const videoData = defaultLofiVideos.map((video) => {
+      lofiVideos = defaultLofiVideos.map((video) => {
         return {
           order: video.order,
           playlistId: playlistId,
@@ -140,10 +175,39 @@ const _createDefaultPlaylists = async (formData: FormData) => {
           youtubeId: video.youtubeId,
         } as Video;
       });
-      await prisma.video.createMany({
-        data: videoData,
+    }
+
+    const recentlyJimmiiPlaylist = await prisma.playlist.findFirst({
+      where: {
+        userId: userId,
+        name: "Jimmii",
+      },
+    });
+    if (recentlyJimmiiPlaylist) {
+      const playlistId = recentlyJimmiiPlaylist.id;
+      jimmiiVideos = defaultJimmiVideos.map((video) => {
+        return {
+          order: video.order,
+          playlistId: playlistId,
+          title: video.title,
+          youtubeId: video.youtubeId,
+        } as Video;
       });
     }
+
+    await prisma.$transaction(async (prisma) => {
+      await Promise.all([
+        prisma.video.createMany({
+          data: usukVideos,
+        }),
+        prisma.video.createMany({
+          data: lofiVideos,
+        }),
+        prisma.video.createMany({
+          data: jimmiiVideos,
+        }),
+      ]);
+    });
   } catch (error) {
     console.log("createDefaultPlaylists", error);
     return {

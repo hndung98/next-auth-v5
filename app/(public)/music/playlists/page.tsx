@@ -29,6 +29,9 @@ export default async function Page() {
                 </p>
               </div>
             ))}
+            {playlists.length === 0 && (
+              <p className="text-sm italic">not found</p>
+            )}
           </div>
         </div>
       )}
@@ -46,6 +49,9 @@ export default async function Page() {
               </p>
             </div>
           ))}
+          {otherPlaylists.length === 0 && (
+            <p className="text-sm italic">not found</p>
+          )}
         </div>
       </div>
     </div>

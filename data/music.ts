@@ -26,6 +26,9 @@ export const getRecentPlaylists = async () => {
           },
         },
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return data;
   } catch (error) {
@@ -39,6 +42,9 @@ export const getVideoByPlaylistId = async (playlistId: string) => {
     const data = await prisma.video.findMany({
       where: {
         playlistId: playlistId,
+      },
+      orderBy: {
+        order: "asc",
       },
     });
     return data;
