@@ -24,6 +24,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { BookSchema } from "@/schemas";
 
+type AuthorInfo = {
+  id: string;
+  name: string;
+  nationality: string;
+};
+
+type CategoryInfo = {
+  id: string;
+  name: string;
+};
+
 async function getAuthors(
   query: string,
   offset = 1,
@@ -38,11 +49,19 @@ async function getAuthorById(id: string): Promise<AuthorInfo> {
   return fetch(`/api/authors/${id}`).then((res) => res.json());
 }
 
-type AuthorInfo = {
-  id: string;
-  name: string;
-  nationality: string;
-};
+async function getCategories(
+  query: string,
+  offset = 1,
+  size = 10
+): Promise<CategoryInfo[]> {
+  return fetch(
+    `/api/categories?offset=${offset}&size=${size}&query=${query}`
+  ).then((res) => res.json());
+}
+
+// async function getCategoryById(id: string): Promise<CategoryInfo> {
+//   return fetch(`/api/categories/${id}`).then((res) => res.json());
+// }
 
 export function CreateForm() {
   const [isPending, startTransition] = useTransition();
@@ -51,6 +70,7 @@ export function CreateForm() {
   const [success, setSuccess] = useState<string | undefined>("");
   const [files, setFiles] = useState<FileList | null>(null);
   const [selectedAuthor, setSelectedAuthor] = useState<AuthorInfo>();
+  const [selectedCategory, setSelectedCategory] = useState<CategoryInfo>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filesList = event.target.files;
@@ -66,6 +86,8 @@ export function CreateForm() {
     defaultValues: {
       title: "",
       authorId: "",
+      categoryId: "",
+      price: 0,
       coverImage: null,
       pageCount: 0,
       publishedYear: 0,
@@ -77,13 +99,23 @@ export function CreateForm() {
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("authorId", values.authorId);
+      formData.append("categoryId", values.categoryId);
+      formData.append("price", values.price.toString());
       formData.append("pageCount", values.pageCount.toString());
       formData.append("publishedYear", values.publishedYear.toString());
       if (values.coverImage) formData.append("coverImage", values.coverImage);
       createBook(formData).then((res) => {
         console.log("onSubmit-res", res);
-        setError("");
-        setSuccess("");
+        if (res.errors && res.message) {
+          setError(res.message);
+          if (res.errors.categoryId) {
+            const msg = res.errors.categoryId[0];
+            form.setError("categoryId", { message: msg });
+          }
+        } else {
+          setError("");
+          setSuccess("");
+        }
       });
     });
   }
@@ -120,6 +152,29 @@ export function CreateForm() {
           />
           <FormField
             control={form.control}
+            name="categoryId"
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Category</FormLabel>
+                <ComboBox<CategoryInfo>
+                  {...fieldProps}
+                  title="Category"
+                  valueKey="id"
+                  value={selectedCategory}
+                  searchFn={getCategories}
+                  renderText={(category: CategoryInfo) => `${category?.name}`}
+                  onChange={(category) => {
+                    console.log({ value });
+                    onChange(category.id);
+                    setSelectedCategory(category);
+                  }}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="title"
             render={({ field }) => (
               <FormItem>
@@ -131,6 +186,19 @@ export function CreateForm() {
                     placeholder="War And Peace"
                     type="text"
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isPending} type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

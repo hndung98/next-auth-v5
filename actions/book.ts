@@ -18,6 +18,8 @@ export type BookState = {
     pageCount?: string[];
     publishedYear?: string[];
     authorId?: string[];
+    categoryId?: string[];
+    price?: string[];
     coverImage?: string[];
   };
   messages?: string | null;
@@ -26,15 +28,19 @@ export type BookState = {
     pageCount: number;
     publishedYear: number;
     authorId: string;
+    categoryId: string;
+    price: number;
   };
 };
 
 const _createBook = async (formData: FormData) => {
   const data = {
     title: formData.get("title") as string,
+    price: Number(formData.get("price") || ""),
     pageCount: Number(formData.get("pageCount") || ""),
     publishedYear: Number(formData.get("publishedYear") || ""),
     authorId: formData.get("authorId") as string,
+    categoryId: formData.get("categoryId") as string,
     coverImage: formData.get("coverImage"),
     coverImageFile: formData.get("coverImage") as File,
   };
@@ -55,7 +61,20 @@ const _createBook = async (formData: FormData) => {
   if (!existingAuthor) {
     return {
       errors: {
-        title: ["This author was not found."],
+        authorId: ["This author was not found."],
+      },
+      message: "Invalid Field.",
+      data: data,
+    };
+  }
+
+  const existingCategory = await prisma.category.findUnique({
+    where: { id: data.categoryId },
+  });
+  if (!existingCategory) {
+    return {
+      errors: {
+        categoryId: ["This category was not found."],
       },
       message: "Invalid Field.",
       data: data,
@@ -69,10 +88,20 @@ const _createBook = async (formData: FormData) => {
       imagePath = uploaded.secure_url;
     }
 
-    console.log({ imagePath });
+    const id = cuid();
+    await prisma.product.create({
+      data: {
+        id: id,
+        name: data.title,
+        type: "BOOK",
+        price: data.price,
+        categoryId: data.categoryId,
+      },
+    });
+
     await prisma.book.create({
       data: {
-        productId: cuid(),
+        productId: id,
         title: data.title,
         authorId: data.authorId,
         coverImagePath: imagePath,

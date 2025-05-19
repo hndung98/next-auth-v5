@@ -74,7 +74,9 @@ export const BookSchema = z.object({
   title: z
     .string()
     .min(3, { message: "Title must contain at least 3 characters." }),
-  authorId: z.string().nonempty("Author id cannot be empty"),
+  authorId: z.string().nonempty("Author cannot be empty"),
+  categoryId: z.string().nonempty("Category cannot be empty"),
+  price: z.coerce.number().gt(0, "Please enter a number greater than 0."),
   pageCount: z.coerce
     .number()
     .gt(0, "Please enter a number greater than 0.")
