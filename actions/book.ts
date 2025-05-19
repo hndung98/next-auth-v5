@@ -1,5 +1,6 @@
 "use server";
 
+import cuid from "cuid";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -71,6 +72,7 @@ const _createBook = async (formData: FormData) => {
     console.log({ imagePath });
     await prisma.book.create({
       data: {
+        productId: cuid(),
         title: data.title,
         authorId: data.authorId,
         coverImagePath: imagePath,
@@ -126,7 +128,7 @@ const _updateBook = async (id: string, formData: FormData) => {
 
   const existingBook = await prisma.book.findUnique({
     where: {
-      id: id,
+      productId: id,
     },
   });
   if (!existingBook) {
@@ -152,7 +154,7 @@ const _updateBook = async (id: string, formData: FormData) => {
     console.log({ imagePath });
     await prisma.book.update({
       where: {
-        id: id,
+        productId: id,
       },
       data: {
         title: data.title !== existingBook.title ? data.title : undefined,
@@ -185,7 +187,7 @@ const _updateBook = async (id: string, formData: FormData) => {
 const _deleteBook = async (id: string) => {
   const existingBook = await prisma.book.findUnique({
     where: {
-      id: id,
+      productId: id,
     },
   });
   if (!existingBook) {
@@ -194,7 +196,7 @@ const _deleteBook = async (id: string) => {
     };
   }
   try {
-    await prisma.book.delete({ where: { id: id } });
+    await prisma.book.delete({ where: { productId: id } });
     await deleteBookImageFromCloudinary(existingBook.coverImagePath ?? "");
     revalidatePath("/dashboard/books");
     return {};

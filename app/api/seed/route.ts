@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import {
-  authors,
-  books,
-  invoices,
-  revenue,
-  users,
+  authorData,
+  bookData,
+  categoryData,
+  customerData,
+  inventoryData,
+  invoiceData,
+  productData,
+  revenueData,
+  userData,
 } from "@/app/api/seed/placeholder-data";
 import { currentUser } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -19,10 +23,10 @@ async function seedUsers() {
   try {
     const existingUser = await prisma.user.findUnique({
       where: {
-        email: users[0].email,
+        email: userData[0].email,
       },
     });
-    if (!existingUser) await prisma.user.createMany({ data: users });
+    if (!existingUser) await prisma.user.createMany({ data: userData });
 
     return true;
   } catch (error) {
@@ -33,7 +37,7 @@ async function seedUsers() {
 
 async function deleteSeededUsers() {
   try {
-    const emails = users.map((user) => user.email);
+    const emails = userData.map((user) => user.email);
     await prisma.user.deleteMany({
       where: {
         email: {
@@ -48,14 +52,140 @@ async function deleteSeededUsers() {
   }
 }
 
+async function seedCustomer() {
+  try {
+    const existingCustomer = await prisma.customer.findUnique({
+      where: {
+        id: customerData[0].id,
+      },
+    });
+    if (!existingCustomer)
+      await prisma.customer.createMany({ data: customerData });
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function seedAuthors() {
+  try {
+    const existingAuthor = await prisma.author.findFirst({
+      where: {
+        id: authorData[0].id,
+      },
+    });
+    if (!existingAuthor) await prisma.author.createMany({ data: authorData });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function seedBooks() {
+  try {
+    const existingBook = await prisma.book.findFirst({
+      where: {
+        productId: bookData[0].productId,
+      },
+    });
+    if (!existingBook) await prisma.book.createMany({ data: bookData });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function deleteAllAuthors() {
+  try {
+    await prisma.author.deleteMany({});
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function seedCategory() {
+  try {
+    const existingCategory = await prisma.category.findFirst({
+      where: {
+        id: categoryData[0].id,
+      },
+    });
+    if (!existingCategory)
+      await prisma.category.createMany({ data: categoryData });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function deleteAllCategories() {
+  try {
+    await prisma.category.deleteMany({});
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function seedProduct() {
+  try {
+    const existingProduct = await prisma.product.findFirst({
+      where: {
+        id: productData[0].id,
+      },
+    });
+    if (!existingProduct)
+      await prisma.product.createMany({ data: productData });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function deleteAllProducts() {
+  try {
+    await prisma.product.deleteMany({});
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+async function seedInventory() {
+  try {
+    const existingInventory = await prisma.inventory.findFirst({
+      where: {
+        id: inventoryData[0].id,
+      },
+    });
+    if (!existingInventory)
+      await prisma.inventory.createMany({ data: inventoryData });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
 async function seedInvoices() {
   try {
     const existingInvoice = await prisma.invoice.findFirst({
       where: {
-        id: invoices[0].id,
+        id: invoiceData[0].id,
       },
     });
-    if (!existingInvoice) await prisma.invoice.createMany({ data: invoices });
+    if (!existingInvoice)
+      await prisma.invoice.createMany({ data: invoiceData });
 
     return true;
   } catch (error) {
@@ -68,50 +198,11 @@ async function seedRevenue() {
   try {
     const existingRevenue = await prisma.revenue.findFirst({
       where: {
-        id: revenue[0].id,
+        id: revenueData[0].id,
       },
     });
-    if (!existingRevenue) await prisma.revenue.createMany({ data: revenue });
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-async function seedAuthors() {
-  try {
-    const existingAuthor = await prisma.author.findFirst({
-      where: {
-        id: authors[0].id,
-      },
-    });
-    if (!existingAuthor) await prisma.author.createMany({ data: authors });
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-async function seedBooks() {
-  try {
-    const existingBook = await prisma.author.findFirst({
-      where: {
-        id: books[0].id,
-      },
-    });
-    if (!existingBook) await prisma.book.createMany({ data: books });
-    return true;
-  } catch (error) {
-    console.log(error);
-    return false;
-  }
-}
-
-async function deleteAllAuthors() {
-  try {
-    await prisma.author.deleteMany({});
+    if (!existingRevenue)
+      await prisma.revenue.createMany({ data: revenueData });
     return true;
   } catch (error) {
     console.log(error);
@@ -131,14 +222,26 @@ export async function POST(request: NextRequest) {
     const tables = formData.get("tables") as string;
     switch (type) {
       case "create":
-        if (tables.includes("author")) {
-          await seedAuthors();
-        }
-        if (tables.includes("book")) {
-          await seedBooks();
-        }
         if (tables.includes("user")) {
           await seedUsers();
+          if (tables.includes("customer")) {
+            await seedCustomer();
+          }
+          if (tables.includes("category")) {
+            await seedCategory();
+          }
+          if (tables.includes("product")) {
+            await seedProduct();
+          }
+          if (tables.includes("inventory")) {
+            await seedInventory();
+          }
+          if (tables.includes("author")) {
+            await seedAuthors();
+          }
+          if (tables.includes("book")) {
+            await seedBooks();
+          }
           if (tables.includes("invoice")) {
             await seedInvoices();
           }
@@ -151,6 +254,12 @@ export async function POST(request: NextRequest) {
       case "delete":
         if (tables.includes("user")) {
           await deleteSeededUsers();
+        }
+        if (tables.includes("product")) {
+          await deleteAllProducts();
+        }
+        if (tables.includes("category")) {
+          await deleteAllCategories();
         }
         if (tables.includes("author")) {
           await deleteAllAuthors();

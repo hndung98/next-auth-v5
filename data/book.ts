@@ -52,7 +52,7 @@ export const getBooks = async (query: string, page: number, perPage = 10) => {
 
 export const getBookById = async (id: string) => {
   try {
-    const book = await prisma.book.findUnique({ where: { id: id } });
+    const book = await prisma.book.findUnique({ where: { productId: id } });
     return book;
   } catch (error) {
     console.log("getBookById", error);

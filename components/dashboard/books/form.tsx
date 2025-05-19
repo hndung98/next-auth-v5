@@ -265,7 +265,7 @@ export function EditForm({ book }: { book: Book }) {
       formData.append("pageCount", values.pageCount.toString());
       formData.append("publishedYear", values.publishedYear.toString());
       if (values.coverImage) formData.append("coverImage", values.coverImage);
-      updateBook(book.id, formData).then((res) => {
+      updateBook(book.productId, formData).then((res) => {
         console.log("onSubmit-res", res);
         setError("");
         setSuccess("");

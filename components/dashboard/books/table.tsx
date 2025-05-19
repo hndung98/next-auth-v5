@@ -17,7 +17,7 @@ export default async function BooksTable({
           <div className="md:hidden">
             {books.map((book) => (
               <div
-                key={"mini-tlb-" + book.id}
+                key={"mini-tlb-" + book.productId}
                 className="mb-2 w-full rounded-lg bg-white p-4 my-dark-style"
               >
                 <div className="flex items-center justify-between border-b pb-4">
@@ -28,8 +28,10 @@ export default async function BooksTable({
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end  gap-2">
-                    <EditButton href={`/dashboard/books/${book.id}/edit`} />
-                    <DeleteBookButton id={book.id} />
+                    <EditButton
+                      href={`/dashboard/books/${book.productId}/edit`}
+                    />
+                    <DeleteBookButton id={book.productId} />
                   </div>
                 </div>
               </div>
@@ -57,7 +59,7 @@ export default async function BooksTable({
             </thead>
             <tbody className="bg-white my-dark-style">
               {books.map((book) => (
-                <tr key={book.id}>
+                <tr key={book.productId}>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     {book.title}
                   </td>
@@ -72,8 +74,10 @@ export default async function BooksTable({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <EditButton href={`/dashboard/books/${book.id}/edit`} />
-                      <DeleteBookButton id={book.id} />
+                      <EditButton
+                        href={`/dashboard/books/${book.productId}/edit`}
+                      />
+                      <DeleteBookButton id={book.productId} />
                     </div>
                   </td>
                 </tr>

@@ -25,13 +25,13 @@ export const InvoicesTable = async ({
                 <div className="flex items-center justify-between border-b pb-4">
                   <div className="flex items-center gap-3">
                     <Image
-                      src={invoice.user.image ?? "/image/users/tiger-02.png"}
+                      src={"/image/users/tiger-02.png"}
                       className="rounded-full"
-                      alt={`${invoice.user.name}'s profile picture`}
+                      alt={`${invoice.customer.name}'s profile picture`}
                       width={28}
                       height={28}
                     />
-                    <p>{invoice.user.name}</p>
+                    <p>{invoice.customer.name}</p>
                   </div>
                   <p className="text-sm text-gray-500">{invoice.date}</p>
                 </div>
@@ -49,7 +49,9 @@ export const InvoicesTable = async ({
                 </div>
                 <div className="flex w-full items-center justify-between pt-4">
                   <div className="flex justify-end  gap-2">
-                    <EditButton href={`/dashboard/invoices/${invoice.id}/edit`} />
+                    <EditButton
+                      href={`/dashboard/invoices/${invoice.id}/edit`}
+                    />
                     <DeleteInvoiceButton id={invoice.id} />
                   </div>
                 </div>
@@ -83,7 +85,7 @@ export const InvoicesTable = async ({
                     {invoice.date}
                   </td>
                   <td className="whitespace-nowrap py-3 pr-3">
-                    {invoice.user.name}
+                    {invoice.customer.name}
                   </td>
                   <td className="whitespace-nowrap py-3 pr-3">
                     {formatCurrency(invoice.amount)}
@@ -93,7 +95,9 @@ export const InvoicesTable = async ({
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <div className="flex justify-end gap-3">
-                      <EditButton href={`/dashboard/invoices/${invoice.id}/edit`} />
+                      <EditButton
+                        href={`/dashboard/invoices/${invoice.id}/edit`}
+                      />
                       <DeleteInvoiceButton id={invoice.id} />
                     </div>
                   </td>

@@ -281,7 +281,7 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
       status: invoice.status,
       date: invoice.date,
       paymentMethod: invoice.paymentMethod,
-      userId: invoice.userId,
+      userId: invoice.customerId,
     },
   });
 
@@ -303,10 +303,10 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
   }
 
   useEffect(() => {
-    fetch(`/api/customers/${invoice.userId}`)
+    fetch(`/api/customers/${invoice.customerId}`)
       .then((res) => res.json())
       .then(setSelectedCustomer);
-  }, [invoice.userId]);
+  }, [invoice.customerId]);
 
   return (
     <Form {...form}>
@@ -323,7 +323,7 @@ export const EditForm = ({ invoice }: { invoice: Invoice }) => {
                 valueKey="id"
                 value={selectedCustomer}
                 searchFn={getCustomers}
-                oldValueId={invoice.userId}
+                oldValueId={invoice.customerId}
                 getOldValueFn={getCustomerById}
                 renderText={(customer: CustomerInfo) => `${customer?.name}`}
                 onChange={(customer) => {

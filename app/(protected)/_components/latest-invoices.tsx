@@ -11,10 +11,10 @@ export default async function LatestInvoices() {
   const latestInvoices = invoices.map((invoice) => {
     return {
       id: invoice.id,
-      email: invoice.user.email,
+      email: invoice.customer.email,
       amount: invoice.amount,
-      image_url: invoice.user.image,
-      name: invoice.user.name,
+      image_url: "/image/users/tiger-01.png",
+      name: invoice.customer.name,
     };
   });
   await getExampleData(1000);

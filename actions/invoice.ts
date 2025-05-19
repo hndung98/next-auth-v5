@@ -43,7 +43,7 @@ const _createInvoice = async (formData: FormData) => {
         status,
         paymentMethod,
         date,
-        userId,
+        customerId: userId,
       },
     });
   } catch (error) {
@@ -94,7 +94,7 @@ const _updateInvoice = async (id: string, formData: FormData) => {
         status,
         paymentMethod,
         date,
-        userId,
+        customerId: userId,
       },
     });
   } catch (error) {

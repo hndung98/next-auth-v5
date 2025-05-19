@@ -27,10 +27,10 @@ model User {
   updatedAt DateTime @updatedAt
 
   accounts  Account[]
-  invoices  Invoice[]
   revenue   Revenue[]
   widgets   Widget[]
   playlists Playlist[]
+  customer  Customer?
 }
 
 model Account {
@@ -90,6 +90,52 @@ model TwoFactorConfirmation {
   @@unique([userId])
 }
 
+model Category {
+  id       String     @id @default(cuid())
+  name     String
+  slug     String     @unique
+  parentId String?
+  parent   Category?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryHierarchy")
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ProductType {
+  BOOK
+  CLOTHES
+  OTHER
+}
+
+model Product {
+  id         String      @id @default(cuid())
+  name       String
+  price      Float
+  type       ProductType
+  categoryId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  book     Book?
+
+  inventory   Inventory?
+  invoiceItem InvoiceItem[]
+}
+
+model Inventory {
+  id        String   @id @default(uuid())
+  quantity  Int
+  location  String?
+  updatedAt DateTime @updatedAt
+
+  productId String  @unique
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
 model Author {
   id          String @id @default(cuid())
   name        String
@@ -102,7 +148,7 @@ model Author {
 }
 
 model Book {
-  id             String  @id @default(cuid())
+  productId      String  @id
   title          String
   description    String?
   publishedYear  Int?
@@ -113,7 +159,24 @@ model Book {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author  Author  @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Customer {
+  id          String  @id @default(cuid())
+  name        String
+  address     String
+  phoneNumber String
+  email       String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  Invoice Invoice[]
 }
 
 enum InvoiceStatus {
@@ -131,16 +194,29 @@ enum PaymentMethod {
 model Invoice {
   id               String        @id @default(cuid())
   amount           Int
-  status           InvoiceStatus @default(PENDING)
+  status           InvoiceStatus @default(PAID)
   paymentMethod    PaymentMethod @default(CASH)
   date             String
   otherDescription String? // when the payment method is OTHER
-  userId           String
+  customerId       String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  customer Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  items    InvoiceItem[]
+}
+
+model InvoiceItem {
+  id        String @id @default(cuid())
+  invoiceId String
+  productId String
+  quantity  Int
+  price     Float
+  total     Float?
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
 
 model Revenue {

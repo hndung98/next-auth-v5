@@ -7,7 +7,7 @@ export const getTotalPages = async (query: string, perPage = 10) => {
     const count = await prisma.invoice.count({
       where: search
         ? {
-            user: {
+            customer: {
               name: {
                 contains: query,
                 mode: "insensitive",
@@ -33,7 +33,7 @@ export const getInvoices = async (
     const invoices = await prisma.invoice.findMany({
       where: search
         ? {
-            user: {
+            customer: {
               name: {
                 contains: query,
                 mode: "insensitive",
@@ -44,10 +44,9 @@ export const getInvoices = async (
       take: perPage,
       skip: (page - 1) * perPage,
       include: {
-        user: {
+        customer: {
           select: {
             name: true,
-            image: true,
           },
         },
       },
@@ -67,10 +66,9 @@ export const getLatestInvoices = async (take = 5) => {
         date: "desc",
       },
       include: {
-        user: {
+        customer: {
           select: {
             name: true,
-            image: true,
             email: true,
           },
         },
