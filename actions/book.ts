@@ -125,9 +125,11 @@ const _createBook = async (formData: FormData) => {
 const _updateBook = async (id: string, formData: FormData) => {
   const data = {
     title: formData.get("title") as string,
+    price: Number(formData.get("price") || ""),
     pageCount: Number(formData.get("pageCount") || ""),
     publishedYear: Number(formData.get("publishedYear") || ""),
     authorId: formData.get("authorId") as string,
+    categoryId: formData.get("categoryId") as string,
     coverImage: formData.get("coverImage"),
     coverImageFile: formData.get("coverImage") as File,
   };
@@ -180,7 +182,16 @@ const _updateBook = async (id: string, formData: FormData) => {
       }
     }
 
-    console.log({ imagePath });
+    await prisma.product.update({
+      where: {
+        id: id,
+      },
+      data: {
+        price: data.price,
+        name: data.title,
+      },
+    });
+
     await prisma.book.update({
       where: {
         productId: id,
@@ -226,6 +237,7 @@ const _deleteBook = async (id: string) => {
   }
   try {
     await prisma.book.delete({ where: { productId: id } });
+    await prisma.product.delete({ where: { id: id } });
     await deleteBookImageFromCloudinary(existingBook.coverImagePath ?? "");
     revalidatePath("/dashboard/books");
     return {};

@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Book } from "@prisma/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
@@ -23,6 +22,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { BookSchema } from "@/schemas";
+import { BookInfo } from "@/types/book";
 
 type AuthorInfo = {
   id: string;
@@ -59,9 +59,9 @@ async function getCategories(
   ).then((res) => res.json());
 }
 
-// async function getCategoryById(id: string): Promise<CategoryInfo> {
-//   return fetch(`/api/categories/${id}`).then((res) => res.json());
-// }
+async function getCategoryById(id: string): Promise<CategoryInfo> {
+  return fetch(`/api/categories/${id}`).then((res) => res.json());
+}
 
 export function CreateForm() {
   const [isPending, startTransition] = useTransition();
@@ -297,13 +297,14 @@ export function CreateForm() {
   );
 }
 
-export function EditForm({ book }: { book: Book }) {
+export function EditForm({ book }: { book: BookInfo }) {
   const [isPending, startTransition] = useTransition();
 
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [files, setFiles] = useState<FileList | null>(null);
   const [selectedAuthor, setSelectedAuthor] = useState<AuthorInfo>();
+  const [selectedCategory, setSelectedCategory] = useState<CategoryInfo>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const filesList = event.target.files;
@@ -319,6 +320,8 @@ export function EditForm({ book }: { book: Book }) {
     defaultValues: {
       title: book.title,
       authorId: book.authorId,
+      categoryId: book.product.categoryId,
+      price: book.product.price,
       coverImage: null,
       pageCount: book.pageCount ?? 0,
       publishedYear: book.publishedYear ?? 0,
@@ -330,13 +333,23 @@ export function EditForm({ book }: { book: Book }) {
       const formData = new FormData();
       formData.append("title", values.title);
       formData.append("authorId", values.authorId);
+      formData.append("categoryId", values.categoryId);
+      formData.append("price", values.price.toString());
       formData.append("pageCount", values.pageCount.toString());
       formData.append("publishedYear", values.publishedYear.toString());
       if (values.coverImage) formData.append("coverImage", values.coverImage);
       updateBook(book.productId, formData).then((res) => {
         console.log("onSubmit-res", res);
-        setError("");
-        setSuccess("");
+        if (res.errors && res.message) {
+          setError(res.message);
+          if (res.errors.categoryId) {
+            const msg = res.errors.categoryId[0];
+            form.setError("categoryId", { message: msg });
+          }
+        } else {
+          setError("");
+          setSuccess("");
+        }
       });
     });
   }
@@ -346,6 +359,12 @@ export function EditForm({ book }: { book: Book }) {
       .then((res) => res.json())
       .then(setSelectedAuthor);
   }, [book.authorId]);
+
+  useEffect(() => {
+    fetch(`/api/categories/${book.product.categoryId}`)
+      .then((res) => res.json())
+      .then(setSelectedCategory);
+  }, [book.product.categoryId]);
 
   return (
     <Form {...form}>
@@ -381,6 +400,31 @@ export function EditForm({ book }: { book: Book }) {
           />
           <FormField
             control={form.control}
+            name="categoryId"
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Category</FormLabel>
+                <ComboBox<CategoryInfo>
+                  {...fieldProps}
+                  title="Category"
+                  valueKey="id"
+                  value={selectedCategory}
+                  searchFn={getCategories}
+                  oldValueId={book.product.categoryId}
+                  getOldValueFn={getCategoryById}
+                  renderText={(category: CategoryInfo) => `${category?.name}`}
+                  onChange={(category) => {
+                    console.log({ value });
+                    onChange(category.id);
+                    setSelectedCategory(category);
+                  }}
+                />
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="title"
             render={({ field }) => (
               <FormItem>
@@ -392,6 +436,19 @@ export function EditForm({ book }: { book: Book }) {
                     placeholder="War And Peace"
                     type="text"
                   />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Price</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled={isPending} type="number" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

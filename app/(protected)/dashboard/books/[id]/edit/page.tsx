@@ -20,7 +20,11 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
       <Breadcrumbs
         breadcrumbs={[
           { label: "Books", href: "/dashboard/books" },
-          { label: "Edit Book", href: `/dashboard/book/${id}/edit`, active: true },
+          {
+            label: "Edit Book",
+            href: `/dashboard/book/${id}/edit`,
+            active: true,
+          },
         ]}
       />
       <EditForm book={book} />

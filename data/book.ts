@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { BookInfo } from "@/types/book";
 
 export const getTotalPages = async (query: string, perPage = 10) => {
   try {
@@ -50,9 +51,19 @@ export const getBooks = async (query: string, page: number, perPage = 10) => {
   }
 };
 
-export const getBookById = async (id: string) => {
+export const getBookById = async (id: string): Promise<BookInfo | null> => {
   try {
-    const book = await prisma.book.findUnique({ where: { productId: id } });
+    const book = await prisma.book.findUnique({
+      where: { productId: id },
+      include: {
+        product: {
+          select: {
+            categoryId: true,
+            price: true,
+          },
+        },
+      },
+    });
     return book;
   } catch (error) {
     console.log("getBookById", error);
