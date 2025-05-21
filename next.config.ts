@@ -36,7 +36,7 @@ const nextConfig: NextConfig = {
           // Allows for specific methods accepted
           {
             key: "Access-Control-Allow-Methods",
-            value: "GET",
+            value: "GET, POST",
           },
           // Allows for specific headers accepted (These are a few standard ones)
           {
