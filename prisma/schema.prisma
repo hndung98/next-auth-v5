@@ -275,3 +275,9 @@ model Playlist {
   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   videos Video[]
 }
+
+model TokenBlacklist {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiresAt DateTime
+}

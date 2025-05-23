@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
-import { prisma } from "@/lib/db";
 import { getCategories } from "@/data/category";
+import { checkBlacklist } from "@/data/jwt-token";
+import { prisma } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get("authorization");
@@ -14,6 +15,14 @@ export async function GET(request: NextRequest) {
 
   try {
     const decoded = jwt.verify(token, process.env.AUTH_SECRET!);
+
+    const isBlacklistedToken = await checkBlacklist(token);
+    if (isBlacklistedToken) {
+      return NextResponse.json(
+        { message: "Token blacklisted. Please log in again." },
+        { status: 401 }
+      );
+    }
 
     const { searchParams } = new URL(request.url);
     const query = searchParams.get("query") || "";
@@ -53,6 +62,16 @@ export async function POST(request: NextRequest) {
   let slug = "";
 
   try {
+    const decoded = jwt.verify(token, process.env.AUTH_SECRET!);
+
+    const isBlacklistedToken = await checkBlacklist(token);
+    if (isBlacklistedToken) {
+      return NextResponse.json(
+        { message: "Token blacklisted. Please log in again." },
+        { status: 401 }
+      );
+    }
+
     slug = name.replaceAll(" ", "-").toLowerCase();
     const existingCategory = await prisma.category.findFirst({
       where: {
@@ -65,13 +84,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-  } catch (err) {
-    console.log(err);
-    return NextResponse.json({ message: "Invalid name" }, { status: 400 });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.AUTH_SECRET!);
 
     const result = await prisma.category.create({
       data: {
